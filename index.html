@@ -341,19 +341,27 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
     rotQ = requestAnimationFrame(function(){ rotQ = 0; updSide(); });
   }
 
+  // ROTASYON HESAPLAMA SADECE AKTİF OYUNCULARLA YAPILIR
   function updSide(){
     ["b","o"].forEach(function(tm){
-      var ids = ALL.filter(function(i){ return i.charAt(0)===tm && active(i); });
-      ids.sort(function(a,c){ return dist(a)-dist(c); });
-      var own = ids.slice().sort(function(a,c){ return tm==="b"?tokens[a].x-tokens[c].x:tokens[c].x-tokens[a].x; })[0];
+      var activeIds = [];
+      for(var i=1; i<=mode; i++){
+        activeIds.push(tm + i);
+      }
+      activeIds.sort(function(a,c){ return dist(a)-dist(c); });
+
+      var own = activeIds.slice().sort(function(a,c){
+        return tm==="b" ? tokens[a].x - tokens[c].x : tokens[c].x - tokens[a].x;
+      })[0];
+
       var ul = $("rot"+tm); if(!ul) return; ul.textContent = "";
-      ids.forEach(function(id,i){
+      activeIds.forEach(function(id,i){
         var L = labels[id] || {}, li = document.createElement("li");
         var txt = (L.n && L.n.trim()) ? L.n.trim() : (tm==="b"?t("blue_def"):t("orange_def")) + id.charAt(1);
         if(L.r && L.r.trim()) txt += " · " + L.r.trim();
         var tag = [];
         if(i===0) tag.push(t("near_ball"));
-        if(id===own && ids.length>1) tag.push(t("near_net"));
+        if(id===own && activeIds.length>1) tag.push(t("near_net"));
         if(tag.length) txt += " (" + tag.join(", ") + ")";
         li.textContent = txt; ul.appendChild(li);
       });
@@ -855,4 +863,3 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 </script>
 </body>
 </html>
- 
