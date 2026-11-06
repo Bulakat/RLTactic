@@ -21,7 +21,10 @@ body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:16px/
 button,input{font:inherit;color:var(--ink);min-height:42px}
 button{cursor:pointer;padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:var(--panel);transition:transform .08s,background .15s}
 button:active{transform:scale(.97)}
-button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* Mavi çerçeve (focus) sorununu tamamen kaldırdık */
+button:focus-visible, input:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--blue); }
+
 input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
 .seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px;gap:2px}
 .seg button{border:0;background:transparent;border-radius:11px;min-height:38px;padding:6px 16px;font-weight:600}
@@ -451,13 +454,16 @@ button:disabled{opacity:.4;cursor:default}
     };
   });
 
+  // İki aşamalı onay butonlarında dil sorununu düzelttik
   function twoTap(btn,fn){
     if(!btn)return;
-    var timer=null,orig=btn.textContent;
+    var timer=null;
     btn.onclick=function(){
-      if(timer){clearTimeout(timer);timer=null;btn.textContent=orig;btn.classList.remove("on");fn();return}
-      btn.textContent=t("sure");btn.classList.add("on");
-      timer=setTimeout(function(){timer=null;btn.textContent=orig;btn.classList.remove("on")},3000);
+      if(timer){clearTimeout(timer);timer=null;btn.textContent=btn._origText;btn.classList.remove("on");fn();return}
+      btn._origText = btn.textContent;
+      btn.textContent=t("sure");
+      btn.classList.add("on");
+      timer=setTimeout(function(){timer=null;btn.textContent=btn._origText;btn.classList.remove("on")},3000);
     };
   }
 
