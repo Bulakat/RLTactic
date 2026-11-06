@@ -22,7 +22,7 @@ button,input{font:inherit;color:var(--ink);min-height:42px}
 button{cursor:pointer;padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:var(--panel);transition:transform .08s,background .15s}
 button:active{transform:scale(.97)}
 
-/* Mavi çerçeveleri tamamen kaldırdık */
+/* Odaklanma çerçevelerini kesin olarak ve mutlak surette kaldırdık */
 button:focus, button:focus-visible, input:focus, input:focus-visible { outline: none !important; box-shadow: none !important; }
 
 input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
@@ -254,7 +254,6 @@ button:disabled{opacity:.4;cursor:default}
   var SPOTS=[[280,170],[280,470],[170,301],[170,339],[104,320]];
   var KO={1:[[0],[1],[2],[3],[4]],2:[[0,1],[2,3],[0,4],[1,4],[0,3]],3:[[0,1,4],[2,3,4],[0,3,4],[2,1,4],[0,1,2]]};
 
-  // State yükleme (Kalıcılık için localStorage desteği)
   var savedState = null;
   try { savedState = JSON.parse(localStorage.getItem("rltactic_state")); } catch(_) {}
 
@@ -291,14 +290,13 @@ button:disabled{opacity:.4;cursor:default}
     ALL.forEach(function(id){if(!tokens[id]) tokens[id]={x:500,y:320}});
     for(var i=0;i<m;i++){
       var s=SPOTS[set[i]];
-      if(!savedState || !savedState.tokens || !savedState.tokens["b"+(i+1)]) {
-        tokens["b"+(i+1)]={x:s[0],y:s[1]};
-        tokens["o"+(i+1)]={x:1000-s[0],y:640-s[1]};
-      }
+      tokens["b"+(i+1)]={x:s[0],y:s[1]};
+      tokens["o"+(i+1)]={x:1000-s[0],y:640-s[1]};
     }
+    tokens["ball"]={x:500,y:320};
   }
   if(!savedState || !Object.keys(tokens).length) {
-    resetForm(1);
+    resetForm(mode);
   }
 
   function updKo(){var n=KO[mode].length;var btn=$("bKick");if(btn) btn.textContent=t("kickoff")+" ("+((ko%n)+1)+"/"+n+")"}
@@ -326,7 +324,7 @@ button:disabled{opacity:.4;cursor:default}
     if(r){var t2=mk("text",{"text-anchor":"middle",y:n?52:39,fill:"#cfe0ff","font-size":11});t2.textContent=r;g.appendChild(t2)}
   }
   function place(id){var tPos=tokens[id];if(tPos && els[id])els[id].setAttribute("transform","translate("+tPos.x+" "+tPos.y+")");reqRot()}
-  function placeAll(){ALL.forEach(function(id){place(id);if(els[id])els[id].style.display=active(id)?"":"none"})}
+  function placeAll(){ALL.forEach(function(id){place(id);if(els[id])els[id].style.display=active(id)?"":"none"}) }
   
   ALL.forEach(function(id){
     if(id==="ball")return;
@@ -347,6 +345,12 @@ button:disabled{opacity:.4;cursor:default}
     }
     nm.oninput=ch;rl.oninput=ch;
   });
+
+  function updPlayerRowsVisibility(){
+    ALL.forEach(function(id){
+      if(rows[id]) rows[id].row.style.display = active(id) ? "" : "none";
+    });
+  }
 
   function selectPlayer(id){
     ALL.forEach(function(i){if(rows[i])rows[i].row.classList.toggle("sel",i===id)});
@@ -513,7 +517,7 @@ button:disabled{opacity:.4;cursor:default}
   function applyMode(m){
     mode=m;
     each(".md",function(b){b.classList.toggle("on",+b.getAttribute("data-m")===m)});
-    ALL.forEach(function(id){if(rows[id])rows[id].row.style.display=active(id)?"":"none"});
+    updPlayerRowsVisibility();
     placeAll();
     saveState();
   }
@@ -695,7 +699,7 @@ button:disabled{opacity:.4;cursor:default}
     saveState();
   }
   function thumb(sv0){
-    var m=FORM[sv0.mode]?sv0.mode:1,fr=sv0.frames||[],tk=sv0.tokens||{};
+    var m=FORM[sv0.mode]?sv0.mode:1,tk=sv0.tokens||{};
     var v=mk("svg",{viewBox:"0 0 1000 640"});
     v.appendChild(mk("rect",{width:1000,height:640,fill:"#070c1a"}));
     v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,fill:"#0e2238",stroke:"#cfe0ff","stroke-opacity":.6,"stroke-width":3}));
@@ -779,6 +783,7 @@ button:disabled{opacity:.4;cursor:default}
   };
 
   applyMode(mode);updHist();applyLanguage();drawStrokes();
+  ALL.forEach(function(id){renderLabel(id);});
 })();
 </script>
 </body>
