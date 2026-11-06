@@ -2,54 +2,54 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>RLTactic</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:ital,wght@1,700&display=swap">
 <style>
 :root{--ink:#10162b;--mute:#5a6690;--night:#e9edf8;--panel:#ffffff;--panel2:#edf1fb;--line:#cdd5ec;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
+:root[data-theme="dark"]{--ink:#e9eefc;--mute:#9aa7cf;--night:#080d1c;--panel:#111a33;--panel2:#18234a;--line:#26335f}
 *{box-sizing:border-box}
-body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:8px;background:var(--night);-webkit-user-select:none;user-select:none}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.logo{font:italic 700 22px/1 "Barlow Condensed",sans-serif}
-.top-right{display:flex;align-items:center;gap:6px}
-#st{font-size:12px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
-button,input{font:inherit;color:var(--ink);min-height:38px}
-button{cursor:pointer;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);transition:transform .08s}
+body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif}
+.top-right{display:flex;align-items:center;gap:8px}
+button,input{font:inherit;color:var(--ink);min-height:42px}
+button{cursor:pointer;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);transition:transform .08s}
 button:active{transform:scale(.97)}
 button:focus, input:focus{outline:none!important}
-input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
-.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:2px;gap:2px}
-.seg button{border:0;background:transparent;border-radius:10px;min-height:34px;padding:4px 12px;font-weight:600}
+input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);width:100%}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:11px;min-height:38px;padding:6px 14px;font-weight:600}
 .seg button.on{background:var(--blue);color:#fff}
-.cta{border:0;color:#1c1204;font-weight:600;background:linear-gradient(100deg,#ffa43a,var(--orange));border-radius:12px;padding:6px 14px}
+.cta{border:0;color:#1c1204;font-weight:600;background:linear-gradient(100deg,#ffa43a,var(--orange));border-radius:14px;padding:8px 16px}
 .ghost.on{background:var(--bad);border-color:var(--bad);color:#fff}
-.sw{width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--line)}
+.sw{width:34px;height:34px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--line)}
 .sw.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--ink)}
-.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;margin-bottom:8px}
-.grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.stage{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#070c1a}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#070c1a}
 #sv{width:100%;height:auto;display:block;touch-action:none}
-.layout{display:grid;gap:10px}
-@media (min-width:900px){.layout{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}
-.panel h3{margin:0 0 6px;font:italic 700 17px/1 "Barlow Condensed",sans-serif}
-.prow{display:grid;grid-template-columns:26px 1fr 1fr;gap:4px;align-items:center;margin-bottom:4px}
-.prow input{min-height:32px;padding:2px 6px;font-size:13px}
-.dot{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;color:#fff;font-weight:700;font-size:12px}
+.layout{display:flex;flex-direction:column;gap:12px}
+@media (min-width:900px){.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:start}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
+.panel h3{margin:0 0 8px;font:italic 700 18px/1 "Barlow Condensed",sans-serif}
+.prow{display:grid;grid-template-columns:30px 1fr 1fr;gap:6px;align-items:center;margin-bottom:6px}
+.prow input{min-height:38px;padding:4px 8px;font-size:14px}
+.dot{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;color:#fff;font-weight:700;font-size:13px}
 .dot.b{background:var(--blue)}.dot.o{background:var(--orange);color:#1c1204}
-.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.chip{min-height:34px;min-width:36px;padding:2px 8px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{min-height:38px;min-width:42px;padding:4px 10px;font-weight:700}
 .chip.on{background:var(--blue);color:#fff}
-.hint{color:var(--mute);font-size:13px}
+.hint{color:var(--mute);font-size:14px}
 .save{display:flex;gap:6px}
 .save input{flex:1;min-width:0}
-.lcard{margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.lcard{margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel2)}
 .lcard svg{display:block;width:100%;height:auto}
-.lcard .lb2{display:flex;gap:6px;align-items:center;padding:6px}
-.lcard .ln{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:13px}
-.lcard small{display:block;color:var(--mute);font-weight:400;font-size:11px}
-.lcard button{min-height:30px;padding:2px 8px;font-size:12px}
-.lang-btn{min-height:30px;padding:2px 10px;font-weight:700;font-size:12px;border-radius:999px;background:var(--panel2)}
+.lcard .lb2{display:flex;gap:6px;align-items:center;padding:8px}
+.lcard .ln{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:14px}
+.lcard small{display:block;color:var(--mute);font-weight:400;font-size:12px}
+.lcard button{min-height:34px;padding:4px 10px;font-size:13px}
+.top-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
 </style>
 </head>
 <body>
@@ -57,15 +57,15 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 <header>
   <span class="logo">RLTactic</span>
   <div class="top-right">
-    <button id="bLang" class="lang-btn">TR / EN</button>
-    <span id="st">Çevrimdışı Mod</span>
+    <button id="bTheme" class="top-btn">🌙 / ☀️</button>
+    <button id="bLang" class="top-btn">TR / EN</button>
   </div>
 </header>
 
 <main id="app">
 <div class="row">
   <div class="seg" role="group"><button class="md on" data-m="1">1v1</button><button class="md" data-m="2">2v2</button><button class="md" data-m="3">3v3</button></div>
-  <button id="bKick" class="cta">Yeni kickoff</button>
+  <button id="bKick" class="cta" data-i18n="kickoff">Yeni kickoff</button>
 </div>
 
 <div class="layout">
@@ -92,20 +92,20 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
     </svg>
   </div>
 
-  <div class="panel">
-    <div class="grp" style="margin-bottom:6px">
+  <div class="panel" style="margin-top:10px">
+    <div class="grp" style="margin-bottom:8px">
       <div class="seg">
-        <button class="tl on" data-t="move">Taşı</button>
-        <button class="tl" data-t="pen">Kalem</button>
-        <button class="tl" data-t="arrow">Ok</button>
-        <button class="tl" data-t="rect">Kare</button>
+        <button class="tl on" data-t="move" data-i18n="tl_move">Taşı</button>
+        <button class="tl" data-t="pen" data-i18n="tl_pen">Kalem</button>
+        <button class="tl" data-t="arrow" data-i18n="tl_arrow">Ok</button>
+        <button class="tl" data-t="rect" data-i18n="tl_rect">Kare</button>
       </div>
     </div>
     <div class="grp">
       <div class="seg">
-        <button class="wd" data-w="3">İnce</button>
-        <button class="wd on" data-w="5">Orta</button>
-        <button class="wd" data-w="9">Kalın</button>
+        <button class="wd" data-w="3" data-i18n="wd_thin">İnce</button>
+        <button class="wd on" data-w="5" data-i18n="wd_mid">Orta</button>
+        <button class="wd" data-w="9" data-i18n="wd_thick">Kalın</button>
       </div>
       <div style="display:flex;gap:6px;align-items:center">
         <button class="sw on" data-c="#ffffff" style="background:#fff"></button>
@@ -113,21 +113,21 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
         <button class="sw" data-c="#00e5ff" style="background:#00e5ff"></button>
         <button class="sw" data-c="#ff5ca8" style="background:#ff5ca8"></button>
       </div>
-      <button id="bUndo" disabled>Geri al</button>
-      <button id="bClear" class="ghost">Temizle</button>
-      <button id="bReset" class="ghost">Sıfırla</button>
+      <button id="bUndo" data-i18n="btn_undo" disabled>Geri al</button>
+      <button id="bClear" class="ghost" data-i18n="btn_clear">Temizle</button>
+      <button id="bReset" class="ghost" data-i18n="btn_reset">Sıfırla</button>
     </div>
   </div>
 
   <div class="panel">
-    <h3>Animasyon</h3>
+    <h3 data-i18n="h_anim">Animasyon</h3>
     <div class="grp">
-      <button id="bAdd">Adım ekle</button>
-      <button id="bUpd">Güncelle</button>
-      <button id="bDel">Adım sil</button>
-      <button id="bPlay" class="cta">Oynat</button>
-      <button id="bGif">GIF</button>
-      <button id="bFclr" class="ghost">Hepsini sil</button>
+      <button id="bAdd" data-i18n="btn_add">Adım ekle</button>
+      <button id="bUpd" data-i18n="btn_upd">Güncelle</button>
+      <button id="bDel" data-i18n="btn_del">Adım sil</button>
+      <button id="bPlay" class="cta" data-i18n="btn_play">Oynat</button>
+      <button id="bGif" data-i18n="btn_gif">GIF</button>
+      <button id="bFclr" class="ghost" data-i18n="btn_fclr">Hepsini sil</button>
     </div>
     <div class="chips" id="chips"></div>
   </div>
@@ -135,22 +135,22 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 
 <aside class="side">
   <div class="panel">
-    <h3>Oyuncular</h3>
+    <h3 data-i18n="h_players">Oyuncular</h3>
     <div id="plist"></div>
   </div>
   <div class="panel">
-    <h3>Rotasyon</h3>
-    <div class="tm" style="font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px"><span class="dot b"></span> Mavi takım</div><ol id="rotb" style="margin:4px 0 8px 20px;font-size:13px"></ol>
-    <div class="tm" style="font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px"><span class="dot o"></span> Turuncu takım</div><ol id="roto" style="margin:4px 0 0 20px;font-size:13px"></ol>
+    <h3 data-i18n="h_rotation">Rotasyon</h3>
+    <div class="tm" style="font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px"><span class="dot b"></span> <span data-i18n="tm_blue">Mavi takım</span></div><ol id="rotb" style="margin:4px 0 8px 20px;font-size:13px"></ol>
+    <div class="tm" style="font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px"><span class="dot o"></span> <span data-i18n="tm_orange">Turuncu takım</span></div><ol id="roto" style="margin:4px 0 0 20px;font-size:13px"></ol>
   </div>
   <div class="panel">
-    <h3>Kayıtlı Taktikler</h3>
-    <div class="save"><input id="sname" maxlength="30" placeholder="Taktik adı"><button id="bSave">Kaydet</button></div>
+    <h3 data-i18n="h_saved">Kayıtlı Taktikler</h3>
+    <div class="save"><input id="sname" maxlength="30" data-i18n-ph="ph_name" placeholder="Taktik adı"><button id="bSave" data-i18n="btn_save">Kaydet</button></div>
     <div id="lib"></div>
   </div>
   <div class="panel">
-    <h3>Dışa Aktar</h3>
-    <button id="bPng" style="width:100%">PNG İndir</button>
+    <h3 data-i18n="h_export">Dışa Aktar</h3>
+    <button id="bPng" style="width:100%" data-i18n="btn_png">PNG İndir</button>
   </div>
 </aside>
 </div>
@@ -161,19 +161,58 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 (function(){
   var dict = {
     tr: {
-      status_off: "Çevrimdışı Mod",
       kickoff: "Yeni kickoff",
+      tl_move: "Taşı", tl_pen: "Kalem", tl_arrow: "Ok", tl_rect: "Kare",
+      wd_thin: "İnce", wd_mid: "Orta", wd_thick: "Kalın",
+      btn_undo: "Geri al", btn_clear: "Temizle", btn_reset: "Sıfırla",
+      h_anim: "Animasyon", btn_add: "Adım ekle", btn_upd: "Güncelle", btn_del: "Adım sil",
+      btn_play: "Oynat", btn_stop: "Durdur", btn_gif: "GIF", btn_fclr: "Hepsini sil",
+      h_players: "Oyuncular", h_rotation: "Rotasyon", tm_blue: "Mavi takım", tm_orange: "Turuncu takım",
+      h_saved: "Kayıtlı Taktikler", ph_name: "Taktik adı", btn_save: "Kaydet",
+      h_export: "Dışa Aktar", btn_png: "PNG İndir",
+      no_steps: "Henüz adım yok.", no_tactics: "Kayıtlı taktik yok.",
+      near_ball: "en yakın", near_net: "kaleye yakın",
+      blue_def: "Mavi ", orange_def: "Turuncu ",
       roles: ["First Man", "Second Man", "Last Man", "Rotasyoncu", "Destek", "Kaleci"]
     },
     en: {
-      status_off: "Offline Mode",
       kickoff: "New Kickoff",
+      tl_move: "Move", tl_pen: "Pen", tl_arrow: "Arrow", tl_rect: "Square",
+      wd_thin: "Thin", wd_mid: "Mid", wd_thick: "Thick",
+      btn_undo: "Undo", btn_clear: "Clear", btn_reset: "Reset",
+      h_anim: "Animation", btn_add: "Add Step", btn_upd: "Update", btn_del: "Delete Step",
+      btn_play: "Play", btn_stop: "Stop", btn_gif: "GIF", btn_fclr: "Clear All",
+      h_players: "Players", h_rotation: "Rotation", tm_blue: "Blue Team", tm_orange: "Orange Team",
+      h_saved: "Saved Tactics", ph_name: "Tactic Name", btn_save: "Save",
+      h_export: "Export", btn_png: "Download PNG",
+      no_steps: "No steps yet.", no_tactics: "No saved tactics.",
+      near_ball: "closest", near_net: "near net",
+      blue_def: "Blue ", orange_def: "Orange ",
       roles: ["First Man", "Second Man", "Last Man", "Rotator", "Support", "Goalkeeper"]
     }
   };
 
   var curLang = localStorage.getItem("rltactic_lang") || "tr";
   function t(key){ return (dict[curLang] && dict[curLang][key]) ? dict[curLang][key] : key; }
+
+  // Tema Yönetimi
+  var curTheme = localStorage.getItem("rltactic_theme") || "dark";
+  function applyTheme(theme){
+    curTheme = theme;
+    if(theme === "light"){
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+    localStorage.setItem("rltactic_theme", theme);
+  }
+  applyTheme(curTheme);
+
+  if(document.getElementById("bTheme")){
+    document.getElementById("bTheme").onclick = function(){
+      applyTheme(curTheme === "dark" ? "light" : "dark");
+    };
+  }
 
   var FORM = {1:{b1:1,o1:1,ball:1}, 2:{b1:1,b2:1,o1:1,o2:1,ball:1}, 3:{b1:1,b2:1,b3:1,o1:1,o2:1,o3:1,ball:1}};
   var ALL = ["b1","b2","b3","o1","o2","o3","ball"];
@@ -194,7 +233,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
   var playing = false, backup = null, playRaf = 0, undo = [], redo = [], rotQ = 0;
 
   var $ = function(i){return document.getElementById(i)};
-  var sv = $("sv"), tg = $("toks"), sg = $("strokes"), st = $("st");
+  var sv = $("sv"), tg = $("toks"), sg = $("strokes");
   var NS = "http://www.w3.org/2000/svg", els = {}, labG = {}, rows = {};
 
   function saveState(){
@@ -269,8 +308,8 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
     if(id==="ball") return;
     var d = document.createElement("div"); d.className = "prow";
     var dot = document.createElement("span"); dot.className = "dot "+id.charAt(0); dot.textContent = id.charAt(1);
-    var nm = document.createElement("input"); nm.className = "nm"; nm.placeholder = "İsim"; nm.maxLength = 14;
-    var rl = document.createElement("input"); rl.className = "rl"; rl.placeholder = "Rol"; rl.maxLength = 18;
+    var nm = document.createElement("input"); nm.className = "nm"; nm.placeholder = curLang==="tr"?"İsim":"Name"; nm.maxLength = 14;
+    var rl = document.createElement("input"); rl.className = "rl"; rl.placeholder = curLang==="tr"?"Rol":"Role"; rl.maxLength = 18;
     if(labels[id]){
       if(labels[id].n) nm.value = labels[id].n;
       if(labels[id].r) rl.value = labels[id].r;
@@ -310,11 +349,11 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
       var ul = $("rot"+tm); if(!ul) return; ul.textContent = "";
       ids.forEach(function(id,i){
         var L = labels[id] || {}, li = document.createElement("li");
-        var txt = (L.n && L.n.trim()) ? L.n.trim() : (tm==="b"?"Mavi ":"Turuncu ") + id.charAt(1);
+        var txt = (L.n && L.n.trim()) ? L.n.trim() : (tm==="b"?t("blue_def"):t("orange_def")) + id.charAt(1);
         if(L.r && L.r.trim()) txt += " · " + L.r.trim();
         var tag = [];
-        if(i===0) tag.push("en yakın");
-        if(id===own && ids.length>1) tag.push("kaleye yakın");
+        if(i===0) tag.push(t("near_ball"));
+        if(id===own && ids.length>1) tag.push(t("near_net"));
         if(tag.length) txt += " (" + tag.join(", ") + ")";
         li.textContent = txt; ul.appendChild(li);
       });
@@ -395,7 +434,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
     if(!playing) return;
     playing = false; cancelAnimationFrame(playRaf);
     tokens = backup; backup = null; placeAll();
-    if($("bPlay")) $("bPlay").textContent = "Oynat";
+    if($("bPlay")) $("bPlay").textContent = t("btn_play");
     renderChips();
   }
 
@@ -501,7 +540,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
     btn.onclick = function(){
       if(timer){ clearTimeout(timer); timer = null; btn.textContent = btn._origText; btn.classList.remove("on"); fn(); return; }
       btn._origText = btn.textContent;
-      btn.textContent = "Emin misin?";
+      btn.textContent = curLang==="tr"?"Emin misin?":"Sure?";
       btn.classList.add("on");
       timer = setTimeout(function(){ timer = null; btn.textContent = btn._origText; btn.classList.remove("on"); }, 3000);
     };
@@ -539,7 +578,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 
   function renderChips(){
     var box = $("chips"); if(!box) return; box.textContent = "";
-    if(!frames.length){ box.textContent = "Henüz adım yok."; return; }
+    if(!frames.length){ box.textContent = t("no_steps"); return; }
     frames.forEach(function(f, i){
       var b = document.createElement("button"); b.className = "chip" + (i===fsel?" on":""); b.textContent = String(i+1);
       b.onclick = function(){
@@ -562,8 +601,8 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 
   if($("bPlay")) $("bPlay").onclick = function(){
     if(playing){ stopPlay(); return; }
-    if(frames.length<2){ alert("Oynatmak için en az 2 adım ekle"); return; }
-    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay").textContent = "Durdur";
+    if(frames.length<2){ alert(curLang==="tr"?"Oynatmak için en az 2 adım ekle":"Add at least 2 steps to play"); return; }
+    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay").textContent = t("btn_stop");
     var seg = 0, t0 = performance.now(), DUR = 1300, HOLD = 350;
     function step(now){
       if(!playing) return;
@@ -700,7 +739,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
   var gifBusy = false;
   if($("bGif")) $("bGif").onclick = function(){
     if(gifBusy) return;
-    if(frames.length<2){ alert("GIF için en az 2 adım ekle"); return; }
+    if(frames.length<2){ alert(curLang==="tr"?"GIF için en az 2 adım ekle":"Add at least 2 steps for GIF"); return; }
     stopPlay(); gifBusy = true; var btn = $("bGif"); btn.disabled = true;
     makeGif(clone(frames), function(p){ btn.textContent = Math.round(p*100) + "%"; }).then(function(blob){
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rltactic.gif"; a.click();
@@ -746,7 +785,7 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 
   function renderLib(){
     var box = $("lib"), a = lib(); if(!box) return; box.textContent = "";
-    if(!a.length){ box.textContent = "Kayıtlı taktik yok."; box.className = "hint"; return; }
+    if(!a.length){ box.textContent = t("no_tactics"); box.className = "hint"; return; }
     box.className = "";
     a.forEach(function(s, i){
       var r = document.createElement("div"); r.className = "lcard";
@@ -754,9 +793,9 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
       var bar = document.createElement("div"); bar.className = "lb2";
       var n = document.createElement("span"); n.className = "ln"; n.textContent = s.name;
       var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
-      sm.textContent = (nf>=2?nf+" adım":"animasyonsuz")+" · "+mm+"v"+mm; n.appendChild(sm);
-      var lBtn = document.createElement("button"); lBtn.textContent = "Yükle";
-      var dBtn = document.createElement("button"); dBtn.textContent = "Sil"; dBtn.className = "ghost";
+      sm.textContent = (nf>=2?nf+(curLang==="tr"?" adım":" steps"):(curLang==="tr"?"animasyonsuz":"no anim"))+" · "+mm+"v"+mm; n.appendChild(sm);
+      var lBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Yükle":"Load";
+      var dBtn = document.createElement("button"); dBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
       bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
       twoTap(lBtn, function(){ loadTactic(s); });
       twoTap(dBtn, function(){ var x = lib(); x.splice(i, 1); setLib(x); renderLib(); });
@@ -764,10 +803,10 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
   }
 
   if($("bSave")) $("bSave").onclick = function(){
-    var name = $("sname").value.trim(); if(!name){ alert("Taktiğe bir isim ver"); return; }
+    var name = $("sname").value.trim(); if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
     var a = lib().filter(function(s){ return s.name!==name; });
     a.unshift({name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)});
-    if(setLib(a)){ $("sname").value=""; renderLib(); alert("Kaydedildi"); } else alert("Hafıza dolu");
+    if(setLib(a)){ $("sname").value=""; renderLib(); alert(curLang==="tr"?"Kaydedildi":"Saved"); } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
   };
 
   if($("bPng")) $("bPng").onclick = function(){
@@ -789,12 +828,17 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
     document.querySelectorAll("[data-i18n]").forEach(function(el){
       var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
     });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-ph"); if(t(k)) el.placeholder = t(k);
+    });
     var rList = $("roles"); if(rList) rList.textContent = "";
     if(dict[curLang] && dict[curLang].roles){
       dict[curLang].roles.forEach(function(role){
         var opt = document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
       });
     }
+    document.querySelectorAll(".prow .nm").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"İsim":"Name"; });
+    document.querySelectorAll(".prow .rl").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"Rol":"Role"; });
     updKo(); updSide(); renderChips(); renderLib();
   }
 
@@ -811,3 +855,4 @@ input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);backgroun
 </script>
 </body>
 </html>
+ 
