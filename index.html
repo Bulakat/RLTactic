@@ -7,41 +7,54 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:ital,wght@1,700&display=swap">
 <style>
 :root{--ink:#10162b;--mute:#5a6690;--night:#e9edf8;--panel:#ffffff;--panel2:#edf1fb;--line:#cdd5ec;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
-body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:16px/1.45 "Barlow",system-ui,sans-serif;padding:12px;background:var(--night)}
-.brand{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif}
-.top-right{display:flex;align-items:center;gap:10px}
-#st{font-size:13px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
-button,input{font:inherit;color:var(--ink);min-height:42px}
-button{cursor:pointer;padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
+*{box-sizing:border-box}
+body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:8px;background:var(--night);-webkit-user-select:none;user-select:none}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.logo{font:italic 700 22px/1 "Barlow Condensed",sans-serif}
+.top-right{display:flex;align-items:center;gap:6px}
+#st{font-size:12px;color:var(--mute);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+button,input{font:inherit;color:var(--ink);min-height:38px}
+button{cursor:pointer;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);transition:transform .08s}
 button:active{transform:scale(.97)}
-input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
-.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px;gap:2px}
-.seg button{border:0;background:transparent;border-radius:11px;min-height:38px;padding:6px 16px;font-weight:600}
+button:focus, input:focus{outline:none!important}
+input{padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:2px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:10px;min-height:34px;padding:4px 12px;font-weight:600}
 .seg button.on{background:var(--blue);color:#fff}
-.cta{border:0;color:#1c1204;font-weight:600;background:linear-gradient(100deg,#ffa43a,var(--orange));border-radius:14px;padding:8px 18px}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
-.grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.stage{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#070c1a}
+.cta{border:0;color:#1c1204;font-weight:600;background:linear-gradient(100deg,#ffa43a,var(--orange));border-radius:12px;padding:6px 14px}
+.ghost.on{background:var(--bad);border-color:var(--bad);color:#fff}
+.sw{width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--line)}
+.sw.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.stage{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#070c1a}
 #sv{width:100%;height:auto;display:block;touch-action:none}
-.layout{display:grid;gap:14px}
-@media (min-width:900px){.layout{grid-template-columns:minmax(0,1fr) 310px;align-items:start}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px}
-.panel h3{margin:0 0 8px;font:italic 700 19px/1 "Barlow Condensed",sans-serif}
-.prow{display:grid;grid-template-columns:30px 1fr 1fr;gap:6px;align-items:center;margin-bottom:6px}
-.prow input{min-height:36px;padding:4px 8px;font-size:14px}
-.dot{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;color:#fff;font-weight:700;font-size:13px}
+.layout{display:grid;gap:10px}
+@media (min-width:900px){.layout{grid-template-columns:minmax(0,1fr) 300px;align-items:start}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}
+.panel h3{margin:0 0 6px;font:italic 700 17px/1 "Barlow Condensed",sans-serif}
+.prow{display:grid;grid-template-columns:26px 1fr 1fr;gap:4px;align-items:center;margin-bottom:4px}
+.prow input{min-height:32px;padding:2px 6px;font-size:13px}
+.dot{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;color:#fff;font-weight:700;font-size:12px}
 .dot.b{background:var(--blue)}.dot.o{background:var(--orange);color:#1c1204}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.chip{min-height:38px;min-width:42px;padding:4px 10px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip{min-height:34px;min-width:36px;padding:2px 8px;font-weight:700}
 .chip.on{background:var(--blue);color:#fff}
-.hint{color:var(--mute);font-size:14px}
-.lang-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
+.hint{color:var(--mute);font-size:13px}
+.save{display:flex;gap:6px}
+.save input{flex:1;min-width:0}
+.lcard{margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.lcard svg{display:block;width:100%;height:auto}
+.lcard .lb2{display:flex;gap:6px;align-items:center;padding:6px}
+.lcard .ln{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:13px}
+.lcard small{display:block;color:var(--mute);font-weight:400;font-size:11px}
+.lcard button{min-height:30px;padding:2px 8px;font-size:12px}
+.lang-btn{min-height:30px;padding:2px 10px;font-weight:700;font-size:12px;border-radius:999px;background:var(--panel2)}
 </style>
 </head>
 <body>
 
-<header class="brand">
+<header>
   <span class="logo">RLTactic</span>
   <div class="top-right">
     <button id="bLang" class="lang-btn">TR / EN</button>
@@ -51,7 +64,7 @@ input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);backgroun
 
 <main id="app">
 <div class="row">
-  <div class="seg"><button class="md on" data-m="1">1v1</button><button class="md" data-m="2">2v2</button><button class="md" data-m="3">3v3</button></div>
+  <div class="seg" role="group"><button class="md on" data-m="1">1v1</button><button class="md" data-m="2">2v2</button><button class="md" data-m="3">3v3</button></div>
   <button id="bKick" class="cta">Yeni kickoff</button>
 </div>
 
@@ -61,12 +74,16 @@ input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);backgroun
     <svg id="sv" viewBox="0 0 1000 640">
       <defs>
         <linearGradient id="fl" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#0f3277"/><stop offset=".5" stop-color="#0b1a2e"/><stop offset="1" stop-color="#6e3611"/></linearGradient>
+        <pattern id="mow" width="88" height="600" patternUnits="userSpaceOnUse" x="60" y="20"><rect width="44" height="600" fill="#fff" fill-opacity=".035"/></pattern>
         <radialGradient id="haloB"><stop offset="0" stop-color="#2f7bff" stop-opacity=".55"/><stop offset="1" stop-color="#2f7bff" stop-opacity="0"/></radialGradient>
         <radialGradient id="haloO"><stop offset="0" stop-color="#ff8a1f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient>
         <radialGradient id="haloW"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
       </defs>
       <rect x="0" y="0" width="1000" height="640" fill="#070c1a"/>
       <rect x="60" y="20" width="880" height="600" fill="url(#fl)"/>
+      <rect x="60" y="20" width="880" height="600" fill="url(#mow)"/>
+      <rect x="20" y="245" width="40" height="150" fill="#2f7bff" fill-opacity=".35" stroke="#2f7bff" stroke-width="3"/>
+      <rect x="940" y="245" width="40" height="150" fill="#ff8a1f" fill-opacity=".35" stroke="#ff8a1f" stroke-width="3"/>
       <rect x="60" y="20" width="880" height="600" fill="none" stroke="#cfe0ff" stroke-opacity=".7" stroke-width="3"/>
       <line x1="500" y1="20" x2="500" y2="620" stroke="#cfe0ff" stroke-opacity=".5" stroke-width="2.5"/>
       <circle cx="500" cy="320" r="85" fill="none" stroke="#cfe0ff" stroke-opacity=".5" stroke-width="2.5"/>
@@ -76,15 +93,43 @@ input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);backgroun
   </div>
 
   <div class="panel">
-    <div class="grp">
+    <div class="grp" style="margin-bottom:6px">
       <div class="seg">
         <button class="tl on" data-t="move">Taşı</button>
         <button class="tl" data-t="pen">Kalem</button>
+        <button class="tl" data-t="arrow">Ok</button>
+        <button class="tl" data-t="rect">Kare</button>
+      </div>
+    </div>
+    <div class="grp">
+      <div class="seg">
+        <button class="wd" data-w="3">İnce</button>
+        <button class="wd on" data-w="5">Orta</button>
+        <button class="wd" data-w="9">Kalın</button>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="sw on" data-c="#ffffff" style="background:#fff"></button>
+        <button class="sw" data-c="#ffd400" style="background:#ffd400"></button>
+        <button class="sw" data-c="#00e5ff" style="background:#00e5ff"></button>
+        <button class="sw" data-c="#ff5ca8" style="background:#ff5ca8"></button>
       </div>
       <button id="bUndo" disabled>Geri al</button>
-      <button id="bClear">Çizimleri sil</button>
-      <button id="bReset">Dizilimi sıfırla</button>
+      <button id="bClear" class="ghost">Temizle</button>
+      <button id="bReset" class="ghost">Sıfırla</button>
     </div>
+  </div>
+
+  <div class="panel">
+    <h3>Animasyon</h3>
+    <div class="grp">
+      <button id="bAdd">Adım ekle</button>
+      <button id="bUpd">Güncelle</button>
+      <button id="bDel">Adım sil</button>
+      <button id="bPlay" class="cta">Oynat</button>
+      <button id="bGif">GIF</button>
+      <button id="bFclr" class="ghost">Hepsini sil</button>
+    </div>
+    <div class="chips" id="chips"></div>
   </div>
 </div>
 
@@ -95,146 +140,673 @@ input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);backgroun
   </div>
   <div class="panel">
     <h3>Rotasyon</h3>
-    <div class="tm"><span class="dot b"></span><span>Mavi takım</span></div><ol id="rotb"></ol>
-    <div class="tm"><span class="dot o"></span><span>Turuncu takım</span></div><ol id="roto"></ol>
+    <div class="tm" style="font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px"><span class="dot b"></span> Mavi takım</div><ol id="rotb" style="margin:4px 0 8px 20px;font-size:13px"></ol>
+    <div class="tm" style="font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px"><span class="dot o"></span> Turuncu takım</div><ol id="roto" style="margin:4px 0 0 20px;font-size:13px"></ol>
+  </div>
+  <div class="panel">
+    <h3>Kayıtlı Taktikler</h3>
+    <div class="save"><input id="sname" maxlength="30" placeholder="Taktik adı"><button id="bSave">Kaydet</button></div>
+    <div id="lib"></div>
+  </div>
+  <div class="panel">
+    <h3>Dışa Aktar</h3>
+    <button id="bPng" style="width:100%">PNG İndir</button>
   </div>
 </aside>
 </div>
 </main>
+<datalist id="roles"></datalist>
 
 <script>
 (function(){
-  var mode = 1;
-  var ALL = ["b1","b2","b3","o1","o2","o3","ball"];
-  var FORM = {1:{b1:1,o1:1,ball:1}, 2:{b1:1,b2:1,o1:1,o2:1,ball:1}, 3:{b1:1,b2:1,b3:1,o1:1,o2:1,o3:1,ball:1}};
-  var tokens = {
-    b1:{x:280,y:170}, b2:{x:200,y:250}, b3:{x:150,y:320},
-    o1:{x:720,y:470}, o2:{x:800,y:390}, o3:{x:850,y:320},
-    ball:{x:500,y:320}
+  var dict = {
+    tr: {
+      status_off: "Çevrimdışı Mod",
+      kickoff: "Yeni kickoff",
+      roles: ["First Man", "Second Man", "Last Man", "Rotasyoncu", "Destek", "Kaleci"]
+    },
+    en: {
+      status_off: "Offline Mode",
+      kickoff: "New Kickoff",
+      roles: ["First Man", "Second Man", "Last Man", "Rotator", "Support", "Goalkeeper"]
+    }
   };
-  var labels = {}, rows = {};
+
+  var curLang = localStorage.getItem("rltactic_lang") || "tr";
+  function t(key){ return (dict[curLang] && dict[curLang][key]) ? dict[curLang][key] : key; }
+
+  var FORM = {1:{b1:1,o1:1,ball:1}, 2:{b1:1,b2:1,o1:1,o2:1,ball:1}, 3:{b1:1,b2:1,b3:1,o1:1,o2:1,o3:1,ball:1}};
+  var ALL = ["b1","b2","b3","o1","o2","o3","ball"];
+  var SPOTS = [[280,170],[280,470],[170,301],[170,339],[104,320]];
+  var KO = {1:[[0],[1],[2],[3],[4]], 2:[[0,1],[2,3],[0,4],[1,4],[0,3]], 3:[[0,1,4],[2,3,4],[0,3,4],[2,1,4],[0,1,2]]};
+
+  var savedState = null;
+  try { savedState = JSON.parse(localStorage.getItem("rltactic_state")); } catch(_) {}
+
+  var mode = (savedState && savedState.mode) ? savedState.mode : 1;
+  var ko = (savedState && typeof savedState.ko === "number") ? savedState.ko : 0;
+  var tokens = (savedState && savedState.tokens) ? savedState.tokens : {};
+  var labels = (savedState && savedState.labels) ? savedState.labels : {};
+  var strokes = (savedState && savedState.strokes) ? savedState.strokes : {};
+  var frames = (savedState && savedState.frames) ? savedState.frames : [];
+  var fsel = -1, tool = "move", color = "#ffffff", wid = 5;
+  var drag = null, cur = null, pid = null;
+  var playing = false, backup = null, playRaf = 0, undo = [], redo = [], rotQ = 0;
+
   var $ = function(i){return document.getElementById(i)};
-  var sv = $("sv"), tg = $("toks");
-  var NS = "http://www.w3.org/2000/svg", els = {}, labG = {};
+  var sv = $("sv"), tg = $("toks"), sg = $("strokes"), st = $("st");
+  var NS = "http://www.w3.org/2000/svg", els = {}, labG = {}, rows = {};
+
+  function saveState(){
+    try {
+      localStorage.setItem("rltactic_state", JSON.stringify({
+        mode: mode, ko: ko, tokens: tokens, labels: labels, strokes: strokes, frames: frames
+      }));
+    } catch(_) {}
+  }
 
   function mk(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
   function active(id){return !!FORM[mode][id]}
+  function clone(o){return JSON.parse(JSON.stringify(o))}
+  function snap(){var o={};ALL.forEach(function(id){o[id]={x:tokens[id].x,y:tokens[id].y}});return o}
 
-  // Token'ları oluştur
+  function resetForm(m){
+    var set = KO[m][ko%KO[m].length];
+    ALL.forEach(function(id){if(!tokens[id]) tokens[id]={x:500,y:320}});
+    for(var i=0; i<m; i++){
+      var s = SPOTS[set[i]];
+      tokens["b"+(i+1)] = {x:s[0], y:s[1]};
+      tokens["o"+(i+1)] = {x:1000-s[0], y:640-s[1]};
+    }
+    tokens["ball"] = {x:500, y:320};
+  }
+  if(!savedState || !Object.keys(tokens).length) resetForm(mode);
+
+  function updKo(){
+    var n = KO[mode].length;
+    var btn = $("bKick");
+    if(btn) btn.textContent = t("kickoff") + " (" + ((ko%n)+1) + "/" + n + ")";
+  }
+
   ALL.forEach(function(id){
-    var g = mk("g",{class:"tok"});
+    var g = mk("g",{"class":"tok"});
     g.appendChild(mk("circle",{r:id==="ball"?38:46,fill:"url(#halo"+(id==="ball"?"W":id.charAt(0)==="b"?"B":"O")+")"}));
     if(id==="ball"){
       g.appendChild(mk("circle",{r:20,fill:"#fff",stroke:"#0a1226","stroke-width":3}));
     } else {
       g.appendChild(mk("rect",{x:-26,y:-16,width:52,height:32,rx:9,fill:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f",stroke:"#fff","stroke-width":2.5}));
-      var txt = mk("text",{y:6,"text-anchor":"middle",fill:"#fff","font-size":18,"font-weight":700});
+      var txt = mk("text",{"text-anchor":"middle",y:6,fill:"#fff","font-size":18,"font-weight":700,"pointer-events":"none"});
       txt.textContent = id.charAt(1); g.appendChild(txt);
-      var lb = mk("g",{}); g.appendChild(lb); labG[id] = lb;
+      var lb = mk("g",{"pointer-events":"none"}); g.appendChild(lb); labG[id] = lb;
     }
     g.setAttribute("data-id", id); tg.appendChild(g); els[id] = g;
   });
 
+  function renderLabel(id){
+    var g = labG[id]; if(!g) return; g.textContent = "";
+    var L = labels[id] || {}, n = (L.n || "").trim(), r = (L.r || "").trim();
+    if(!n && !r) return;
+    var w = Math.max(n.length*8.4, r.length*6.8)+18, h = (n&&r)?36:22;
+    g.appendChild(mk("rect",{x:-w/2,y:24,width:w,height:h,rx:8,fill:"#070c1a","fill-opacity":.85,stroke:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f","stroke-width":1.5}));
+    if(n){var txt=mk("text",{"text-anchor":"middle",y:r?39:39,fill:"#fff","font-size":14,"font-weight":700});txt.textContent=n;g.appendChild(txt)}
+    if(r){var t2=mk("text",{"text-anchor":"middle",y:n?52:39,fill:"#cfe0ff","font-size":11});t2.textContent=r;g.appendChild(t2)}
+  }
+
+  function place(id){
+    var tPos = tokens[id];
+    if(tPos && els[id]) els[id].setAttribute("transform","translate("+tPos.x+" "+tPos.y+")");
+    reqRot();
+  }
+
   function placeAll(){
     ALL.forEach(function(id){
-      if(els[id]){
-        els[id].setAttribute("transform","translate("+tokens[id].x+" "+tokens[id].y+")");
-        els[id].style.display = active(id) ? "" : "none";
-      }
+      place(id);
+      if(els[id]) els[id].style.display = active(id) ? "" : "none";
     });
   }
 
-  // Oyuncu paneli listesi
   ALL.forEach(function(id){
     if(id==="ball") return;
     var d = document.createElement("div"); d.className = "prow";
-    d.id = "prow-" + id;
     var dot = document.createElement("span"); dot.className = "dot "+id.charAt(0); dot.textContent = id.charAt(1);
-    var nm = document.createElement("input"); nm.placeholder = "İsim";
-    var rl = document.createElement("input"); rl.placeholder = "Rol";
+    var nm = document.createElement("input"); nm.className = "nm"; nm.placeholder = "İsim"; nm.maxLength = 14;
+    var rl = document.createElement("input"); rl.className = "rl"; rl.placeholder = "Rol"; rl.maxLength = 18;
+    if(labels[id]){
+      if(labels[id].n) nm.value = labels[id].n;
+      if(labels[id].r) rl.value = labels[id].r;
+    }
     d.appendChild(dot); d.appendChild(nm); d.appendChild(rl);
     $("plist").appendChild(d);
     rows[id] = {row: d, nm: nm, rl: rl};
-    nm.oninput = function(){
+    function ch(){
       if(!labels[id]) labels[id] = {};
-      labels[id].n = nm.value;
-      updSide();
-    };
+      labels[id].n = nm.value; labels[id].r = rl.value;
+      renderLabel(id); reqRot(); saveState();
+    }
+    nm.oninput = ch; rl.oninput = ch;
   });
 
-  function updPlayerVisibility(){
+  function updPlayerRowsVisibility(){
     ALL.forEach(function(id){
       if(rows[id]) rows[id].row.style.display = active(id) ? "" : "none";
     });
   }
 
+  function dist(id){
+    var a = tokens[id], b = tokens.ball;
+    return Math.hypot(a.x-b.x, a.y-b.y);
+  }
+
+  function reqRot(){
+    if(rotQ) return;
+    rotQ = requestAnimationFrame(function(){ rotQ = 0; updSide(); });
+  }
+
   function updSide(){
     ["b","o"].forEach(function(tm){
-      var ids = ALL.filter(function(i){return i.charAt(0)===tm && active(i)});
+      var ids = ALL.filter(function(i){ return i.charAt(0)===tm && active(i); });
+      ids.sort(function(a,c){ return dist(a)-dist(c); });
+      var own = ids.slice().sort(function(a,c){ return tm==="b"?tokens[a].x-tokens[c].x:tokens[c].x-tokens[a].x; })[0];
       var ul = $("rot"+tm); if(!ul) return; ul.textContent = "";
-      ids.forEach(function(id){
+      ids.forEach(function(id,i){
         var L = labels[id] || {}, li = document.createElement("li");
         var txt = (L.n && L.n.trim()) ? L.n.trim() : (tm==="b"?"Mavi ":"Turuncu ") + id.charAt(1);
+        if(L.r && L.r.trim()) txt += " · " + L.r.trim();
+        var tag = [];
+        if(i===0) tag.push("en yakın");
+        if(id===own && ids.length>1) tag.push("kaleye yakın");
+        if(tag.length) txt += " (" + tag.join(", ") + ")";
         li.textContent = txt; ul.appendChild(li);
       });
     });
   }
 
-  // Mod değiştirme (1v1, 2v2, 3v3)
-  document.querySelectorAll(".md").forEach(function(b){
-    b.onclick = function(){
-      mode = +b.getAttribute("data-m");
-      document.querySelectorAll(".md").forEach(function(x){x.classList.toggle("on", x===b)});
-      updPlayerVisibility();
-      placeAll();
-      updSide();
-    };
-  });
+  function pathD(p){var d="";for(var i=0;i<p.length;i+=2)d+=(i?"L":"M")+p[i]+" "+p[i+1];return d}
 
-  // Sürükleme (Drag & Drop)
-  var drag = null, pid = null;
+  function strokeEl(s){
+    var a = {stroke:s.c||"#fff", "stroke-width":s.w||5, fill:"none", "stroke-linecap":"round", "stroke-linejoin":"round"};
+    var p = s.p || [], k = s.k || "pen";
+    if(k==="pen"){ a.d = pathD(p); return mk("path",a); }
+    var x1=p[0], y1=p[1], x2=p[2]===undefined?x1:p[2], y2=p[3]===undefined?y1:p[3];
+    if(k==="rect"){ a.x=Math.min(x1,x2); a.y=Math.min(y1,y2); a.width=Math.abs(x2-x1); a.height=Math.abs(y2-y1); a.rx=4; return mk("rect",a); }
+    if(k==="circle"){ a.cx=x1; a.cy=y1; a.r=Math.hypot(x2-x1, y2-y1); return mk("circle",a); }
+    var an = Math.atan2(y2-y1, x2-x1), hl = 12 + (s.w||5)*2.2;
+    var r = function(v){return Math.round(v*10)/10};
+    a.d = "M"+x1+" "+y1+"L"+x2+" "+y2+"M"+r(x2-hl*Math.cos(an-.45))+" "+r(y2-hl*Math.sin(an-.45))+"L"+x2+" "+y2+"L"+r(x2-hl*Math.cos(an+.45))+" "+r(y2-hl*Math.sin(an+.45));
+    return mk("path",a);
+  }
+
+  function drawStrokes(){
+    if(!sg) return; sg.textContent = "";
+    Object.keys(strokes).forEach(function(k){
+      var s = strokes[k];
+      if(s && s.p && s.p.length>=2) sg.appendChild(strokeEl(s));
+    });
+  }
+
   function pt(e){
-    var m = sv.getScreenCTM(); if(!m) return {x:500,y:320};
+    var m = sv.getScreenCTM(); if(!m) return {x:500, y:320};
     var p = sv.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
     var q = p.matrixTransform(m.inverse());
     return {x: Math.max(30, Math.min(970, Math.round(q.x))), y: Math.max(25, Math.min(615, Math.round(q.y)))};
   }
 
-  sv.addEventListener("pointerdown", function(e){
-    var p = pt(e);
+  function nearest(p){
     var best = null, bd = 85;
     ALL.forEach(function(id){
       if(!active(id)) return;
-      var tPos = tokens[id], d = Math.hypot(tPos.x - p.x, tPos.y - p.y);
+      var tPos = tokens[id], d = Math.hypot(tPos.x-p.x, tPos.y-p.y) - (id==="ball"?10:0);
       if(d < bd){ bd = d; best = id; }
     });
-    if(!best) return;
-    drag = {id: best, dx: tokens[best].x - p.x, dy: tokens[best].y - p.y};
-    pid = e.pointerId;
-    try{ sv.setPointerCapture(pid); }catch(_){}
-    e.preventDefault();
-  });
-
-  sv.addEventListener("pointermove", function(e){
-    if(!drag || e.pointerId !== pid) return;
-    var p = pt(e);
-    tokens[drag.id].x = p.x + drag.dx;
-    tokens[drag.id].y = p.y + drag.dy;
-    placeAll();
-  });
-
-  function stopDrag(e){
-    if(e && e.pointerId !== pid) return;
-    drag = null; pid = null;
-    updSide();
+    return best;
   }
-  sv.addEventListener("pointerup", stopDrag);
-  sv.addEventListener("pointercancel", stopDrag);
 
-  // Başlangıç çalıştırmaları
-  updPlayerVisibility();
-  placeAll();
-  updSide();
+  function updHist(){
+    if($("bUndo")) $("bUndo").disabled = !undo.length;
+  }
+  function pushHist(op){
+    undo.push(op); if(undo.length>100) undo.shift();
+    redo = []; updHist();
+  }
+  function clearHist(){undo = []; redo = []; updHist();}
+
+  function setTok(id, pos){
+    tokens[id] = {x:pos.x, y:pos.y}; place(id); saveState();
+  }
+
+  function doOp(op, dir){
+    if(op.t==="mv") setTok(op.id, dir<0?op.from:op.to);
+    else if(op.t==="tk"){
+      var v = dir<0?op.b:op.a;
+      ALL.forEach(function(id){ tokens[id] = {x:v[id].x, y:v[id].y}; });
+      placeAll(); saveState();
+    } else if(op.t==="add"){
+      if(dir<0) delete strokes[op.id]; else strokes[op.id] = op.d;
+      drawStrokes(); saveState();
+    } else if(op.t==="clr"){
+      Object.keys(op.items).forEach(function(k){
+        if(dir<0) strokes[k] = op.items[k]; else delete strokes[k];
+      });
+      drawStrokes(); saveState();
+    }
+  }
+
+  function stopPlay(){
+    if(!playing) return;
+    playing = false; cancelAnimationFrame(playRaf);
+    tokens = backup; backup = null; placeAll();
+    if($("bPlay")) $("bPlay").textContent = "Oynat";
+    renderChips();
+  }
+
+  if($("bUndo")) $("bUndo").onclick = function(){
+    stopPlay(); var op = undo.pop(); if(!op) return;
+    doOp(op, -1); redo.push(op); updHist();
+  };
+
+  if(sv){
+    sv.addEventListener("contextmenu", function(e){e.preventDefault()});
+    sv.addEventListener("pointerdown", function(e){
+      if(drag || cur || playing) return;
+      var p = pt(e);
+      if(tool==="move"){
+        var id = nearest(p); if(!id) return;
+        drag = {id:id, dx:tokens[id].x-p.x, dy:tokens[id].y-p.y, from:{x:tokens[id].x, y:tokens[id].y}};
+      } else {
+        var sid = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
+        cur = {id:sid, k:tool, c:color, w:wid, p:tool==="pen"?[p.x,p.y]:[p.x,p.y,p.x,p.y]};
+        cur.el = strokeEl(cur); if(sg) sg.appendChild(cur.el);
+      }
+      pid = e.pointerId;
+      try{ sv.setPointerCapture(pid); }catch(_){}
+      e.preventDefault();
+    });
+
+    sv.addEventListener("pointermove", function(e){
+      if(e.pointerId!==pid) return;
+      var p = pt(e);
+      if(drag){
+        var tPos = tokens[drag.id];
+        tPos.x = Math.max(30, Math.min(970, p.x+drag.dx));
+        tPos.y = Math.max(25, Math.min(615, p.y+drag.dy));
+        place(drag.id);
+      } else if(cur){
+        if(cur.k==="pen"){
+          var L = cur.p.length;
+          if(Math.abs(cur.p[L-2]-p.x)+Math.abs(cur.p[L-1]-p.y)>3 && L<1600){
+            cur.p.push(p.x, p.y); cur.el.setAttribute("d", pathD(cur.p));
+          }
+        } else {
+          cur.p[2] = p.x; cur.p[3] = p.y;
+          var n = strokeEl(cur);
+          if(cur.el.parentNode) cur.el.parentNode.replaceChild(n, cur.el);
+          cur.el = n;
+        }
+      }
+    });
+
+    function up(e){
+      if(e && e.pointerId!==pid) return;
+      if(drag){
+        var tk = tokens[drag.id], moved = Math.hypot(tk.x-drag.from.x, tk.y-drag.from.y);
+        if(moved>=6){
+          pushHist({t:"mv", id:drag.id, from:drag.from, to:{x:tk.x, y:tk.y}});
+          saveState();
+        } else {
+          tk.x = drag.from.x; tk.y = drag.from.y; place(drag.id);
+        }
+      }
+      if(cur){
+        var d = cur, good = true;
+        if(d.k==="pen"){ if(d.p.length<4) d.p.push(d.p[0]+1, d.p[1]+1); }
+        else if(Math.hypot(d.p[2]-d.p[0], d.p[3]-d.p[1])<8) good = false;
+        cur = null;
+        if(good){
+          var data = {c:d.c, w:d.w, k:d.k, p:d.p.slice()};
+          strokes[d.id] = data; drawStrokes();
+          pushHist({t:"add", id:d.id, d:data}); saveState();
+        } else drawStrokes();
+      }
+      drag = null; cur = null; pid = null;
+    }
+    sv.addEventListener("pointerup", up);
+    sv.addEventListener("pointercancel", up);
+  }
+
+  function each(sel, fn){document.querySelectorAll(sel).forEach(fn)}
+
+  function setTool(tTool){
+    tool = tTool;
+    each(".tl", function(b){ b.classList.toggle("on", b.getAttribute("data-t")===tTool); });
+  }
+
+  each(".tl", function(b){ b.onclick = function(){ setTool(b.getAttribute("data-t")); }; });
+  each(".wd", function(b){
+    b.onclick = function(){
+      wid = +b.getAttribute("data-w");
+      each(".wd", function(x){ x.classList.toggle("on", x===b); });
+    };
+  });
+  each(".sw", function(b){
+    b.onclick = function(){
+      color = b.getAttribute("data-c");
+      if(tool==="move") setTool("pen");
+      each(".sw", function(x){ x.classList.toggle("on", x===b); });
+    };
+  });
+
+  function twoTap(btn, fn){
+    if(!btn) return;
+    var timer = null;
+    btn.onclick = function(){
+      if(timer){ clearTimeout(timer); timer = null; btn.textContent = btn._origText; btn.classList.remove("on"); fn(); return; }
+      btn._origText = btn.textContent;
+      btn.textContent = "Emin misin?";
+      btn.classList.add("on");
+      timer = setTimeout(function(){ timer = null; btn.textContent = btn._origText; btn.classList.remove("on"); }, 3000);
+    };
+  }
+
+  twoTap($("bClear"), function(){
+    var items = clone(strokes); if(!Object.keys(items).length) return;
+    strokes = {}; drawStrokes(); pushHist({t:"clr", items:items}); saveState();
+  });
+
+  function setup(fn){
+    stopPlay(); var b = snap(); fn(); placeAll(); updKo();
+    pushHist({t:"tk", b:b, a:snap()}); saveState();
+  }
+
+  twoTap($("bReset"), function(){ setup(function(){ resetForm(mode); }); });
+  if($("bKick")) $("bKick").onclick = function(){
+    setup(function(){ ko = (ko + 1) % KO[mode].length; resetForm(mode); });
+  };
+
+  function applyMode(m){
+    mode = m;
+    each(".md", function(b){ b.classList.toggle("on", +b.getAttribute("data-m")===m); });
+    updPlayerRowsVisibility();
+    placeAll();
+    saveState();
+  }
+
+  each(".md", function(b){
+    b.onclick = function(){
+      var m = +b.getAttribute("data-m"); if(m===mode) return;
+      stopPlay(); ko = 0; resetForm(m); applyMode(m); updKo(); clearHist();
+    };
+  });
+
+  function renderChips(){
+    var box = $("chips"); if(!box) return; box.textContent = "";
+    if(!frames.length){ box.textContent = "Henüz adım yok."; return; }
+    frames.forEach(function(f, i){
+      var b = document.createElement("button"); b.className = "chip" + (i===fsel?" on":""); b.textContent = String(i+1);
+      b.onclick = function(){
+        if(playing) return; fsel = i;
+        var bf = snap();
+        ALL.forEach(function(id){ if(f[id]) tokens[id] = {x:f[id].x, y:f[id].y}; });
+        placeAll(); pushHist({t:"tk", b:bf, a:snap()}); renderChips(); saveState();
+      };
+      box.appendChild(b);
+    });
+  }
+
+  if($("bAdd")) $("bAdd").onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
+  if($("bUpd")) $("bUpd").onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
+  if($("bDel")) $("bDel").onclick = function(){
+    if(playing || fsel<0 || !frames[fsel]) return;
+    frames.splice(fsel, 1); fsel = Math.min(fsel, frames.length-1); renderChips(); saveState();
+  };
+  twoTap($("bFclr"), function(){ stopPlay(); frames = []; fsel = -1; renderChips(); saveState(); });
+
+  if($("bPlay")) $("bPlay").onclick = function(){
+    if(playing){ stopPlay(); return; }
+    if(frames.length<2){ alert("Oynatmak için en az 2 adım ekle"); return; }
+    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay").textContent = "Durdur";
+    var seg = 0, t0 = performance.now(), DUR = 1300, HOLD = 350;
+    function step(now){
+      if(!playing) return;
+      var el = Math.max(0, now-t0), a = seq[seg], b = seq[seg+1];
+      var k = Math.min(1, el/DUR), e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+      ALL.forEach(function(id){
+        if(a[id] && b[id]) tokens[id] = {x: a[id].x+(b[id].x-a[id].x)*e, y: a[id].y+(b[id].y-a[id].y)*e};
+        place(id);
+      });
+      var cs = $("chips")?$("chips").children:[];
+      for(var i=0; i<cs.length; i++) cs[i].classList.toggle("on", i===seg || i===seg+1 && k>.5);
+      if(el >= DUR+HOLD){ seg++; t0 = now; if(seg >= seq.length-1){ stopPlay(); return; } }
+      playRaf = requestAnimationFrame(step);
+    }
+    playRaf = requestAnimationFrame(step);
+  };
+
+  /* GIF Encoder */
+  function lzwEncode(idx, minCode){
+    var clear = 1<<minCode, eoi = clear+1, next = eoi+1, size = minCode+1, out = [], curBit = 0, bits = 0, dict = new Map();
+    function put(code){ curBit |= code<<bits; bits += size; while(bits>=8){ out.push(curBit&255); curBit>>>=8; bits-=8; } }
+    put(clear); var prefix = idx[0];
+    for(var i=1; i<idx.length; i++){
+      var k = idx[i], key = (prefix<<8)|k, hit = dict.get(key);
+      if(hit!==undefined){ prefix = hit; continue; }
+      put(prefix);
+      if(next===4096){ put(clear); next = eoi+1; size = minCode+1; dict = new Map(); }
+      else{ if(next>=(1<<size)) size++; dict.set(key, next++); }
+      prefix = k;
+    }
+    put(prefix); put(eoi); if(bits>0) out.push(curBit&255);
+    return out;
+  }
+  function gifHeader(w, h, pal){
+    var a = [71,73,70,56,57,97, w&255, w>>8, h&255, h>>8, 0xF7, 0, 0];
+    for(var i=0; i<768; i++) a.push(pal[i]);
+    a.push(0x21,0xFF,0x0B,78,69,84,83,67,65,80,69,50,46,48,3,1,0,0,0);
+    return Uint8Array.from(a);
+  }
+  function gifFrame(w, h, idx, delay){
+    var a = [0x21,0xF9,4,4, delay&255, delay>>8,0,0, 0x2C,0,0,0,0, w&255, w>>8, h&255, h>>8, 0, 8];
+    var d = lzwEncode(idx, 8);
+    for(var i=0; i<d.length; i+=255){
+      var n = Math.min(255, d.length-i); a.push(n);
+      for(var j=0; j<n; j++) a.push(d[i+j]);
+    }
+    a.push(0); return Uint8Array.from(a);
+  }
+  function buildPalette(datas){
+    var hist = new Uint32Array(32768), cols = [];
+    datas.forEach(function(d){ for(var p=0; p<d.length; p+=4) hist[((d[p]>>3)<<10)|((d[p+1]>>3)<<5)|(d[p+2]>>3)]++; });
+    for(var i=0; i<32768; i++) if(hist[i]) cols.push({v:[i>>10,(i>>5)&31,i&31], n:hist[i]});
+    var boxes = [cols];
+    while(boxes.length<256){
+      var bi = -1, bs = 0, bc = 0;
+      boxes.forEach(function(b, j){
+        if(b.length<2) return;
+        var mn = [31,31,31], mx = [0,0,0], tot = 0;
+        b.forEach(function(c){ tot+=c.n; for(var k=0; k<3; k++){ if(c.v[k]<mn[k]) mn[k]=c.v[k]; if(c.v[k]>mx[k]) mx[k]=c.v[k]; } });
+        var r = [mx[0]-mn[0], mx[1]-mn[1], mx[2]-mn[2]], ch = r[0]>=r[1]&&r[0]>=r[2]?0:(r[1]>=r[2]?1:2), sc = r[ch]*Math.sqrt(tot);
+        if(sc>bs){ bs=sc; bi=j; bc=ch; }
+      });
+      if(bi<0) break;
+      var b = boxes[bi]; b.sort(function(x,y){ return x.v[bc]-y.v[bc]; });
+      var tot2 = 0; b.forEach(function(c){ tot2+=c.n; });
+      var acc = 0, cut = 1;
+      for(var i=0; i<b.length-1; i++){ acc+=b[i].n; cut=i+1; if(acc*2>=tot2) break; }
+      boxes.splice(bi, 1, b.slice(0, cut), b.slice(cut));
+    }
+    var pal = new Uint8Array(768);
+    boxes.forEach(function(b, j){
+      var r=0, g=0, bl=0, tCount=0;
+      b.forEach(function(c){ r+=c.v[0]*c.n; g+=c.v[1]*c.n; bl+=c.v[2]*c.n; tCount+=c.n; });
+      if(!tCount) return;
+      pal[j*3] = ((r/tCount)<<3)|4; pal[j*3+1] = ((g/tCount)<<3)|4; pal[j*3+2] = ((bl/tCount)<<3)|4;
+    });
+    return pal;
+  }
+  function makeMapper(pal){
+    var cache = new Int16Array(32768).fill(-1);
+    return function(r, g, b){
+      var key = ((r>>3)<<10)|((g>>3)<<5)|(b>>3), v = cache[key];
+      if(v<0){
+        var rr = (r&248)|4, gg = (g&248)|4, bb = (b&248)|4, bd = 1e9; v = 0;
+        for(var i=0; i<256; i++){
+          var dr = pal[i*3]-rr, dg = pal[i*3+1]-gg, db2 = pal[i*3+2]-bb, d = dr*dr+dg*dg+db2*db2;
+          if(d<bd){ bd = d; v = i; }
+        }
+        cache[key] = v;
+      }
+      return v;
+    };
+  }
+  function makeGif(seq, onProg){
+    var W = 640, H = 410, DUR = 1300, HOLD = 350, STEP = 83, SEG = DUR+HOLD, total = (seq.length-1)*SEG, n = Math.ceil(total/STEP)+1;
+    var c = sv.cloneNode(true); c.setAttribute("xmlns", NS); c.setAttribute("width", W); c.setAttribute("height", H);
+    var gm = {}; c.querySelectorAll(".tok").forEach(function(g){ gm[g.getAttribute("data-id")] = g; });
+    var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    var ctx = cv.getContext("2d", {willReadFrequently:true});
+    function pose(i){
+      var time = i*STEP, last = seq.length-1, s = Math.min(last-1, Math.floor(time/SEG)), k = time>=total?1:Math.min(1,(time-s*SEG)/DUR);
+      if(time>=total) s = last-1;
+      var e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2, a = seq[s], b = seq[s+1], o = {};
+      ALL.forEach(function(id){
+        var pPos = a[id], qPos = b[id];
+        o[id] = (pPos && qPos) ? {x:pPos.x+(qPos.x-pPos.x)*e, y:pPos.y+(qPos.y-pPos.y)*e} : {x:tokens[id].x, y:tokens[id].y};
+      });
+      return o;
+    }
+    function frameData(i){
+      var o = pose(i);
+      ALL.forEach(function(id){ if(gm[id]) gm[id].setAttribute("transform", "translate("+o[id].x+" "+o[id].y+")"); });
+      return new Promise(function(res, rej){
+        var img = new Image();
+        img.onload = function(){ ctx.clearRect(0,0,W,H); ctx.drawImage(img,0,0,W,H); res(ctx.getImageData(0,0,W,H).data); };
+        img.onerror = rej;
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
+      });
+    }
+    var chain = Promise.resolve(), ds = [], parts = [], map;
+    [0, Math.floor(n*.35), Math.floor(n*.7), n-1].forEach(function(i){ chain = chain.then(function(){ return frameData(i); }).then(function(d){ ds.push(d); }); });
+    chain = chain.then(function(){ var pal = buildPalette(ds); ds = null; map = makeMapper(pal); parts.push(gifHeader(W,H,pal)); });
+    function addFrame(i){
+      chain = chain.then(function(){ return frameData(i); }).then(function(d){
+        var idx = new Uint8Array(W*H), p = 0;
+        for(var q=0; q<idx.length; q++, p+=4) idx[q] = map(d[p], d[p+1], d[p+2]);
+        parts.push(gifFrame(W,H,idx,8)); onProg((i+1)/n);
+      });
+    }
+    for(var i=0; i<n; i++) addFrame(i);
+    return chain.then(function(){ parts.push(new Uint8Array([0x3B])); return new Blob(parts, {type:"image/gif"}); });
+  }
+
+  var gifBusy = false;
+  if($("bGif")) $("bGif").onclick = function(){
+    if(gifBusy) return;
+    if(frames.length<2){ alert("GIF için en az 2 adım ekle"); return; }
+    stopPlay(); gifBusy = true; var btn = $("bGif"); btn.disabled = true;
+    makeGif(clone(frames), function(p){ btn.textContent = Math.round(p*100) + "%"; }).then(function(blob){
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rltactic.gif"; a.click();
+    }).catch(function(){ alert("GIF oluşturulamadı"); }).then(function(){ gifBusy = false; btn.disabled = false; btn.textContent = "GIF"; });
+  };
+
+  function lib(){try{return JSON.parse(localStorage.getItem("rlTactics")||"[]")}catch(_){return []}}
+  function setLib(a){try{localStorage.setItem("rlTactics",JSON.stringify(a));return true}catch(_){return false}}
+
+  function loadTactic(s){
+    stopPlay(); clearHist(); strokes = {}; drawStrokes();
+    mode = FORM[s.mode] ? s.mode : 1; ko = s.ko || 0; applyMode(mode); updKo();
+    ALL.forEach(function(id){ var tPos = s.tokens && s.tokens[id]; if(tPos) tokens[id] = {x:tPos.x, y:tPos.y}; });
+    placeAll(); labels = clone(s.labels || {});
+    ALL.forEach(function(id){
+      renderLabel(id);
+      if(rows[id]){ rows[id].nm.value = (labels[id]||{}).n||""; rows[id].rl.value = (labels[id]||{}).r||""; }
+    });
+    reqRot(); frames = clone(s.frames || []); fsel = -1; renderChips();
+    strokes = clone(s.strokes || {}); drawStrokes(); saveState();
+  }
+
+  function thumb(sv0){
+    var m = FORM[sv0.mode]?sv0.mode:1, tk = sv0.tokens||{};
+    var v = mk("svg", {viewBox:"0 0 1000 640"});
+    v.appendChild(mk("rect",{width:1000,height:640,fill:"#070c1a"}));
+    v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,fill:"#0e2238",stroke:"#cfe0ff","stroke-opacity":.6,"stroke-width":3}));
+    v.appendChild(mk("rect",{x:20,y:245,width:40,height:150,fill:"#2f7bff","fill-opacity":.5}));
+    v.appendChild(mk("rect",{x:940,y:245,width:40,height:150,fill:"#ff8a1f","fill-opacity":.5}));
+    v.appendChild(mk("line",{x1:500,y1:20,x2:500,y2:620,stroke:"#cfe0ff","stroke-opacity":.4,"stroke-width":3}));
+    v.appendChild(mk("circle",{cx:500,cy:320,r:85,fill:"none",stroke:"#cfe0ff","stroke-opacity":.4,"stroke-width":3}));
+    Object.keys(sv0.strokes||{}).forEach(function(k){ var e = strokeEl(sv0.strokes[k]); if(e) v.appendChild(e); });
+    function pos(f, id){ var p = (f && f[id]) || tk[id] || {x:500,y:320}; return p.x+" "+p.y; }
+    ALL.forEach(function(id){
+      if(!FORM[m][id]) return;
+      var g = mk("g",{transform:"translate("+pos(tk,id)+")"});
+      if(id==="ball") g.appendChild(mk("circle",{r:24,fill:"#fff"}));
+      else g.appendChild(mk("rect",{x:-30,y:-19,width:60,height:38,rx:10,fill:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f",stroke:"#fff","stroke-width":3}));
+      v.appendChild(g);
+    });
+    return v;
+  }
+
+  function renderLib(){
+    var box = $("lib"), a = lib(); if(!box) return; box.textContent = "";
+    if(!a.length){ box.textContent = "Kayıtlı taktik yok."; box.className = "hint"; return; }
+    box.className = "";
+    a.forEach(function(s, i){
+      var r = document.createElement("div"); r.className = "lcard";
+      r.appendChild(thumb(s));
+      var bar = document.createElement("div"); bar.className = "lb2";
+      var n = document.createElement("span"); n.className = "ln"; n.textContent = s.name;
+      var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
+      sm.textContent = (nf>=2?nf+" adım":"animasyonsuz")+" · "+mm+"v"+mm; n.appendChild(sm);
+      var lBtn = document.createElement("button"); lBtn.textContent = "Yükle";
+      var dBtn = document.createElement("button"); dBtn.textContent = "Sil"; dBtn.className = "ghost";
+      bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
+      twoTap(lBtn, function(){ loadTactic(s); });
+      twoTap(dBtn, function(){ var x = lib(); x.splice(i, 1); setLib(x); renderLib(); });
+    });
+  }
+
+  if($("bSave")) $("bSave").onclick = function(){
+    var name = $("sname").value.trim(); if(!name){ alert("Taktiğe bir isim ver"); return; }
+    var a = lib().filter(function(s){ return s.name!==name; });
+    a.unshift({name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)});
+    if(setLib(a)){ $("sname").value=""; renderLib(); alert("Kaydedildi"); } else alert("Hafıza dolu");
+  };
+
+  if($("bPng")) $("bPng").onclick = function(){
+    var c = sv.cloneNode(true); c.setAttribute("xmlns", NS); c.setAttribute("width", 2000); c.setAttribute("height", 1280);
+    var url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
+    var img = new Image();
+    img.onload = function(){
+      var cv = document.createElement("canvas"); cv.width = 2000; cv.height = 1280;
+      cv.getContext("2d").drawImage(img, 0, 0, 2000, 1280);
+      cv.toBlob(function(blob){
+        if(!blob) return;
+        var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rltactic.png"; a.click();
+      }, "image/png");
+    };
+    img.src = url;
+  };
+
+  function applyLanguage(){
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
+    });
+    var rList = $("roles"); if(rList) rList.textContent = "";
+    if(dict[curLang] && dict[curLang].roles){
+      dict[curLang].roles.forEach(function(role){
+        var opt = document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
+      });
+    }
+    updKo(); updSide(); renderChips(); renderLib();
+  }
+
+  if($("bLang")) $("bLang").onclick = function(){
+    curLang = curLang === "tr" ? "en" : "tr";
+    localStorage.setItem("rltactic_lang", curLang);
+    applyLanguage();
+  };
+
+  applyMode(mode); updHist(); applyLanguage(); drawStrokes();
+  ALL.forEach(function(id){ renderLabel(id); });
+  renderLib();
 })();
 </script>
 </body>
