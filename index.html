@@ -22,7 +22,7 @@ button,input{font:inherit;color:var(--ink);min-height:42px}
 button{cursor:pointer;padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:var(--panel);transition:transform .08s,background .15s}
 button:active{transform:scale(.97)}
 
-/* Odaklanma çerçevelerini kesin olarak ve mutlak surette kaldırdık */
+/* Mavi odak çerçeveleri tamamen kaldırıldı */
 button:focus, button:focus-visible, input:focus, input:focus-visible { outline: none !important; box-shadow: none !important; }
 
 input{padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
@@ -768,7 +768,7 @@ button:disabled{opacity:.4;cursor:default}
     var rList = $("roles"); if(rList){ rList.textContent = ""; }
     if(dict[curLang] && dict[curLang].roles){
       dict[curLang].roles.forEach(function(role){
-        var opt = document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
+        var opt = document.option ? document.createElement("option") : document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
       });
     }
     document.querySelectorAll(".prow .nm").forEach(function(inp){ inp.placeholder = t("ph_player_name"); });
