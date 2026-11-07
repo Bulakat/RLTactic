@@ -150,7 +150,7 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
   <div class="panel">
     <h3 data-i18n="h_saved">Kayıtlı Taktikler</h3>
     <div class="save"><input id="sname" maxlength="30" data-i18n-ph="ph_name" placeholder="Taktik adı"><button id="bSave" data-i18n="btn_save">Kaydet</button></div>
-    <div class="save"><input id="tcode" maxlength="600" data-i18n-ph="ph_code" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost" data-i18n="btn_loadcode">Kodu Yükle</button></div>
+    <div class="save"><input id="tcode" maxlength="800" data-i18n-ph="ph_code" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost" data-i18n="btn_loadcode">Kodu Yükle</button></div>
     <div id="lib"></div>
   </div>
   <div class="panel">
@@ -206,7 +206,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       near_ball: "Topa En Yakın", near_net: "Kaleye En Yakın",
       blue_def: "Mavi ", orange_def: "Turuncu ",
       ai_title: "🤖 Pro AI Taktik Motoru", ai_btn: "Detaylı AI Analizi Çalıştır",
-      roles: ["First Man", "Second Man", "Last Man", "Rotasyoncu", "Destek", "Kaleci"]
+      p_name: "İsim", p_role: "Rol"
     },
     en: {
       kickoff: "New Kickoff",
@@ -222,7 +222,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       near_ball: "Closest to Ball", near_net: "Closest to Net",
       blue_def: "Blue ", orange_def: "Orange ",
       ai_title: "🤖 Pro AI Tactical Engine", ai_btn: "Run Deep AI Analysis",
-      roles: ["First Man", "Second Man", "Last Man", "Rotator", "Support", "Goalkeeper"]
+      p_name: "Name", p_role: "Role"
     }
   };
 
@@ -285,8 +285,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     if(id==="ball") return;
     var d = document.createElement("div"); d.className = "prow";
     var dot = document.createElement("span"); dot.className = "dot "+id.charAt(0); dot.textContent = id.charAt(1);
-    var nm = document.createElement("input"); nm.className = "nm"; nm.placeholder = curLang==="tr"?"İsim":"Name"; nm.maxLength = 14;
-    var rl = document.createElement("input"); rl.className = "rl"; rl.placeholder = curLang==="tr"?"Rol":"Role"; rl.maxLength = 18;
+    var nm = document.createElement("input"); nm.className = "nm"; nm.maxLength = 14;
+    var rl = document.createElement("input"); rl.className = "rl"; rl.maxLength = 18;
     if(labels[id]){
       if(labels[id].n) nm.value = labels[id].n;
       if(labels[id].r) rl.value = labels[id].r;
@@ -301,6 +301,15 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
     nm.oninput = ch; rl.oninput = ch;
   });
+
+  function updPlayerPlaceholders(){
+    ALL.forEach(function(id){
+      if(rows[id]){
+        rows[id].nm.placeholder = t("p_name");
+        rows[id].rl.placeholder = t("p_role");
+      }
+    });
+  }
 
   function updPlayerRowsVisibility(){
     ALL.forEach(function(id){
@@ -890,7 +899,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       $("tcode").value = "";
       renderLib();
       alert(curLang==="tr" ? "Taktik yüklendi ve kütüphaneye eklendi!" : "Tactic imported successfully!");
-    } catch(_) {
+    } catch(err) {
       alert(curLang==="tr" ? "Geçersiz veya bozuk taktik kodu!" : "Invalid or corrupted tactic code!");
     }
   };
@@ -946,6 +955,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
       var k = el.getAttribute("data-i18n-ph"); if(t(k)) el.placeholder = t(k);
     });
+    updPlayerPlaceholders();
     updKo(); updSide(); renderChips(); renderLib(); runAiAnalysis();
   }
 
