@@ -116,11 +116,11 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
 
   <!-- AI ANALİZ PANELİ -->
   <div class="panel">
-    <h3>🤖 Pro AI Taktik Motoru</h3>
+    <h3 data-i18n="ai_title">🤖 Pro AI Taktik Motoru</h3>
     <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
       Pozisyon taranıyor...
     </div>
-    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;">Detaylı AI Analizi Çalıştır</button>
+    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Detaylı AI Analizi Çalıştır</button>
   </div>
 
   <div class="panel">
@@ -150,7 +150,7 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
   <div class="panel">
     <h3 data-i18n="h_saved">Kayıtlı Taktikler</h3>
     <div class="save"><input id="sname" maxlength="30" data-i18n-ph="ph_name" placeholder="Taktik adı"><button id="bSave" data-i18n="btn_save">Kaydet</button></div>
-    <div class="save"><input id="tcode" maxlength="400" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost">Kodu Yükle</button></div>
+    <div class="save"><input id="tcode" maxlength="600" data-i18n-ph="ph_code" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost" data-i18n="btn_loadcode">Kodu Yükle</button></div>
     <div id="lib"></div>
   </div>
   <div class="panel">
@@ -200,11 +200,12 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       h_anim: "Animasyon", btn_add: "Adım ekle", btn_upd: "Güncelle", btn_del: "Adım sil",
       btn_play: "Oynat", btn_stop: "Durdur", b_gif: "GIF", btn_fclr: "Hepsini sil",
       h_players: "Oyuncular", h_rotation: "Rotasyon", tm_blue: "Mavi takım", tm_orange: "Turuncu takım",
-      h_saved: "Kayıtlı Taktikler", ph_name: "Taktik adı", btn_save: "Kaydet",
+      h_saved: "Kayıtlı Taktikler", ph_name: "Taktik adı", ph_code: "Taktik kodu yapıştır", btn_save: "Kaydet", btn_loadcode: "Kodu Yükle",
       h_export: "Dışa Aktar", btn_png: "PNG İndir",
       no_steps: "Henüz adım yok.", no_tactics: "Kayıtlı taktik yok.",
       near_ball: "Topa En Yakın", near_net: "Kaleye En Yakın",
       blue_def: "Mavi ", orange_def: "Turuncu ",
+      ai_title: "🤖 Pro AI Taktik Motoru", ai_btn: "Detaylı AI Analizi Çalıştır",
       roles: ["First Man", "Second Man", "Last Man", "Rotasyoncu", "Destek", "Kaleci"]
     },
     en: {
@@ -215,11 +216,12 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       h_anim: "Animation", btn_add: "Add Step", btn_upd: "Update", btn_del: "Delete Step",
       btn_play: "Play", btn_stop: "Stop", b_gif: "GIF", btn_fclr: "Clear All",
       h_players: "Players", h_rotation: "Rotation", tm_blue: "Blue Team", tm_orange: "Orange Team",
-      h_saved: "Saved Tactics", ph_name: "Tactic Name", btn_save: "Save",
+      h_saved: "Saved Tactics", ph_name: "Tactic Name", ph_code: "Paste tactic code", btn_save: "Save", btn_loadcode: "Load Code",
       h_export: "Export", btn_png: "Download PNG",
       no_steps: "No steps yet.", no_tactics: "No saved tactics.",
       near_ball: "Closest to Ball", near_net: "Closest to Net",
       blue_def: "Blue ", orange_def: "Orange ",
+      ai_title: "🤖 Pro AI Tactical Engine", ai_btn: "Run Deep AI Analysis",
       roles: ["First Man", "Second Man", "Last Man", "Rotator", "Support", "Goalkeeper"]
     }
   };
@@ -848,7 +850,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       twoTap(lBtn, function(){ loadTactic(s); });
       cBtn.onclick = function(){
         try {
-          var codeStr = btoa(unescape(encodeURIComponent(JSON.stringify(s))));
+          var codeStr = btoa(encodeURIComponent(JSON.stringify(s)));
           navigator.clipboard.writeText(codeStr);
           cBtn.textContent = curLang==="tr"?"Kopyalandı!":"Copied!";
           setTimeout(function(){ cBtn.textContent = curLang==="tr"?"Kod":"Code"; }, 2000);
@@ -867,7 +869,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       $("sname").value=""; 
       renderLib(); 
       try {
-        var codeStr = btoa(unescape(encodeURIComponent(JSON.stringify(tacticObj))));
+        var codeStr = btoa(encodeURIComponent(JSON.stringify(tacticObj)));
         navigator.clipboard.writeText(codeStr);
         alert(curLang==="tr" ? "Kaydedildi ve Paylaşım Kodu panoya kopyalandı!" : "Saved & Share code copied!");
       } catch(_) { alert(curLang==="tr"?"Kaydedildi":"Saved"); }
@@ -878,7 +880,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var codeVal = $("tcode").value.trim();
     if(!codeVal){ alert(curLang==="tr"?"Lütfen bir taktik kodu yapıştır":"Please paste a tactic code"); return; }
     try {
-      var jsonStr = decodeURIComponent(escape(atob(codeVal)));
+      var jsonStr = decodeURIComponent(atob(codeVal));
       var s = JSON.parse(jsonStr);
       if(!s.name || !s.tokens) throw new Error();
       var a = lib().filter(function(item){ return item.name !== s.name; });
@@ -889,11 +891,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       renderLib();
       alert(curLang==="tr" ? "Taktik yüklendi ve kütüphaneye eklendi!" : "Tactic imported successfully!");
     } catch(_) {
-      alert(curLang==="tr" ? "Geçersiz taktik kodu!" : "Invalid tactic code!");
+      alert(curLang==="tr" ? "Geçersiz veya bozuk taktik kodu!" : "Invalid or corrupted tactic code!");
     }
   };
 
-  // GELİŞMİŞ PRO AI ANALİZ MOTORU (HTML TEMİZLİĞİ İLE)
   function runAiAnalysis(){
     var report = $("aiReport");
     report.innerHTML = curLang==="tr" ? "AI Pozisyonu analiz ediyor..." : "AI analyzing position...";
@@ -941,6 +942,9 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   function applyLanguage(){
     document.querySelectorAll("[data-i18n]").forEach(function(el){
       var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-ph"); if(t(k)) el.placeholder = t(k);
     });
     updKo(); updSide(); renderChips(); renderLib(); runAiAnalysis();
   }
