@@ -84,8 +84,8 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
     <svg id="sv" viewBox="0 0 1000 640">
       <defs>
         <linearGradient id="fl" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#11291d"/>
-          <stop offset="1" stop-color="#07130c"/>
+          <stop offset="0" stop-color="#0e2318"/>
+          <stop offset="1" stop-color="#06120a"/>
         </linearGradient>
         <pattern id="mow" width="100" height="600" patternUnits="userSpaceOnUse" x="60" y="20">
           <rect width="50" height="600" fill="#ffffff" fill-opacity=".03"/>
@@ -95,41 +95,41 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
         <radialGradient id="haloW"><stop offset="0" stop-color="#ffffff" stop-opacity=".5"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
       </defs>
 
-      <!-- Dış Stadyum Alanı ve Hex Desen Arka Planı -->
+      <!-- Tamamen Siyah Dış Çerçeve ve Stadyum Duvar Sınırı -->
       <rect x="0" y="0" width="1000" height="640" fill="#000000"/>
-      <rect x="35" y="10" width="930" height="620" rx="45" fill="none" stroke="#162235" stroke-width="12" opacity="0.6"/>
+      <rect x="35" y="10" width="930" height="620" rx="50" fill="none" stroke="#162235" stroke-width="12" opacity="0.55"/>
 
-      <!-- Oval Köşeli Gerçekçi Rocket League Saha Sınırı -->
-      <rect x="60" y="20" width="880" height="600" rx="55" fill="url(#fl)" stroke="#223b2c" stroke-width="3"/>
-      <rect x="60" y="20" width="880" height="600" rx="55" fill="url(#mow)"/>
+      <!-- Gerçekçi Oval Köşeli Saha Gövdesi -->
+      <rect x="60" y="20" width="880" height="600" rx="65" fill="url(#fl)" stroke="#1d3326" stroke-width="3"/>
+      <rect x="60" y="20" width="880" height="600" rx="65" fill="url(#mow)"/>
 
-      <!-- Mavi ve Turuncu Kale Arkası / Bölge Zeminleri -->
-      <path d="M60 220 C60 220 160 220 160 320 C160 420 60 420 60 420 Z" fill="#2f7bff" opacity="0.18"/>
-      <path d="M940 220 C940 220 840 220 840 320 C840 420 940 420 940 420 Z" fill="#ff8a1f" opacity="0.18"/>
+      <!-- Mavi ve Turuncu Kalepotu / Bölge Kaplamaları -->
+      <path d="M60 210 C60 210 170 210 170 320 C170 430 60 430 60 430 Z" fill="#2f7bff" opacity="0.16"/>
+      <path d="M940 210 C940 210 830 210 830 320 C830 430 940 430 940 430 Z" fill="#ff8a1f" opacity="0.16"/>
 
-      <!-- Kaleler ve Ağlar -->
-      <rect x="15" y="250" width="45" height="140" rx="6" fill="#111c2e" stroke="#2f7bff" stroke-width="3"/>
-      <path d="M15 270 L5 270 L5 370 L15 370" fill="none" stroke="#2f7bff" stroke-width="2" stroke-dasharray="3 3"/>
-      <rect x="940" y="250" width="45" height="140" rx="6" fill="#2e1c11" stroke="#ff8a1f" stroke-width="3"/>
-      <path d="M985 270 L995 270 L995 370 L985 370" fill="none" stroke="#ff8a1f" stroke-width="2" stroke-dasharray="3 3"/>
+      <!-- Kale Yapısı ve Ağ Derinliği -->
+      <rect x="12" y="245" width="48" height="150" rx="6" fill="#0a1220" stroke="#2f7bff" stroke-width="3"/>
+      <path d="M12 265 L2 265 L2 375 L12 375" fill="none" stroke="#2f7bff" stroke-width="2" stroke-dasharray="4 4"/>
+      <rect x="940" y="245" width="48" height="150" rx="6" fill="#20120a" stroke="#ff8a1f" stroke-width="3"/>
+      <path d="M988 265 L998 265 L998 375 L988 375" fill="none" stroke="#ff8a1f" stroke-width="2" stroke-dasharray="4 4"/>
 
-      <!-- Keskin ve Net Beyaz Saha Çizgileri -->
-      <rect x="60" y="20" width="880" height="600" rx="55" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
+      <!-- Orijinal Oyun İçi Net Beyaz Çizgiler -->
+      <rect x="60" y="20" width="880" height="600" rx="65" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
       <line x1="500" y1="20" x2="500" y2="620" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
-      <circle cx="500" cy="320" r="90" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
-      <circle cx="500" cy="320" r="6" fill="#ffffff" fill-opacity="0.95"/>
+      <circle cx="500" cy="320" r="92" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
+      <circle cx="500" cy="320" r="5" fill="#ffffff" fill-opacity="0.95"/>
 
-      <!-- Boost Pad Konumları (Küçük ve Büyük Boost Noktaları) -->
-      <!-- Büyük Köşe Boostları -->
-      <circle cx="110" cy="80" r="10" fill="#C6F432" opacity="0.25" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="890" cy="80" r="10" fill="#C6F432" opacity="0.25" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="110" cy="560" r="10" fill="#C6F432" opacity="0.25" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="890" cy="560" r="10" fill="#C6F432" opacity="0.25" stroke="#C6F432" stroke-width="2"/>
+      <!-- Boost Pad Noktaları (Büyük Köşe & Orta Boostlar)[span_3](start_span)[span_3](end_span) -->
+      <!-- Büyük Köşeler -->
+      <circle cx="115" cy="75" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
+      <circle cx="885" cy="75" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
+      <circle cx="115" cy="565" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
+      <circle cx="885" cy="565" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
       <!-- Orta Alan Boostları -->
-      <circle cx="350" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
-      <circle cx="650" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
+      <circle cx="340" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
+      <circle cx="660" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
 
-      <!-- Oyuncu Çizgileri ve Vektörler -->
+      <!-- Taktik Çizgileri ve Oyuncular Vektör Katmanı -->
       <g id="strokes" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></g>
       <g id="toks"></g>
     </svg>
@@ -827,11 +827,11 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var m = FORM[sv0.mode]?sv0.mode:1, tk = sv0.tokens||{};
     var v = mk("svg", {viewBox:"0 0 1000 640"});
     v.appendChild(mk("rect",{width:1000,height:640,fill:"#000000"}));
-    v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,rx:55,fill:"#11291d",stroke:"#223b2c","stroke-width":2}));
-    v.appendChild(mk("path",{d:"M60 220 C60 220 160 220 160 320 C160 420 60 420 60 420 Z",fill:"#2f7bff","fill-opacity":.3}));
-    v.appendChild(mk("path",{d:"M940 220 C940 220 840 220 840 320 C840 420 940 420 940 420 Z",fill:"#ff8a1f","fill-opacity":.3}));
+    v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,rx:65,fill:"#0e2318",stroke:"#1d3326","stroke-width":2}));
+    v.appendChild(mk("path",{d:"M60 210 C60 210 170 210 170 320 C170 430 60 430 60 430 Z",fill:"#2f7bff","fill-opacity":.3}));
+    v.appendChild(mk("path",{d:"M940 210 C940 210 830 210 830 320 C830 430 940 430 940 430 Z",fill:"#ff8a1f","fill-opacity":.3}));
     v.appendChild(mk("line",{x1:500,y1:20,x2:500,y2:620,stroke:"#ffffff","stroke-opacity":.5,"stroke-width":2.5}));
-    v.appendChild(mk("circle",{cx:500,cy:320,r:90,fill:"none",stroke:"#ffffff","stroke-opacity":.5,"stroke-width":2.5}));
+    v.appendChild(mk("circle",{cx:500,cy:320,r:92,fill:"none",stroke:"#ffffff","stroke-opacity":.5,"stroke-width":2.5}));
     Object.keys(sv0.strokes||{}).forEach(function(k){ var e = strokeEl(sv0.strokes[k]); if(e) v.appendChild(e); });
     function pos(f, id){ var p = (f && f[id]) || tk[id] || {x:500,y:320}; return p.x+" "+p.y; }
     ALL.forEach(function(id){
