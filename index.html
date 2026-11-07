@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>RLTactic</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2f7bff">
+<meta name="theme-color" content="#000000">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:ital,wght@1,700&display=swap">
 <style>
 :root{--ink:#10162b;--mute:#5a6690;--night:#e9edf8;--panel:#ffffff;--panel2:#edf1fb;--line:#cdd5ec;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
-:root[data-theme="dark"]{--ink:#e9eefc;--mute:#9aa7cf;--night:#080d1c;--panel:#111a33;--panel2:#18234a;--line:#26335f}
+:root[data-theme="dark"]{--ink:#e9eefc;--mute:#9aa7cf;--night:#000000;--panel:#111a33;--panel2:#18234a;--line:#26335f}
 *{box-sizing:border-box}
 body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -29,7 +29,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .sw.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--ink)}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
 .grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#070c1a}
+.stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000000}
 #sv{width:100%;height:auto;display:block;touch-action:none}
 .layout{display:flex;flex-direction:column;gap:12px}
 @media (min-width:900px){.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:start}}
@@ -52,7 +52,6 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .lcard small{display:block;color:var(--mute);font-weight:400;font-size:12px}
 .lcard button{min-height:34px;padding:4px 10px;font-size:13px}
 .top-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
-/* İndir Butonu Tasarımı */
 #bDownloadApp { background: linear-gradient(100deg,#ffa43a,var(--orange)); color:#1c1204; border:0; font-weight:700; }
 </style>
 </head>
@@ -84,7 +83,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
         <radialGradient id="haloO"><stop offset="0" stop-color="#ff8a1f" stop-opacity=".55"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient>
         <radialGradient id="haloW"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
       </defs>
-      <rect x="0" y="0" width="1000" height="640" fill="#070c1a"/>
+      <rect x="0" y="0" width="1000" height="640" fill="#000000"/>
       <rect x="60" y="20" width="880" height="600" fill="url(#fl)"/>
       <rect x="60" y="20" width="880" height="600" fill="url(#mow)"/>
       <rect x="20" y="245" width="40" height="150" fill="#2f7bff" fill-opacity=".35" stroke="#2f7bff" stroke-width="3"/>
@@ -172,7 +171,12 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Akıllı İndirme Butonu Tetikleyicisi
+// Uygulama Zaten Yüklendiyse İndir Butonunu Gizle
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+  var dlBtn = document.getElementById('bDownloadApp');
+  if (dlBtn) dlBtn.style.display = 'none';
+}
+
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -185,7 +189,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var result = await deferredPrompt.userChoice;
     deferredPrompt = null;
   } else {
-    // Tarayıcı otomatik prompt vermezse (iPhone veya henüz önbelleğe almadıysa) rehber mesajı
     alert(curLang === 'tr' ? 
       "Uygulamayı kurmak için:\n• Android/PC: Tarayıcı menüsünden (üç nokta) 'Uygulamayı Yükle'ye basın.\n• iPhone (iOS): Safari'de 'Paylaş' -> 'Ana Ekrana Ekle' seçeneğini kullanın." : 
       "To install the app, use 'Install App' or 'Add to Home Screen' from your browser menu.");
@@ -229,7 +232,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var curLang = localStorage.getItem("rltactic_lang") || "tr";
   function t(key){ return (dict[curLang] && dict[curLang][key]) ? dict[curLang][key] : key; }
 
-  // Tema Yönetimi
   var curTheme = localStorage.getItem("rltactic_theme") || "dark";
   function applyTheme(theme){
     curTheme = theme;
@@ -320,7 +322,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var L = labels[id] || {}, n = (L.n || "").trim(), r = (L.r || "").trim();
     if(!n && !r) return;
     var w = Math.max(n.length*8.4, r.length*6.8)+18, h = (n&&r)?36:22;
-    g.appendChild(mk("rect",{x:-w/2,y:24,width:w,height:h,rx:8,fill:"#070c1a","fill-opacity":.85,stroke:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f","stroke-width":1.5}));
+    g.appendChild(mk("rect",{x:-w/2,y:24,width:w,height:h,rx:8,fill:"#000000","fill-opacity":.85,stroke:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f","stroke-width":1.5}));
     if(n){var txt=mk("text",{"text-anchor":"middle",y:r?39:39,fill:"#fff","font-size":14,"font-weight":700});txt.textContent=n;g.appendChild(txt)}
     if(r){var t2=mk("text",{"text-anchor":"middle",y:n?52:39,fill:"#cfe0ff","font-size":11});t2.textContent=r;g.appendChild(t2)}
   }
@@ -375,7 +377,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     rotQ = requestAnimationFrame(function(){ rotQ = 0; updSide(); });
   }
 
-  // ROTASYON HESAPLAMA SADECE AKTİF OYUNCULARLA YAPILIR
   function updSide(){
     ["b","o"].forEach(function(tm){
       var activeIds = [];
@@ -662,7 +663,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     playRaf = requestAnimationFrame(step);
   };
 
-  /* GIF Encoder */
   function lzwEncode(idx, minCode){
     var clear = 1<<minCode, eoi = clear+1, next = eoi+1, size = minCode+1, out = [], curBit = 0, bits = 0, dict = new Map();
     function put(code){ curBit |= code<<bits; bits += size; while(bits>=8){ out.push(curBit&255); curBit>>>=8; bits-=8; } }
@@ -807,7 +807,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   function thumb(sv0){
     var m = FORM[sv0.mode]?sv0.mode:1, tk = sv0.tokens||{};
     var v = mk("svg", {viewBox:"0 0 1000 640"});
-    v.appendChild(mk("rect",{width:1000,height:640,fill:"#070c1a"}));
+    v.appendChild(mk("rect",{width:1000,height:640,fill:"#000000"}));
     v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,fill:"#0e2238",stroke:"#cfe0ff","stroke-opacity":.6,"stroke-width":3}));
     v.appendChild(mk("rect",{x:20,y:245,width:40,height:150,fill:"#2f7bff","fill-opacity":.5}));
     v.appendChild(mk("rect",{x:940,y:245,width:40,height:150,fill:"#ff8a1f","fill-opacity":.5}));
@@ -879,7 +879,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         var opt = document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
       });
     }
-    document.querySelectorAll(".prow .nm").write; // safety check
     document.querySelectorAll(".prow .nm").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"İsim":"Name"; });
     document.querySelectorAll(".prow .rl").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"Rol":"Role"; });
     updKo(); updSide(); renderChips(); renderLib();
