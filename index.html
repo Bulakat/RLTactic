@@ -160,7 +160,6 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
 </aside>
 </div>
 </main>
-<datalist id="roles"></datalist>
 
 <script>
 if ('serviceWorker' in navigator) {
@@ -292,7 +291,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       if(labels[id].r) rl.value = labels[id].r;
     }
     d.appendChild(dot); d.appendChild(nm); d.appendChild(rl);
-    $("plist").appendChild(d);
+    var plist = $("plist");
+    if(plist) plist.appendChild(d);
     rows[id] = {row: d, nm: nm, rl: rl};
     function ch(){
       if(!labels[id]) labels[id] = {};
@@ -562,6 +562,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function draw(){
+    if(!ctx) return;
     drawField(ctx);
     Object.keys(strokes).forEach(function(k){ drawStroke(strokes[k]); });
     if(cur) drawStroke(cur);
@@ -592,7 +593,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function updHist(){
-    if($("bUndo")) $("bUndo").disabled = !undo.length;
+    var bUndo = $("bUndo");
+    if(bUndo) bUndo.disabled = !undo.length;
   }
   function pushHist(op){
     undo.push(op); if(undo.length>100) undo.shift();
@@ -625,11 +627,13 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     if(!playing) return;
     playing = false; cancelAnimationFrame(playRaf);
     tokens = backup; backup = null; draw();
-    if($("bPlay")) $("bPlay").textContent = t("btn_play");
+    var bPlay = $("bPlay");
+    if(bPlay) bPlay.textContent = t("btn_play");
     renderChips();
   }
 
-  if($("bUndo")) $("bUndo").onclick = function(){
+  var bUndo = $("bUndo");
+  if(bUndo) bUndo.onclick = function(){
     stopPlay(); var op = undo.pop(); if(!op) return;
     doOp(op, -1); redo.push(op); updHist();
   };
@@ -746,7 +750,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   twoTap($("bReset"), function(){ setup(function(){ resetForm(mode); }); });
-  if($("bKick")) $("bKick").onclick = function(){
+  var bKick = $("bKick");
+  if(bKick) bKick.onclick = function(){
     setup(function(){ ko = (ko + 1) % KO[mode].length; resetForm(mode); });
   };
 
@@ -780,6 +785,210 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  if($("bAdd")) $("bAdd").onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
-  if($("bUpd")) $("bUpd").onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
-  if($("bDel")) $("bDel").onclick
+  var bAdd = $("bAdd");
+  if(bAdd) bAdd.onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
+  var bUpd = $("bUpd");
+  if(bUpd) bUpd.onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
+  var bDel = $("bDel");
+  if(bDel) bDel.onclick = function(){
+    if(playing || fsel<0 || !frames[fsel]) return;
+    frames.splice(fsel, 1); fsel = Math.min(fsel, frames.length-1); renderChips(); saveState();
+  };
+  twoTap($("bFclr"), function(){ stopPlay(); frames = []; fsel = -1; renderChips(); saveState(); });
+
+  var bPlay = $("bPlay");
+  if(bPlay) bPlay.onclick = function(){
+    if(playing){ stopPlay(); return; }
+    if(frames.length<2){ alert(curLang==="tr"?"Oynatmak için en az 2 adım ekle":"Add at least 2 steps to play"); return; }
+    playing = true; backup = clone(tokens); var seq = clone(frames); bPlay.textContent = t("btn_stop");
+    var seg = 0, t0 = performance.now(), DUR = 1300, HOLD = 350;
+    function step(now){
+      if(!playing) return;
+      var el = Math.max(0, now-t0), a = seq[seg], b = seq[seg+1];
+      var k = Math.min(1, el/DUR), e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+      ALL.forEach(function(id){
+        if(a[id] && b[id]) tokens[id] = {x: a[id].x+(b[id].x-a[id].x)*e, y: a[id].y+(b[id].y-a[id].y)*e};
+      });
+      draw();
+      var cs = $("chips")?$("chips").children:[];
+      for(var i=0; i<cs.length; i++) cs[i].classList.toggle("on", i===seg || i===seg+1 && k>.5);
+      if(el >= DUR+HOLD){ seg++; t0 = now; if(seg >= seq.length-1){ stopPlay(); return; } }
+      playRaf = requestAnimationFrame(step);
+    }
+    playRaf = requestAnimationFrame(step);
+  };
+
+  function lib(){try{return JSON.parse(localStorage.getItem("rlTactics")||"[]")}catch(_){return []}}
+  function setLib(a){try{localStorage.setItem("rlTactics",JSON.stringify(a));return true}catch(_){return false}}
+
+  function loadTactic(s){
+    stopPlay(); clearHist(); strokes = {};
+    mode = FORM[s.mode] ? s.mode : 1; ko = s.ko || 0; applyMode(mode); updKo();
+    ALL.forEach(function(id){ var tPos = s.tokens && s.tokens[id]; if(tPos) tokens[id] = {x:tPos.x, y:tPos.y}; });
+    labels = clone(s.labels || {});
+    ALL.forEach(function(id){
+      if(rows[id]){ rows[id].nm.value = (labels[id]||{}).n||""; rows[id].rl.value = (labels[id]||{}).r||""; }
+    });
+    reqRot(); frames = clone(s.frames || []); fsel = -1; renderChips();
+    strokes = clone(s.strokes || {}); saveState(); draw();
+  }
+
+  function thumb(sv0){
+    var cCanvas = document.createElement("canvas"); cCanvas.width = 1000; cCanvas.height = 640;
+    var cCtx = cCanvas.getContext("2d");
+    var origCtx = ctx, origCvs = cvs, origTok = clone(tokens), origMode = mode;
+
+    mode = FORM[sv0.mode]?sv0.mode:1;
+    tokens = sv0.tokens || {};
+    cvs = cCanvas; ctx = cCtx;
+    drawField(cCtx);
+    Object.keys(sv0.strokes||{}).forEach(function(k){ drawStroke(sv0.strokes[k]); });
+    drawTokens();
+
+    tokens = origTok; mode = origMode; cvs = origCvs; ctx = origCtx;
+    return cCanvas;
+  }
+
+  function renderLib(){
+    var box = $("lib"), a = lib(); if(!box) return; box.textContent = "";
+    if(!a.length){ box.textContent = t("no_tactics"); box.className = "hint"; return; }
+    box.className = "";
+    a.forEach(function(s, i){
+      var r = document.createElement("div"); r.className = "lcard";
+      var thCanvas = thumb(s);
+      r.appendChild(thCanvas);
+      var bar = document.createElement("div"); bar.className = "lb2";
+      var n = document.createElement("span"); n.className = "ln"; n.textContent = s.name;
+      var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
+      sm.textContent = (nf>=2?nf+(curLang==="tr"?" adım":" steps"):(curLang==="tr"?"animasyonsuz":"no anim"))+" · "+mm+"v"+mm; n.appendChild(sm);
+      var lBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Yükle":"Load";
+      var cBtn = document.createElement("button"); cBtn.textContent = curLang==="tr"?"Kod":"Code";
+      var dBtn = document.createElement("button"); dBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
+      bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(cBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
+      twoTap(lBtn, function(){ loadTactic(s); });
+      cBtn.onclick = function(){
+        try {
+          var codeStr = JSON.stringify(s);
+          navigator.clipboard.writeText(codeStr);
+          cBtn.textContent = curLang==="tr"?"Kopyalandı!":"Copied!";
+          setTimeout(function(){ cBtn.textContent = curLang==="tr"?"Kod":"Code"; }, 2000);
+        } catch(_) { alert("Kod oluşturulamadı"); }
+      };
+      twoTap(dBtn, function(){ var x = lib(); x.splice(i, 1); setLib(x); renderLib(); });
+    });
+  }
+
+  var bSave = $("bSave");
+  if(bSave) bSave.onclick = function(){
+    var snameInput = $("sname");
+    var name = snameInput ? snameInput.value.trim() : "";
+    if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
+    var a = lib();
+    var tacticObj = {name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)};
+    
+    a = a.filter(function(s){ return s.name!==name; });
+    a.unshift(tacticObj);
+
+    if(setLib(a)){ 
+      if(snameInput) snameInput.value=""; 
+      renderLib(); 
+      try {
+        var codeStr = JSON.stringify(tacticObj);
+        navigator.clipboard.writeText(codeStr);
+        alert(curLang==="tr" ? "Kaydedildi ve Taktik Kodu panoya kopyalandı!" : "Saved & Tactic Code copied!");
+      } catch(_) { alert(curLang==="tr"?"Kaydedildi":"Saved"); }
+    } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
+  };
+
+  var bLoadCode = $("bLoadCode");
+  if(bLoadCode) bLoadCode.onclick = function(){
+    var tcodeInput = $("tcode");
+    var codeVal = tcodeInput ? tcodeInput.value.trim() : "";
+    if(!codeVal){ alert(curLang==="tr"?"Lütfen bir taktik kodu yapıştır":"Please paste a tactic code"); return; }
+    try {
+      var s = JSON.parse(codeVal);
+      if(!s.name || !s.tokens) throw new Error();
+      
+      var a = lib();
+      a = a.filter(function(item){ return item.name !== s.name; });
+      a.unshift(s);
+      setLib(a);
+      loadTactic(s);
+      if(tcodeInput) tcodeInput.value = "";
+      renderLib();
+      alert(curLang==="tr" ? "Taktik kütüphaneye başarıyla eklendi ve yüklendi!" : "Tactic loaded and imported successfully!");
+    } catch(err) {
+      alert(curLang==="tr" ? "Geçersiz veya bozuk taktik kodu!" : "Invalid or corrupted tactic code!");
+    }
+  };
+
+  function runAiAnalysis(){
+    var report = $("aiReport");
+    if(!report) return;
+    report.innerHTML = curLang==="tr" ? "AI Pozisyonu analiz ediyor..." : "AI analyzing position...";
+    setTimeout(function(){
+      var bX = tokens.ball.x, bY = tokens.ball.y;
+      var zone = curLang==="tr" ? (bX < 350 ? "Kendi Savunma Bölgemiz" : (bX > 650 ? "Rakip Kalepolü / Baskı Alanı" : "Orta Saha Mücadele Alanı")) : (bX < 350 ? "Defensive Zone" : (bX > 650 ? "Opponent Pressure Zone" : "Midfield Neutral Zone"));
+      
+      var blueClosest = "b1", minD = 9999;
+      for(var i=1; i<=mode; i++){
+        var d = Math.hypot(tokens["b"+i].x - bX, tokens["b"+i].y - bY);
+        if(d < minD){ minD = d; blueClosest = "b"+i; }
+      }
+
+      var text = "";
+      if(curLang==="tr") {
+        text = "PRO AI Taktiksel Durum Raporu (" + mode + "v" + mode + ")<br><br>";
+        text += "Topun Bölgesi: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
+        text += "Topa En Yakın Oyuncu: Mavi " + blueClosest.toUpperCase() + "<br><br>";
+        if(bX > 650) {
+          text += "Hücum Stratejisi: Rakip kaleye baskı kuruldu. 1. adam şut çekerken, 2. adam arka direk bindirmesi yapmalı, son adam ise orta sahada güvenliği sağlamalı.";
+        } else if(bX < 350) {
+          text += "Savunma Alarmı: Kalenin önünde tehlike var! Kaleci açı kapatmalı, takım arkadaşları hızlıca rotasyona girerek boost toplamalı.";
+        } else {
+          text += "Geçiş Oyunu: Orta sahada top kontrolü kritik. Geniş alan paslarıyla rakip savunmanın dengesini bozun.";
+        }
+      } else {
+        text = "PRO AI Tactical Status Report (" + mode + "v" + mode + ")<br><br>";
+        text += "Ball Zone: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
+        text += "Closest to Ball: Blue " + blueClosest.toUpperCase() + "<br><br>";
+        if(bX > 650) {
+          text += "Attack Strategy: Pressure applied. 1st man shoots/passes, 2nd man reads backpost, last man holds midfield.";
+        } else if(bX < 350) {
+          text += "Defense Alert: Danger in defensive third! Goalie must clear, teammates need to rotate back safely.";
+        } else {
+          text += "Neutral Game: Midfield control is key. Use wide passes to break opponent's shape.";
+        }
+      }
+
+      report.innerHTML = text;
+    }, 500);
+  }
+  var bRunAi = $("bRunAi");
+  if(bRunAi) bRunAi.onclick = runAiAnalysis;
+  runAiAnalysis();
+
+  function applyLanguage(){
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
+    });
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var k = el.getAttribute("data-i18n-ph"); if(t(k)) el.placeholder = t(k);
+    });
+    updPlayerPlaceholders();
+    updKo(); updSide(); renderChips(); renderLib(); runAiAnalysis();
+  }
+
+  var bLang = $("bLang");
+  if(bLang) bLang.onclick = function(){
+    curLang = curLang === "tr" ? "en" : "tr";
+    localStorage.getItem("rltactic_lang", curLang);
+    applyLanguage();
+  };
+
+  applyMode(mode); updHist(); applyLanguage(); draw();
+  renderLib();
+})();
+</script>
+</body>
+</html>
