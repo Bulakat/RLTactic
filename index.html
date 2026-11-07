@@ -36,8 +36,8 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .sw.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--ink)}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
 .grp{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000000}
-#sv{width:100%;height:auto;display:block;touch-action:none}
+.stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000000;position:relative}
+#cvs{width:100%;height:auto;display:block;touch-action:none;aspect-ratio:1000/640;}
 .layout{display:flex;flex-direction:column;gap:12px}
 @media (min-width:900px){.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;align-items:start}}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
@@ -53,7 +53,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .save{display:flex;gap:6px}
 .save input{flex:1;min-width:0}
 .lcard{margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel2)}
-.lcard svg{display:block;width:100%;height:auto}
+.lcard canvas{display:block;width:100%;height:auto}
 .lcard .lb2{display:flex;gap:6px;align-items:center;padding:8px}
 .lcard .ln{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:14px}
 .lcard small{display:block;color:var(--mute);font-weight:400;font-size:12px}
@@ -81,58 +81,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 <div class="layout">
 <div class="main">
   <div class="stage">
-    <svg id="sv" viewBox="0 0 1000 640">
-      <defs>
-        <linearGradient id="fl" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#0e2318"/>
-          <stop offset="1" stop-color="#06120a"/>
-        </linearGradient>
-        <pattern id="mow" width="100" height="600" patternUnits="userSpaceOnUse" x="60" y="20">
-          <rect width="50" height="600" fill="#ffffff" fill-opacity=".03"/>
-        </pattern>
-        <radialGradient id="haloB"><stop offset="0" stop-color="#2f7bff" stop-opacity=".5"/><stop offset="1" stop-color="#2f7bff" stop-opacity="0"/></radialGradient>
-        <radialGradient id="haloO"><stop offset="0" stop-color="#ff8a1f" stop-opacity=".5"/><stop offset="1" stop-color="#ff8a1f" stop-opacity="0"/></radialGradient>
-        <radialGradient id="haloW"><stop offset="0" stop-color="#ffffff" stop-opacity=".5"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
-      </defs>
-
-      <!-- Tamamen Siyah Dış Çerçeve ve Stadyum Duvar Sınırı -->
-      <rect x="0" y="0" width="1000" height="640" fill="#000000"/>
-      <rect x="35" y="10" width="930" height="620" rx="50" fill="none" stroke="#162235" stroke-width="12" opacity="0.55"/>
-
-      <!-- Gerçekçi Oval Köşeli Saha Gövdesi -->
-      <rect x="60" y="20" width="880" height="600" rx="65" fill="url(#fl)" stroke="#1d3326" stroke-width="3"/>
-      <rect x="60" y="20" width="880" height="600" rx="65" fill="url(#mow)"/>
-
-      <!-- Mavi ve Turuncu Kalepotu / Bölge Kaplamaları -->
-      <path d="M60 210 C60 210 170 210 170 320 C170 430 60 430 60 430 Z" fill="#2f7bff" opacity="0.16"/>
-      <path d="M940 210 C940 210 830 210 830 320 C830 430 940 430 940 430 Z" fill="#ff8a1f" opacity="0.16"/>
-
-      <!-- Kale Yapısı ve Ağ Derinliği -->
-      <rect x="12" y="245" width="48" height="150" rx="6" fill="#0a1220" stroke="#2f7bff" stroke-width="3"/>
-      <path d="M12 265 L2 265 L2 375 L12 375" fill="none" stroke="#2f7bff" stroke-width="2" stroke-dasharray="4 4"/>
-      <rect x="940" y="245" width="48" height="150" rx="6" fill="#20120a" stroke="#ff8a1f" stroke-width="3"/>
-      <path d="M988 265 L998 265 L998 375 L988 375" fill="none" stroke="#ff8a1f" stroke-width="2" stroke-dasharray="4 4"/>
-
-      <!-- Orijinal Oyun İçi Net Beyaz Çizgiler -->
-      <rect x="60" y="20" width="880" height="600" rx="65" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
-      <line x1="500" y1="20" x2="500" y2="620" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
-      <circle cx="500" cy="320" r="92" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="3"/>
-      <circle cx="500" cy="320" r="5" fill="#ffffff" fill-opacity="0.95"/>
-
-      <!-- Boost Pad Noktaları (Büyük Köşe & Orta Boostlar)[span_3](start_span)[span_3](end_span) -->
-      <!-- Büyük Köşeler -->
-      <circle cx="115" cy="75" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="885" cy="75" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="115" cy="565" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
-      <circle cx="885" cy="565" r="11" fill="#C6F432" opacity="0.22" stroke="#C6F432" stroke-width="2"/>
-      <!-- Orta Alan Boostları -->
-      <circle cx="340" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
-      <circle cx="660" cy="320" r="7" fill="#C6F432" opacity="0.2" stroke="#C6F432" stroke-width="1.5"/>
-
-      <!-- Taktik Çizgileri ve Oyuncular Vektör Katmanı -->
-      <g id="strokes" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></g>
-      <g id="toks"></g>
-    </svg>
+    <canvas id="cvs" width="1000" height="640"></canvas>
   </div>
 
   <div class="panel" style="margin-top:10px">
@@ -288,8 +237,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var playing = false, backup = null, playRaf = 0, undo = [], redo = [], rotQ = 0;
 
   var $ = function(i){return document.getElementById(i)};
-  var sv = $("sv"), tg = $("toks"), sg = $("strokes");
-  var NS = "http://www.w3.org/2000/svg", els = {}, labG = {}, rows = {};
+  var cvs = $("cvs"), ctx = cvs.getContext("2d");
+  var rows = {};
 
   function saveState(){
     try {
@@ -299,7 +248,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     } catch(_) {}
   }
 
-  function mk(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
   function active(id){return !!FORM[mode][id]}
   function clone(o){return JSON.parse(JSON.stringify(o))}
   function snap(){var o={};ALL.forEach(function(id){o[id]={x:tokens[id].x,y:tokens[id].y}});return o}
@@ -323,43 +271,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   ALL.forEach(function(id){
-    var g = mk("g",{"class":"tok"});
-    g.appendChild(mk("circle",{r:id==="ball"?38:46,fill:"url(#halo"+(id==="ball"?"W":id.charAt(0)==="b"?"B":"O")+")"}));
-    if(id==="ball"){
-      g.appendChild(mk("circle",{r:20,fill:"#fff",stroke:"#0a1226","stroke-width":3}));
-    } else {
-      g.appendChild(mk("rect",{x:-26,y:-16,width:52,height:32,rx:9,fill:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f",stroke:"#fff","stroke-width":2.5}));
-      var txt = mk("text",{"text-anchor":"middle",y:6,fill:"#fff","font-size":18,"font-weight":700,"pointer-events":"none"});
-      txt.textContent = id.charAt(1); g.appendChild(txt);
-      var lb = mk("g",{"pointer-events":"none"}); g.appendChild(lb); labG[id] = lb;
-    }
-    g.setAttribute("data-id", id); tg.appendChild(g); els[id] = g;
-  });
-
-  function renderLabel(id){
-    var g = labG[id]; if(!g) return; g.textContent = "";
-    var L = labels[id] || {}, n = (L.n || "").trim(), r = (L.r || "").trim();
-    if(!n && !r) return;
-    var w = Math.max(n.length*8.4, r.length*6.8)+18, h = (n&&r)?36:22;
-    g.appendChild(mk("rect",{x:-w/2,y:24,width:w,height:h,rx:8,fill:"#000000","fill-opacity":.85,stroke:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f","stroke-width":1.5}));
-    if(n){var txt=mk("text",{"text-anchor":"middle",y:r?39:39,fill:"#fff","font-size":14,"font-weight":700});txt.textContent=n;g.appendChild(txt)}
-    if(r){var t2=mk("text",{"text-anchor":"middle",y:n?52:39,fill:"#cfe0ff","font-size":11});t2.textContent=r;g.appendChild(t2)}
-  }
-
-  function place(id){
-    var tPos = tokens[id];
-    if(tPos && els[id]) els[id].setAttribute("transform","translate("+tPos.x+" "+tPos.y+")");
-    reqRot();
-  }
-
-  function placeAll(){
-    ALL.forEach(function(id){
-      place(id);
-      if(els[id]) els[id].style.display = active(id) ? "" : "none";
-    });
-  }
-
-  ALL.forEach(function(id){
     if(id==="ball") return;
     var d = document.createElement("div"); d.className = "prow";
     var dot = document.createElement("span"); dot.className = "dot "+id.charAt(0); dot.textContent = id.charAt(1);
@@ -375,7 +286,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     function ch(){
       if(!labels[id]) labels[id] = {};
       labels[id].n = nm.value; labels[id].r = rl.value;
-      renderLabel(id); reqRot(); saveState();
+      reqRot(); saveState(); draw();
     }
     nm.oninput = ch; rl.oninput = ch;
   });
@@ -399,9 +310,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   function updSide(){
     ["b","o"].forEach(function(tm){
       var activeIds = [];
-      for(var i=1; i<=mode; i++){
-        activeIds.push(tm + i);
-      }
+      for(var i=1; i<=mode; i++){ activeIds.push(tm + i); }
       activeIds.sort(function(a,c){ return dist(a)-dist(c); });
 
       var own = activeIds.slice().sort(function(a,c){
@@ -422,34 +331,233 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  function pathD(p){var d="";for(var i=0;i<p.length;i+=2)d+=(i?"L":"M")+p[i]+" "+p[i+1];return d}
-
-  function strokeEl(s){
-    var a = {stroke:s.c||"#fff", "stroke-width":s.w||5, fill:"none", "stroke-linecap":"round", "stroke-linejoin":"round"};
-    var p = s.p || [], k = s.k || "pen";
-    if(k==="pen"){ a.d = pathD(p); return mk("path",a); }
-    var x1=p[0], y1=p[1], x2=p[2]===undefined?x1:p[2], y2=p[3]===undefined?y1:p[3];
-    if(k==="rect"){ a.x=Math.min(x1,x2); a.y=Math.min(y1,y2); a.width=Math.abs(x2-x1); a.height=Math.abs(y2-y1); a.rx=4; return mk("rect",a); }
-    if(k==="circle"){ a.cx=x1; a.cy=y1; a.r=Math.hypot(x2-x1, y2-y1); return mk("circle",a); }
-    var an = Math.atan2(y2-y1, x2-x1), hl = 12 + (s.w||5)*2.2;
-    var r = function(v){return Math.round(v*10)/10};
-    a.d = "M"+x1+" "+y1+"L"+x2+" "+y2+"M"+r(x2-hl*Math.cos(an-.45))+" "+r(y2-hl*Math.sin(an-.45))+"L"+x2+" "+y2+"L"+r(x2-hl*Math.cos(an+.45))+" "+r(y2-hl*Math.sin(an+.45));
-    return mk("path",a);
+  // --- CANVAS SAHNE ÇİZİM MOTORU ---
+  function drawRoundedRect(c, x, y, w, h, r){
+    c.beginPath();
+    c.moveTo(x+r, y);
+    c.lineTo(x+w-r, y);
+    c.quadraticCurveTo(x+w, y, x+w, y+r);
+    c.lineTo(x+w, y+h-r);
+    c.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    c.lineTo(x+r, y+h);
+    c.quadraticCurveTo(x, y+h, x, y+h-r);
+    c.lineTo(x, y+r);
+    c.quadraticCurveTo(x, y, x+r, y);
+    c.closePath();
   }
 
-  function drawStrokes(){
-    if(!sg) return; sg.textContent = "";
-    Object.keys(strokes).forEach(function(k){
-      var s = strokes[k];
-      if(s && s.p && s.p.length>=2) sg.appendChild(strokeEl(s));
+  function drawField(c){
+    c.fillStyle = "#000000";
+    c.fillRect(0, 0, 1000, 640);
+
+    // Dış stadyum çevre sınırı
+    c.strokeStyle = "#162235";
+    c.lineWidth = 12;
+    c.globalAlpha = 0.6;
+    drawRoundedRect(c, 35, 10, 930, 620, 50);
+    c.stroke();
+    c.globalAlpha = 1.0;
+
+    // Ana Saha Çimi (Gradyan)
+    var grad = c.createLinearGradient(0, 20, 0, 620);
+    grad.addColorStop(0, "#0e2318");
+    grad.addColorStop(1, "#06120a");
+    c.fillStyle = grad;
+    drawRoundedRect(c, 60, 20, 880, 600, 65);
+    c.fill();
+    c.strokeStyle = "#1d3326";
+    c.lineWidth = 3;
+    c.stroke();
+
+    // Çim Biçme Çizgileri (Mow Stripes)
+    c.fillStyle = "rgba(255, 255, 255, 0.03)";
+    for(var x = 110; x < 940; x += 100){
+      c.fillRect(x, 20, 50, 600);
+    }
+
+    // Mavi ve Turuncu Kalepotu Boyamaları
+    c.fillStyle = "rgba(47, 123, 255, 0.16)";
+    c.beginPath();
+    c.moveTo(60, 210);
+    c.bezierCurveTo(170, 210, 170, 430, 60, 430);
+    c.fill();
+
+    c.fillStyle = "rgba(255, 138, 31, 0.16)";
+    c.beginPath();
+    c.moveTo(940, 210);
+    c.bezierCurveTo(830, 210, 830, 430, 940, 430);
+    c.fill();
+
+    // Kaleler ve Ağlar
+    c.fillStyle = "#0a1220";
+    c.strokeStyle = "#2f7bff";
+    c.lineWidth = 3;
+    drawRoundedRect(c, 12, 245, 48, 150, 6);
+    c.fill(); c.stroke();
+
+    c.strokeStyle = "rgba(47, 123, 255, 0.6)";
+    c.lineWidth = 2;
+    c.setLineDash([4, 4]);
+    c.beginPath(); c.moveTo(12, 265); c.lineTo(2, 265); c.lineTo(2, 375); c.lineTo(12, 375); c.stroke();
+    c.setLineDash([]);
+
+    c.fillStyle = "#20120a";
+    c.strokeStyle = "#ff8a1f";
+    c.lineWidth = 3;
+    drawRoundedRect(c, 940, 245, 48, 150, 6);
+    c.fill(); c.stroke();
+
+    c.strokeStyle = "rgba(255, 138, 31, 0.6)";
+    c.lineWidth = 2;
+    c.setLineDash([4, 4]);
+    c.beginPath(); c.moveTo(988, 265); c.lineTo(998, 265); c.lineTo(998, 375); c.lineTo(988, 375); c.stroke();
+    c.setLineDash([]);
+
+    // Beyaz Çizgiler ve Orta Yuvarlak
+    c.strokeStyle = "rgba(255, 255, 255, 0.85)";
+    c.lineWidth = 3;
+    drawRoundedRect(c, 60, 20, 880, 600, 65);
+    c.stroke();
+
+    c.beginPath();
+    c.moveTo(500, 20); c.lineTo(500, 620);
+    c.stroke();
+
+    c.beginPath();
+    c.arc(500, 320, 92, 0, Math.PI * 2);
+    c.stroke();
+
+    c.fillStyle = "rgba(255, 255, 255, 0.95)";
+    c.beginPath();
+    c.arc(500, 320, 5, 0, Math.PI * 2);
+    c.fill();
+
+    // Boost Pad Noktaları (Köşe ve Orta Boostlar)[span_0](start_span)[span_0](end_span)
+    var boosts = [
+      {x: 115, y: 75, r: 11}, {x: 885, y: 75, r: 11},
+      {x: 115, y: 565, r: 11}, {x: 885, y: 565, r: 11},
+      {x: 340, y: 320, r: 7}, {x: 660, y: 320, r: 7}
+    ];
+    boosts.forEach(function(b){
+      c.fillStyle = "rgba(198, 244, 50, 0.22)";
+      c.strokeStyle = "#C6F432";
+      c.lineWidth = b.r > 8 ? 2 : 1.5;
+      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI*2); c.fill(); c.stroke();
     });
   }
 
+  function drawStroke(s){
+    if(!s || !s.p || s.p.length < 2) return;
+    c.strokeStyle = s.c || "#fff";
+    c.lineWidth = s.w || 5;
+    c.lineCap = "round";
+    c.lineJoin = "round";
+    var p = s.p;
+    if(s.k === "pen"){
+      c.beginPath(); c.moveTo(p[0], p[1]);
+      for(var i=2; i<p.length; i+=2) c.lineTo(p[i], p[i+1]);
+      c.stroke();
+    } else {
+      var x1 = p[0], y1 = p[1], x2 = p[2] !== undefined ? p[2] : x1, y2 = p[3] !== undefined ? p[3] : y1;
+      if(s.k === "rect"){
+        c.strokeRect(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x2-x1), Math.abs(y2-y1));
+      } else if(s.k === "circle"){
+        var r = Math.hypot(x2-x1, y2-y1);
+        c.beginPath(); c.arc(x1, y1, r, 0, Math.PI*2); c.stroke();
+      } else if(s.k === "arrow"){
+        c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+        var an = Math.atan2(y2-y1, x2-x1), hl = 12 + (s.w||5)*2.2;
+        c.beginPath();
+        c.moveTo(x2 - hl * Math.cos(an - 0.45), y2 - hl * Math.sin(an - 0.45));
+        c.lineTo(x2, y2);
+        c.lineTo(x2 - hl * Math.cos(an + 0.45), y2 - hl * Math.sin(an + 0.45));
+        c.stroke();
+      }
+    }
+  }
+
+  function drawTokens(){
+    ALL.forEach(function(id){
+      if(!active(id)) return;
+      var pos = tokens[id]; if(!pos) return;
+      c.save();
+      c.translate(pos.x, pos.y);
+
+      // Gölge / Halo
+      var grad = c.createRadialGradient(0, 0, 10, 0, 0, id==="ball"?38:46);
+      if(id==="ball"){
+        grad.addColorStop(0, "rgba(255,255,255,0.5)"); grad.addColorStop(1, "rgba(255,255,255,0)");
+      } else if(id.charAt(0)==="b"){
+        grad.addColorStop(0, "rgba(47,123,255,0.5)"); grad.addColorStop(1, "rgba(47,123,255,0)");
+      } else {
+        grad.addColorStop(0, "rgba(255,138,31,0.5)"); grad.addColorStop(1, "rgba(255,138,31,0)");
+      }
+      c.fillStyle = grad;
+      c.beginPath(); c.arc(0, 0, id==="ball"?38:46, 0, Math.PI*2); c.fill();
+
+      if(id==="ball"){
+        c.fillStyle = "#ffffff";
+        c.strokeStyle = "#0a1226";
+        c.lineWidth = 3;
+        c.beginPath(); c.arc(0, 0, 20, 0, Math.PI*2); c.fill(); c.stroke();
+      } else {
+        c.fillStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
+        c.strokeStyle = "#ffffff";
+        c.lineWidth = 2.5;
+        drawRoundedRect(c, -26, -16, 52, 32, 9);
+        c.fill(); c.stroke();
+
+        c.fillStyle = "#ffffff";
+        c.font = "bold 18px Barlow, sans-serif";
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(id.charAt(1), 0, 1);
+
+        // İsim ve Rol Etiketi
+        var L = labels[id] || {}, n = (L.n || "").trim(), r = (L.r || "").trim();
+        if(n || r){
+          var w = Math.max(n.length*8.4, r.length*6.8)+18, h = (n&&r)?36:22;
+          c.fillStyle = "rgba(0,0,0,0.85)";
+          c.strokeStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
+          c.lineWidth = 1.5;
+          drawRoundedRect(c, -w/2, 24, w, h, 8);
+          c.fill(); c.stroke();
+
+          c.textAlign = "center";
+          if(n){
+            c.fillStyle = "#ffffff";
+            c.font = "bold 14px Barlow, sans-serif";
+            c.fillText(n, 0, r ? 39 : 35);
+          }
+          if(r){
+            c.fillStyle = "#cfe0ff";
+            c.font = "11px Barlow, sans-serif";
+            c.fillText(r, 0, n ? 52 : 35);
+          }
+        }
+      }
+      c.restore();
+    });
+  }
+
+  function draw(){
+    drawField(ctx);
+    Object.keys(strokes).forEach(function(k){ drawStroke(strokes[k]); });
+    if(cur) drawStroke(cur);
+    drawTokens();
+    reqRot();
+  }
+
   function pt(e){
-    var m = sv.getScreenCTM(); if(!m) return {x:500, y:320};
-    var p = sv.createSVGPoint(); p.x = e.clientX; p.y = e.clientY;
-    var q = p.matrixTransform(m.inverse());
-    return {x: Math.max(30, Math.min(970, Math.round(q.x))), y: Math.max(25, Math.min(615, Math.round(q.y)))};
+    var rect = cvs.getBoundingClientRect();
+    var scaleX = cvs.width / rect.width;
+    var scaleY = cvs.height / rect.height;
+    var x = (e.clientX - rect.left) * scaleX;
+    var y = (e.clientY - rect.top) * scaleY;
+    return {
+      x: Math.max(30, Math.min(970, Math.round(x))),
+      y: Math.max(25, Math.min(615, Math.round(y)))
+    };
   }
 
   function nearest(p){
@@ -463,7 +571,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function updHist(){
-    if($("bUndo")) $("bUndo").disabled = !undo.length;
+    if($("bUndo")) $("bUndo"].disabled = !undo.length;
   }
   function pushHist(op){
     undo.push(op); if(undo.length>100) undo.shift();
@@ -472,7 +580,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   function clearHist(){undo = []; redo = []; updHist();}
 
   function setTok(id, pos){
-    tokens[id] = {x:pos.x, y:pos.y}; place(id); saveState();
+    tokens[id] = {x:pos.x, y:pos.y}; saveState(); draw();
   }
 
   function doOp(op, dir){
@@ -480,34 +588,34 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     else if(op.t==="tk"){
       var v = dir<0?op.b:op.a;
       ALL.forEach(function(id){ tokens[id] = {x:v[id].x, y:v[id].y}; });
-      placeAll(); saveState();
+      saveState(); draw();
     } else if(op.t==="add"){
       if(dir<0) delete strokes[op.id]; else strokes[op.id] = op.d;
-      drawStrokes(); saveState();
+      saveState(); draw();
     } else if(op.t==="clr"){
       Object.keys(op.items).forEach(function(k){
         if(dir<0) strokes[k] = op.items[k]; else delete strokes[k];
       });
-      drawStrokes(); saveState();
+      saveState(); draw();
     }
   }
 
   function stopPlay(){
     if(!playing) return;
     playing = false; cancelAnimationFrame(playRaf);
-    tokens = backup; backup = null; placeAll();
+    tokens = backup; backup = null; draw();
     if($("bPlay")) $("bPlay").textContent = t("btn_play");
     renderChips();
   }
 
-  if($("bUndo")) $("bUndo").onclick = function(){
+  if($("bUndo")) $("bUndo"].onclick = function(){
     stopPlay(); var op = undo.pop(); if(!op) return;
     doOp(op, -1); redo.push(op); updHist();
   };
 
-  if(sv){
-    sv.addEventListener("contextmenu", function(e){e.preventDefault()});
-    sv.addEventListener("pointerdown", function(e){
+  if(cvs){
+    cvs.addEventListener("contextmenu", function(e){e.preventDefault()});
+    cvs.addEventListener("pointerdown", function(e){
       if(drag || cur || playing) return;
       var p = pt(e);
       if(tool==="move"){
@@ -516,33 +624,30 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       } else {
         var sid = Date.now().toString(36) + Math.random().toString(36).slice(2,5);
         cur = {id:sid, k:tool, c:color, w:wid, p:tool==="pen"?[p.x,p.y]:[p.x,p.y,p.x,p.y]};
-        cur.el = strokeEl(cur); if(sg) sg.appendChild(cur.el);
       }
       pid = e.pointerId;
-      try{ sv.setPointerCapture(pid); }catch(_){}
+      try{ cvs.setPointerCapture(pid); }catch(_){}
       e.preventDefault();
     });
 
-    sv.addEventListener("pointermove", function(e){
+    cvs.addEventListener("pointermove", function(e){
       if(e.pointerId!==pid) return;
       var p = pt(e);
       if(drag){
         var tPos = tokens[drag.id];
         tPos.x = Math.max(30, Math.min(970, p.x+drag.dx));
         tPos.y = Math.max(25, Math.min(615, p.y+drag.dy));
-        place(drag.id);
+        draw();
       } else if(cur){
         if(cur.k==="pen"){
           var L = cur.p.length;
           if(Math.abs(cur.p[L-2]-p.x)+Math.abs(cur.p[L-1]-p.y)>3 && L<1600){
-            cur.p.push(p.x, p.y); cur.el.setAttribute("d", pathD(cur.p));
+            cur.p.push(p.x, p.y);
           }
         } else {
           cur.p[2] = p.x; cur.p[3] = p.y;
-          var n = strokeEl(cur);
-          if(cur.el.parentNode) cur.el.parentNode.replaceChild(n, cur.el);
-          cur.el = n;
         }
+        draw();
       }
     });
 
@@ -554,7 +659,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
           pushHist({t:"mv", id:drag.id, from:drag.from, to:{x:tk.x, y:tk.y}});
           saveState();
         } else {
-          tk.x = drag.from.x; tk.y = drag.from.y; place(drag.id);
+          tk.x = drag.from.x; tk.y = drag.from.y; draw();
         }
       }
       if(cur){
@@ -564,14 +669,15 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         cur = null;
         if(good){
           var data = {c:d.c, w:d.w, k:d.k, p:d.p.slice()};
-          strokes[d.id] = data; drawStrokes();
+          strokes[d.id] = data;
           pushHist({t:"add", id:d.id, d:data}); saveState();
-        } else drawStrokes();
+        }
+        draw();
       }
       drag = null; cur = null; pid = null;
     }
-    sv.addEventListener("pointerup", up);
-    sv.addEventListener("pointercancel", up);
+    cvs.addEventListener("pointerup", up);
+    cvs.addEventListener("pointercancel", up);
   }
 
   function each(sel, fn){document.querySelectorAll(sel).forEach(fn)}
@@ -610,16 +716,16 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
   twoTap($("bClear"), function(){
     var items = clone(strokes); if(!Object.keys(items).length) return;
-    strokes = {}; drawStrokes(); pushHist({t:"clr", items:items}); saveState();
+    strokes = {}; draw(); pushHist({t:"clr", items:items}); saveState();
   });
 
   function setup(fn){
-    stopPlay(); var b = snap(); fn(); placeAll(); updKo();
+    stopPlay(); var b = snap(); fn(); draw(); updKo();
     pushHist({t:"tk", b:b, a:snap()}); saveState();
   }
 
   twoTap($("bReset"), function(){ setup(function(){ resetForm(mode); }); });
-  if($("bKick")) $("bKick").onclick = function(){
+  if($("bKick")) $("bKick"].onclick = function(){
     setup(function(){ ko = (ko + 1) % KO[mode].length; resetForm(mode); });
   };
 
@@ -627,7 +733,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     mode = m;
     each(".md", function(b){ b.classList.toggle("on", +b.getAttribute("data-m")===m); });
     updPlayerRowsVisibility();
-    placeAll();
+    draw();
     saveState();
   }
 
@@ -647,24 +753,24 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         if(playing) return; fsel = i;
         var bf = snap();
         ALL.forEach(function(id){ if(f[id]) tokens[id] = {x:f[id].x, y:f[id].y}; });
-        placeAll(); pushHist({t:"tk", b:bf, a:snap()}); renderChips(); saveState();
+        draw(); pushHist({t:"tk", b:bf, a:snap()}); renderChips(); saveState();
       };
       box.appendChild(b);
     });
   }
 
-  if($("bAdd")) $("bAdd").onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
-  if($("bUpd")) $("bUpd").onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
-  if($("bDel")) $("bDel").onclick = function(){
+  if($("bAdd")) $("bAdd"].onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
+  if($("bUpd")) $("bUpd"].onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
+  if($("bDel")) $("bDel"].onclick = function(){
     if(playing || fsel<0 || !frames[fsel]) return;
     frames.splice(fsel, 1); fsel = Math.min(fsel, frames.length-1); renderChips(); saveState();
   };
   twoTap($("bFclr"), function(){ stopPlay(); frames = []; fsel = -1; renderChips(); saveState(); });
 
-  if($("bPlay")) $("bPlay").onclick = function(){
+  if($("bPlay")) $("bPlay"].onclick = function(){
     if(playing){ stopPlay(); return; }
     if(frames.length<2){ alert(curLang==="tr"?"Oynatmak için en az 2 adım ekle":"Add at least 2 steps to play"); return; }
-    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay").textContent = t("btn_stop");
+    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay"].textContent = t("btn_stop");
     var seg = 0, t0 = performance.now(), DUR = 1300, HOLD = 350;
     function step(now){
       if(!playing) return;
@@ -672,8 +778,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       var k = Math.min(1, el/DUR), e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
       ALL.forEach(function(id){
         if(a[id] && b[id]) tokens[id] = {x: a[id].x+(b[id].x-a[id].x)*e, y: a[id].y+(b[id].y-a[id].y)*e};
-        place(id);
       });
+      draw();
       var cs = $("chips")?$("chips").children:[];
       for(var i=0; i<cs.length; i++) cs[i].classList.toggle("on", i===seg || i===seg+1 && k>.5);
       if(el >= DUR+HOLD){ seg++; t0 = now; if(seg >= seq.length-1){ stopPlay(); return; } }
@@ -759,10 +865,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
   function makeGif(seq, onProg){
     var W = 640, H = 410, DUR = 1300, HOLD = 350, STEP = 83, SEG = DUR+HOLD, total = (seq.length-1)*SEG, n = Math.ceil(total/STEP)+1;
-    var c = sv.cloneNode(true); c.setAttribute("xmlns", NS); c.setAttribute("width", W); c.setAttribute("height", H);
-    var gm = {}; c.querySelectorAll(".tok").forEach(function(g){ gm[g.getAttribute("data-id")] = g; });
-    var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
-    var ctx = cv.getContext("2d", {willReadFrequently:true});
+    var tmpCanvas = document.createElement("canvas"); tmpCanvas.width = W; tmpCanvas.height = H;
+    var tCtx = tmpCanvas.getContext("2d", {willReadFrequently:true});
+    var origCtx = ctx, origCvs = cvs;
+
     function pose(i){
       var time = i*STEP, last = seq.length-1, s = Math.min(last-1, Math.floor(time/SEG)), k = time>=total?1:Math.min(1,(time-s*SEG)/DUR);
       if(time>=total) s = last-1;
@@ -775,30 +881,28 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
     function frameData(i){
       var o = pose(i);
-      ALL.forEach(function(id){ if(gm[id]) gm[id].setAttribute("transform", "translate("+o[id].x+" "+o[id].y+")"); });
-      return new Promise(function(res, rej){
-        var img = new Image();
-        img.onload = function(){ ctx.clearRect(0,0,W,H); ctx.drawImage(img,0,0,W,H); res(ctx.getImageData(0,0,W,H).data); };
-        img.onerror = rej;
-        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
-      });
+      var backupTok = clone(tokens);
+      tokens = o;
+      cvs = tmpCanvas; ctx = tCtx;
+      draw();
+      tokens = backupTok;
+      cvs = origCvs; ctx = origCtx;
+      return tCtx.getImageData(0,0,W,H).data;
     }
-    var chain = Promise.resolve(), ds = [], parts = [], map;
-    [0, Math.floor(n*.35), Math.floor(n*.7), n-1].forEach(function(i){ chain = chain.then(function(){ return frameData(i); }).then(function(d){ ds.push(d); }); });
-    chain = chain.then(function(){ var pal = buildPalette(ds); ds = null; map = makeMapper(pal); parts.push(gifHeader(W,H,pal)); });
-    function addFrame(i){
-      chain = chain.then(function(){ return frameData(i); }).then(function(d){
-        var idx = new Uint8Array(W*H), p = 0;
-        for(var q=0; q<idx.length; q++, p+=4) idx[q] = map(d[p], d[p+1], d[p+2]);
-        parts.push(gifFrame(W,H,idx,8)); onProg((i+1)/n);
-      });
+    var ds = [], parts = [];
+    [0, Math.floor(n*.35), Math.floor(n*.7), n-1].forEach(function(i){ ds.push(frameData(i)); });
+    var pal = buildPalette(ds); ds = null; var map = makeMapper(pal); parts.push(gifHeader(W,H,pal));
+    for(var i=0; i<n; i++){
+      var d = frameData(i);
+      var idx = new Uint8Array(W*H), p = 0;
+      for(var q=0; q<idx.length; q++, p+=4) idx[q] = map(d[p], d[p+1], d[p+2]);
+      parts.push(gifFrame(W,H,idx,8)); onProg((i+1)/n);
     }
-    for(var i=0; i<n; i++) addFrame(i);
-    return chain.then(function(){ parts.push(new Uint8Array([0x3B])); return new Blob(parts, {type:"image/gif"}); });
+    parts.push(new Uint8Array([0x3B])); return new Blob(parts, {type:"image/gif"});
   }
 
   var gifBusy = false;
-  if($("bGif")) $("bGif").onclick = function(){
+  if($("bGif")) $("bGif"].onclick = function(){
     if(gifBusy) return;
     if(frames.length<2){ alert(curLang==="tr"?"GIF için en az 2 adım ekle":"Add at least 2 steps for GIF"); return; }
     stopPlay(); gifBusy = true; var btn = $("bGif"); btn.disabled = true;
@@ -811,37 +915,31 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   function setLib(a){try{localStorage.setItem("rlTactics",JSON.stringify(a));return true}catch(_){return false}}
 
   function loadTactic(s){
-    stopPlay(); clearHist(); strokes = {}; drawStrokes();
+    stopPlay(); clearHist(); strokes = {};
     mode = FORM[s.mode] ? s.mode : 1; ko = s.ko || 0; applyMode(mode); updKo();
     ALL.forEach(function(id){ var tPos = s.tokens && s.tokens[id]; if(tPos) tokens[id] = {x:tPos.x, y:tPos.y}; });
-    placeAll(); labels = clone(s.labels || {});
+    labels = clone(s.labels || {});
     ALL.forEach(function(id){
-      renderLabel(id);
       if(rows[id]){ rows[id].nm.value = (labels[id]||{}).n||""; rows[id].rl.value = (labels[id]||{}).r||""; }
     });
     reqRot(); frames = clone(s.frames || []); fsel = -1; renderChips();
-    strokes = clone(s.strokes || {}); drawStrokes(); saveState();
+    strokes = clone(s.strokes || {}); saveState(); draw();
   }
 
   function thumb(sv0){
-    var m = FORM[sv0.mode]?sv0.mode:1, tk = sv0.tokens||{};
-    var v = mk("svg", {viewBox:"0 0 1000 640"});
-    v.appendChild(mk("rect",{width:1000,height:640,fill:"#000000"}));
-    v.appendChild(mk("rect",{x:60,y:20,width:880,height:600,rx:65,fill:"#0e2318",stroke:"#1d3326","stroke-width":2}));
-    v.appendChild(mk("path",{d:"M60 210 C60 210 170 210 170 320 C170 430 60 430 60 430 Z",fill:"#2f7bff","fill-opacity":.3}));
-    v.appendChild(mk("path",{d:"M940 210 C940 210 830 210 830 320 C830 430 940 430 940 430 Z",fill:"#ff8a1f","fill-opacity":.3}));
-    v.appendChild(mk("line",{x1:500,y1:20,x2:500,y2:620,stroke:"#ffffff","stroke-opacity":.5,"stroke-width":2.5}));
-    v.appendChild(mk("circle",{cx:500,cy:320,r:92,fill:"none",stroke:"#ffffff","stroke-opacity":.5,"stroke-width":2.5}));
-    Object.keys(sv0.strokes||{}).forEach(function(k){ var e = strokeEl(sv0.strokes[k]); if(e) v.appendChild(e); });
-    function pos(f, id){ var p = (f && f[id]) || tk[id] || {x:500,y:320}; return p.x+" "+p.y; }
-    ALL.forEach(function(id){
-      if(!FORM[m][id]) return;
-      var g = mk("g",{transform:"translate("+pos(tk,id)+")"});
-      if(id==="ball") g.appendChild(mk("circle",{r:24,fill:"#fff"}));
-      else g.appendChild(mk("rect",{x:-30,y:-19,width:60,height:38,rx:10,fill:id.charAt(0)==="b"?"#2f7bff":"#ff8a1f",stroke:"#fff","stroke-width":3}));
-      v.appendChild(g);
-    });
-    return v;
+    var cCanvas = document.createElement("canvas"); cCanvas.width = 1000; cCanvas.height = 640;
+    var cCtx = cCanvas.getContext("2d");
+    var origCtx = ctx, origCvs = cvs, origTok = clone(tokens), origMode = mode;
+
+    mode = FORM[sv0.mode]?sv0.mode:1;
+    tokens = sv0.tokens || {};
+    cvs = cCanvas; ctx = cCtx;
+    drawField(cCtx);
+    Object.keys(sv0.strokes||{}).forEach(function(k){ drawStroke(sv0.strokes[k]); });
+    drawTokens();
+
+    tokens = origTok; mode = origMode; cvs = origCvs; ctx = origCtx;
+    return cCanvas;
   }
 
   function renderLib(){
@@ -850,7 +948,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     box.className = "";
     a.forEach(function(s, i){
       var r = document.createElement("div"); r.className = "lcard";
-      r.appendChild(thumb(s));
+      var thCanvas = thumb(s);
+      r.appendChild(thCanvas);
       var bar = document.createElement("div"); bar.className = "lb2";
       var n = document.createElement("span"); n.className = "ln"; n.textContent = s.name;
       var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
@@ -863,26 +962,30 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  if($("bSave")) $("bSave").onclick = function(){
+  if($("bSave")) $("bSave"].onclick = function(){
     var name = $("sname").value.trim(); if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
     var a = lib().filter(function(s){ return s.name!==name; });
     a.unshift({name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)});
     if(setLib(a)){ $("sname").value=""; renderLib(); alert(curLang==="tr"?"Kaydedildi":"Saved"); } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
   };
 
-  if($("bPng")) $("bPng").onclick = function(){
-    var c = sv.cloneNode(true); c.setAttribute("xmlns", NS); c.setAttribute("width", 2000); c.setAttribute("height", 1280);
-    var url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(c));
-    var img = new Image();
-    img.onload = function(){
-      var cv = document.createElement("canvas"); cv.width = 2000; cv.height = 1280;
-      cv.getContext("2d").drawImage(img, 0, 0, 2000, 1280);
-      cv.toBlob(function(blob){
-        if(!blob) return;
-        var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rltactic.png"; a.click();
-      }, "image/png");
-    };
-    img.src = url;
+  if($("bPng")) $("bPng"].onclick = function(){
+    var bigCanvas = document.createElement("canvas"); bigCanvas.width = 2000; bigCanvas.height = 1280;
+    var bCtx = bigCanvas.getContext("2d");
+    var origCtx = ctx, origCvs = cvs;
+    cvs = bigCanvas; ctx = bCtx;
+    bCtx.save(); bCtx.scale(2, 2);
+    drawField(bCtx);
+    Object.keys(strokes).forEach(function(k){ drawStroke(strokes[k]); });
+    if(cur) drawStroke(cur);
+    drawTokens();
+    bCtx.restore();
+    cvs = origCvs; ctx = origCtx;
+
+    bigCanvas.toBlob(function(blob){
+      if(!blob) return;
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rltactic.png"; a.click();
+    }, "image/png");
   };
 
   function applyLanguage(){
@@ -903,14 +1006,13 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     updKo(); updSide(); renderChips(); renderLib();
   }
 
-  if($("bLang")) $("bLang").onclick = function(){
+  if($("bLang")) $("bLang"].onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
     localStorage.setItem("rltactic_lang", curLang);
     applyLanguage();
   };
 
-  applyMode(mode); updHist(); applyLanguage(); drawStrokes();
-  ALL.forEach(function(id){ renderLabel(id); });
+  applyMode(mode); updHist(); applyLanguage(); draw();
   renderLib();
 })();
 </script>
