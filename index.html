@@ -172,7 +172,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Doğrudan Tıklanabilir İndirme Butonu Mantığı
+// Akıllı İndirme Butonu Tetikleyicisi
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -185,10 +185,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var result = await deferredPrompt.userChoice;
     deferredPrompt = null;
   } else {
-    // Tarayıcı otomatik prompt vermezse (örn: iOS veya manuel durumlar) yol gösteren uyarı
+    // Tarayıcı otomatik prompt vermezse (iPhone veya henüz önbelleğe almadıysa) rehber mesajı
     alert(curLang === 'tr' ? 
-      "Uygulamayı cihazınıza kurmak için tarayıcınızın menüsünden (üç nokta) 'Uygulamayı Yükle' veya 'Ana Ekrana Ekle' seçeneğini kullanabilirsiniz." : 
-      "To install the app on your device, use 'Install App' or 'Add to Home Screen' from your browser menu.");
+      "Uygulamayı kurmak için:\n• Android/PC: Tarayıcı menüsünden (üç nokta) 'Uygulamayı Yükle'ye basın.\n• iPhone (iOS): Safari'de 'Paylaş' -> 'Ana Ekrana Ekle' seçeneğini kullanın." : 
+      "To install the app, use 'Install App' or 'Add to Home Screen' from your browser menu.");
   }
 });
 
@@ -879,6 +879,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         var opt = document.createElement("option"); opt.value = role; if(rList) rList.appendChild(opt);
       });
     }
+    document.querySelectorAll(".prow .nm").write; // safety check
     document.querySelectorAll(".prow .nm").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"İsim":"Name"; });
     document.querySelectorAll(".prow .rl").forEach(function(inp){ if(!inp.value) inp.placeholder = curLang==="tr"?"Rol":"Role"; });
     updKo(); updSide(); renderChips(); renderLib();
