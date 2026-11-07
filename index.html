@@ -6,7 +6,6 @@
 <title>RLTactic</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2f7bff">
-<link rel="apple-touch-icon" href="icon.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:ital,wght@1,700&display=swap">
 <style>
 :root{--ink:#10162b;--mute:#5a6690;--night:#e9edf8;--panel:#ffffff;--panel2:#edf1fb;--line:#cdd5ec;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
@@ -53,8 +52,8 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .lcard small{display:block;color:var(--mute);font-weight:400;font-size:12px}
 .lcard button{min-height:34px;padding:4px 10px;font-size:13px}
 .top-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
-/* İndirme Butonu Stili */
-#bInstallApp { background: linear-gradient(100deg,#ffa43a,var(--orange)); color:#1c1204; border:0; font-weight:700; display:none; }
+/* İndir Butonu Tasarımı */
+#bDownloadApp { background: linear-gradient(100deg,#ffa43a,var(--orange)); color:#1c1204; border:0; font-weight:700; }
 </style>
 </head>
 <body>
@@ -62,7 +61,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 <header>
   <span class="logo">RLTactic</span>
   <div class="top-right">
-    <button id="bInstallApp" class="top-btn">📥 Uygulamayı İndir</button>
+    <button id="bDownloadApp" class="top-btn">📥 Uygulamayı İndir</button>
     <button id="bTheme" class="top-btn">🌙 / ☀️</button>
     <button id="bLang" class="top-btn">TR / EN</button>
   </div>
@@ -164,7 +163,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 <datalist id="roles"></datalist>
 
 <script>
-// Service Worker ve İndirme Butonu Mantığı
+// Service Worker Kaydı
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('./sw.js').catch(function(err) {
@@ -173,24 +172,23 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// Doğrudan Tıklanabilir İndirme Butonu Mantığı
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  var btn = document.getElementById('bInstallApp');
-  if(btn) btn.style.display = 'inline-block';
 });
 
-document.getElementById('bInstallApp')?.addEventListener('click', async () => {
+document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     var result = await deferredPrompt.userChoice;
     deferredPrompt = null;
   } else {
-    // iOS (iPhone/iPad) veya tarayıcı manuel kontrolü için bilgilendirme
+    // Tarayıcı otomatik prompt vermezse (örn: iOS veya manuel durumlar) yol gösteren uyarı
     alert(curLang === 'tr' ? 
-      "Uygulamayı kurmak için tarayıcınızın menüsünden (üç nokta) 'Uygulamayı Yükle' veya 'Ana Ekrana Ekle' seçeneğini seçebilirsiniz." : 
-      "To install the app, use 'Install App' or 'Add to Home Screen' from your browser menu.");
+      "Uygulamayı cihazınıza kurmak için tarayıcınızın menüsünden (üç nokta) 'Uygulamayı Yükle' veya 'Ana Ekrana Ekle' seçeneğini kullanabilirsiniz." : 
+      "To install the app on your device, use 'Install App' or 'Add to Home Screen' from your browser menu.");
   }
 });
 
@@ -839,7 +837,7 @@ document.getElementById('bInstallApp')?.addEventListener('click', async () => {
       var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
       sm.textContent = (nf>=2?nf+(curLang==="tr"?" adım":" steps"):(curLang==="tr"?"animasyonsuz":"no anim"))+" · "+mm+"v"+mm; n.appendChild(sm);
       var lBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Yükle":"Load";
-      var dBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
+      var dBtn = document.createElement("button"); dBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
       bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
       twoTap(lBtn, function(){ loadTactic(s); });
       twoTap(dBtn, function(){ var x = lib(); x.splice(i, 1); setLib(x); renderLib(); });
