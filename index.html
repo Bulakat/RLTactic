@@ -114,13 +114,16 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
     </div>
   </div>
 
-  <!-- AI ANALİZ PANELİ -->
+  <!-- GEMINI API AI ANALİZ PANELİ -->
   <div class="panel">
-    <h3 data-i18n="ai_title">🤖 Pro AI Taktik Motoru</h3>
-    <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
-      Pozisyon taranıyor...
+    <h3 data-i18n="ai_title">🤖 Gemini Pro AI Taktik Motoru</h3>
+    <div style="margin-bottom:8px;">
+      <input id="geminiKey" type="password" placeholder="Gemini API Key girin (Opsiyonel)" style="font-size:13px;padding:6px 10px;">
     </div>
-    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Detaylı AI Analizi Çalıştır</button>
+    <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
+      Saha pozisyonu hazır. AI Analizi çalıştırmak için aşağıdaki butona basın.
+    </div>
+    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Gemini ile Detaylı Analiz Yap</button>
   </div>
 
   <div class="panel">
@@ -204,7 +207,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       no_steps: "Henüz adım yok.", no_tactics: "Kayıtlı taktik yok.",
       near_ball: "Topa En Yakın", near_net: "Kaleye En Yakın",
       blue_def: "Mavi ", orange_def: "Turuncu ",
-      ai_title: "🤖 Pro AI Taktik Motoru", ai_btn: "Detaylı AI Analizi Çalıştır",
+      ai_title: "🤖 Gemini Pro AI Taktik Motoru", ai_btn: "Gemini ile Detaylı Analiz Yap",
       p_name: "İsim", p_role: "Rol"
     },
     en: {
@@ -220,7 +223,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       no_steps: "No steps yet.", no_tactics: "No saved tactics.",
       near_ball: "Closest to Ball", near_net: "Closest to Net",
       blue_def: "Blue ", orange_def: "Orange ",
-      ai_title: "🤖 Pro AI Tactical Engine", ai_btn: "Run Deep AI Analysis",
+      ai_title: "🤖 Gemini Pro AI Tactical Engine", ai_btn: "Run Gemini Deep Analysis",
       p_name: "Name", p_role: "Role"
     }
   };
@@ -922,51 +925,63 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  function runAiAnalysis(){
+  // GERÇEK GEMİNİ API ENTEGRASYONU
+  async function runGeminiAnalysis(){
     var report = $("aiReport");
-    if(!report) return;
-    report.innerHTML = curLang==="tr" ? "AI Pozisyonu analiz ediyor..." : "AI analyzing position...";
-    setTimeout(function(){
-      var bX = tokens.ball.x, bY = tokens.ball.y;
-      var zone = curLang==="tr" ? (bX < 350 ? "Kendi Savunma Bölgemiz" : (bX > 650 ? "Rakip Kalepolü / Baskı Alanı" : "Orta Saha Mücadele Alanı")) : (bX < 350 ? "Defensive Zone" : (bX > 650 ? "Opponent Pressure Zone" : "Midfield Neutral Zone"));
+    var apiKeyInput = $("geminiKey");
+    var apiKey = apiKeyInput ? apiKeyInput.value.trim() : "";
+
+    if(!apiKey){
+      report.innerHTML = curLang==="tr" ? "Lütfen üstteki alana Gemini API Key girin!" : "Please enter your Gemini API Key above!";
+      return;
+    }
+
+    report.innerHTML = curLang==="tr" ? "Gemini saha pozisyonunu analiz ediyor..." : "Gemini analyzing tactical position...";
+
+    var boardState = {
+      gameMode: mode + "v" + mode,
+      ballPosition: tokens.ball,
+      players: {}
+    };
+    ALL.forEach(function(id){
+      if(active(id) && id !== "ball"){
+        boardState.players[id] = {
+          position: tokens[id],
+          info: labels[id] || {}
+        };
+      }
+    });
+
+    var promptText = curLang==="tr" 
+      ? "Sen Rocket League espor üst düzey koçusun. Saha boyutu 1000x640'tır. Aşağıdaki pozisyon verilerine göre bu pozisyonu analiz et, mavi takım ve turuncu takım için taktiksel avantaj/dezavantajları değerlendir ve nokta atışı 3 öneri ver. Kısa ve net Türkçe yaz:\n" + JSON.stringify(boardState)
+      : "You are an elite Rocket League esports coach. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise:\n" + JSON.stringify(boardState);
+
+    try {
+      var response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: promptText }] }]
+        })
+      });
+
+      if(!response.ok) throw new Error("API Error: " + response.status);
+
+      var data = await response.json();
+      var reply = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text;
       
-      var blueClosest = "b1", minD = 9999;
-      for(var i=1; i<=mode; i++){
-        var d = Math.hypot(tokens["b"+i].x - bX, tokens["b"+i].y - bY);
-        if(d < minD){ minD = d; blueClosest = "b"+i; }
-      }
-
-      var text = "";
-      if(curLang==="tr") {
-        text = "PRO AI Taktiksel Durum Raporu (" + mode + "v" + mode + ")<br><br>";
-        text += "Topun Bölgesi: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
-        text += "Topa En Yakın Oyuncu: Mavi " + blueClosest.toUpperCase() + "<br><br>";
-        if(bX > 650) {
-          text += "Hücum Stratejisi: Rakip kaleye baskı kuruldu. 1. adam şut çekerken, 2. adam arka direk bindirmesi yapmalı, son adam ise orta sahada güvenliği sağlamalı.";
-        } else if(bX < 350) {
-          text += "Savunma Alarmı: Kalenin önünde tehlike var! Kaleci açı kapatmalı, takım arkadaşları hızlıca rotasyona girerek boost toplamalı.";
-        } else {
-          text += "Geçiş Oyunu: Orta sahada top kontrolü kritik. Geniş alan paslarıyla rakip savunmanın dengesini bozun.";
-        }
+      if(reply){
+        report.innerHTML = reply.replace(/\n/g, "<br>");
       } else {
-        text = "PRO AI Tactical Status Report (" + mode + "v" + mode + ")<br><br>";
-        text += "Ball Zone: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
-        text += "Closest to Ball: Blue " + blueClosest.toUpperCase() + "<br><br>";
-        if(bX > 650) {
-          text += "Attack Strategy: Pressure applied. 1st man shoots/passes, 2nd man reads backpost, last man holds midfield.";
-        } else if(bX < 350) {
-          text += "Defense Alert: Danger in defensive third! Goalie must clear, teammates need to rotate back safely.";
-        } else {
-          text += "Neutral Game: Midfield control is key. Use wide passes to break opponent's shape.";
-        }
+        report.innerHTML = curLang==="tr" ? "Gemini'den yanıt alınamadı." : "No response from Gemini.";
       }
-
-      report.innerHTML = text;
-    }, 500);
+    } catch(err) {
+      report.innerHTML = (curLang==="tr" ? "Bağlantı Hatası: " : "Connection Error: ") + err.message;
+    }
   }
+
   var bRunAi = $("bRunAi");
-  if(bRunAi) bRunAi.onclick = runAiAnalysis;
-  runAiAnalysis();
+  if(bRunAi) bRunAi.onclick = runGeminiAnalysis;
 
   function applyLanguage(){
     document.querySelectorAll("[data-i18n]").forEach(function(el){
@@ -976,7 +991,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       var k = el.getAttribute("data-i18n-ph"); if(t(k)) el.placeholder = t(k);
     });
     updPlayerPlaceholders();
-    updKo(); updSide(); renderChips(); renderLib(); runAiAnalysis();
+    updKo(); updSide(); renderChips(); renderLib();
   }
 
   var bLang = $("bLang");
