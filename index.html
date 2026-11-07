@@ -331,7 +331,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  // --- GERÇEKÇİ RL SAHA ÇİZİM MOTORU ---
+  // --- GERÇEKÇİ RL OYUN İÇİ KUŞBAKIŞI SAHA ÇİZİM MOTORU ---
   function drawRoundedRect(c, x, y, w, h, r){
     c.beginPath();
     c.moveTo(x+r, y);
@@ -347,26 +347,26 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function drawField(c){
-    // Saf siyah zemin
+    // Saf siyah dış zemin
     c.fillStyle = "#000000";
     c.fillRect(0, 0, 1000, 640);
 
-    // Stadyum duvar çerçevesi
+    // Dış stadyum duvar çerçevesi
     c.strokeStyle = "#162235";
     c.lineWidth = 14;
-    c.globalAlpha = 0.5;
+    c.globalAlpha = 0.55;
     drawRoundedRect(c, 30, 8, 940, 624, 60);
     c.stroke();
     c.globalAlpha = 1.0;
 
-    // Ana Çim Saha Zemin Gradyanı
+    // Ana Çim Saha Zemin Gradyanı (Kusursuz Oyun İçi Tonlar)
     var grad = c.createLinearGradient(0, 20, 0, 620);
     grad.addColorStop(0, "#12301f");
     grad.addColorStop(1, "#07170e");
     c.fillStyle = grad;
-    drawRoundedRect(c, 60, 20, 880, 600, 75);
+    drawRoundedRect(c, 60, 20, 880, 600, 65);
     c.fill();
-    c.strokeStyle = "#223d2b";
+    c.strokeStyle = "#1f3b2a";
     c.lineWidth = 3.5;
     c.stroke();
 
@@ -376,7 +376,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       c.fillRect(x, 20, 50, 600);
     }
 
-    // Mavi ve Turuncu Kalepotu / Bölge Renkleri (Görseldeki gibi kavisli)
+    // Mavi ve Turuncu Kalepotu / Bölge Renkleri (Otantik Kavisli Yapı)
     c.fillStyle = "rgba(47, 123, 255, 0.18)";
     c.beginPath();
     c.moveTo(60, 210);
@@ -389,7 +389,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     c.bezierCurveTo(820, 210, 820, 430, 940, 430);
     c.fill();
 
-    // Kaleler ve Ağlar (File çizgileri)
+    // Kaleler ve Ağ Derinliği
     c.fillStyle = "#0a1324";
     c.strokeStyle = "#2f7bff";
     c.lineWidth = 3.5;
@@ -417,7 +417,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     // Net Beyaz Saha Çizgileri ve Orta Yuvarlak
     c.strokeStyle = "rgba(255, 255, 255, 0.9)";
     c.lineWidth = 3.5;
-    drawRoundedRect(c, 60, 20, 880, 600, 75);
+    drawRoundedRect(c, 60, 20, 880, 600, 65);
     c.stroke();
 
     c.beginPath();
@@ -433,17 +433,31 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     c.arc(500, 320, 6, 0, Math.PI * 2);
     c.fill();
 
-    // Boost Pad Noktaları (Köşe ve Orta Boostlar)[span_0](start_span)[span_0](end_span)
+    // DOĞRU OYUN İÇİ BOOST PAD KONUMLARI (6 Büyük Köşe & 4 Orta Şerit / Yan Boostlar)
     var boosts = [
-      {x: 120, y: 75, r: 11}, {x: 880, y: 75, r: 11},
-      {x: 120, y: 565, r: 11}, {x: 880, y: 565, r: 11},
-      {x: 350, y: 320, r: 7.5}, {x: 650, y: 320, r: 7.5}
+      // 4 Büyük Köşe Boost'u
+      {x: 105, y: 72, r: 11, big: true}, 
+      {x: 895, y: 72, r: 11, big: true},
+      {x: 105, y: 568, r: 11, big: true}, 
+      {x: 895, y: 568, r: 11, big: true},
+      // Orta Alan Yan Boost'ları
+      {x: 350, y: 85, r: 8, big: false},
+      {x: 650, y: 85, r: 8, big: false},
+      {x: 350, y: 555, r: 8, big: false},
+      {x: 650, y: 555, r: 8, big: false},
+      // Tam Orta Merkez Şerit Boost'ları
+      {x: 300, y: 320, r: 8, big: false},
+      {x: 700, y: 320, r: 8, big: false}
     ];
+
     boosts.forEach(function(b){
-      c.fillStyle = "rgba(198, 244, 50, 0.25)";
+      c.fillStyle = b.big ? "rgba(198, 244, 50, 0.28)" : "rgba(198, 244, 50, 0.16)";
       c.strokeStyle = "#C6F432";
-      c.lineWidth = b.r > 8 ? 2 : 1.5;
-      c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI*2); c.fill(); c.stroke();
+      c.lineWidth = b.big ? 2.2 : 1.5;
+      c.beginPath(); 
+      c.arc(b.x, b.y, b.r, 0, Math.PI*2); 
+      c.fill(); 
+      c.stroke();
     });
   }
 
