@@ -114,11 +114,11 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
     </div>
   </div>
 
-  <!-- GELİŞMİŞ PRO AI ANALİZ PANELİ -->
+  <!-- AI ANALİZ PANELİ -->
   <div class="panel">
-    <h3>🤖 Gelişmiş Pro AI Taktik Motoru</h3>
+    <h3>🤖 Pro AI Taktik Motoru</h3>
     <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
-      Pozisyon taranıyor ve taktiksel matris hesaplanıyor...
+      Pozisyon taranıyor...
     </div>
     <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;">Detaylı AI Analizi Çalıştır</button>
   </div>
@@ -893,35 +893,47 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // ÇOK GELİŞTİRİLMİŞ PRO AI ANALİZ MOTORU
+  // GELİŞMİŞ PRO AI ANALİZ MOTORU (HTML TEMİZLİĞİ İLE)
   function runAiAnalysis(){
     var report = $("aiReport");
-    report.innerHTML = "⚡ AI Derin öğrenme matrisi pozisyonu inceliyor...";
+    report.innerHTML = curLang==="tr" ? "AI Pozisyonu analiz ediyor..." : "AI analyzing position...";
     setTimeout(function(){
       var bX = tokens.ball.x, bY = tokens.ball.y;
-      var zone = bX < 350 ? "Kendi Savunma Bölgemiz" : (bX > 650 ? "Rakip Kalepolü / Baskı Alanı" : "Orta Saha Mücadele Alanı");
+      var zone = curLang==="tr" ? (bX < 350 ? "Kendi Savunma Bölgemiz" : (bX > 650 ? "Rakip Kalepolü / Baskı Alanı" : "Orta Saha Mücadele Alanı")) : (bX < 350 ? "Defensive Zone" : (bX > 650 ? "Opponent Pressure Zone" : "Midfield Neutral Zone"));
       
-      // Mavi takım oyuncu analizi
       var blueClosest = "b1", minD = 9999;
       for(var i=1; i<=mode; i++){
         var d = Math.hypot(tokens["b"+i].x - bX, tokens["b"+i].y - bY);
         if(d < minD){ minD = d; blueClosest = "b"+i; }
       }
 
-      var text = "🚀 **PRO AI Taktiksel Durum Raporu (" + mode + "v" + mode + "):**<br><br>";
-      text += "📍 **Topun Bölgesi:** " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
-      text += "🎯 **Topa En Yakın Oyuncu:** Mavi " + blueClosest.toUpperCase() + " (Temasa hazır)<br>";
-      
-      if(bX > 650) {
-        text += "💡 **Hücum Stratejisi Analizi:** Rakip kaleye baskı kurulmuş durumda. 1. adam şut veya orta açarken, 2. adam arka direk bindirmesi yapmalı, son adam ise orta saha çizgisinde güvenliği (last man) sağlamalı.";
-      } else if(bX < 350) {
-        text += "⚠️ **Savunma Alarmı:** Tehlikeli bölgede baskı var! Kalecinin açı kapatması, diğer oyuncuların ise hızlıca rotasyona girip boost toplaması hayati önem taşıyor.";
+      var text = "";
+      if(curLang==="tr") {
+        text = "PRO AI Taktiksel Durum Raporu (" + mode + "v" + mode + ")<br><br>";
+        text += "Topun Bölgesi: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
+        text += "Topa En Yakın Oyuncu: Mavi " + blueClosest.toUpperCase() + "<br><br>";
+        if(bX > 650) {
+          text += "Hücum Stratejisi: Rakip kaleye baskı kuruldu. 1. adam şut çekerken, 2. adam arka direk bindirmesi yapmalı, son adam ise orta sahada güvenliği sağlamalı.";
+        } else if(bX < 350) {
+          text += "Savunma Alarmı: Kalenin önünde tehlike var! Kaleci açı kapatmalı, takım arkadaşları hızlıca rotasyona girerek boost toplamalı.";
+        } else {
+          text += "Geçiş Oyunu: Orta sahada top kontrolü kritik. Geniş alan paslarıyla rakip savunmanın dengesini bozun.";
+        }
       } else {
-        text += "⚡ **Geçiş Oyunu (Neutral Game):** Orta sahada top kontrolü kritik. Pas opsiyonlarını geniş tutarak rakibin hat yapmasını bekleyin.";
+        text = "PRO AI Tactical Status Report (" + mode + "v" + mode + ")<br><br>";
+        text += "Ball Zone: " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
+        text += "Closest to Ball: Blue " + blueClosest.toUpperCase() + "<br><br>";
+        if(bX > 650) {
+          text += "Attack Strategy: Pressure applied. 1st man shoots/passes, 2nd man reads backpost, last man holds midfield.";
+        } else if(bX < 350) {
+          text += "Defense Alert: Danger in defensive third! Goalie must clear, teammates need to rotate back safely.";
+        } else {
+          text += "Neutral Game: Midfield control is key. Use wide passes to break opponent's shape.";
+        }
       }
 
       report.innerHTML = text;
-    }, 600);
+    }, 500);
   }
   $("bRunAi").onclick = runAiAnalysis;
   runAiAnalysis();
@@ -930,7 +942,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     document.querySelectorAll("[data-i18n]").forEach(function(el){
       var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
     });
-    updKo(); updSide(); renderChips(); renderLib();
+    updKo(); updSide(); renderChips(); renderLib(); runAiAnalysis();
   }
 
   if($("bLang")) $("bLang").onclick = function(){
