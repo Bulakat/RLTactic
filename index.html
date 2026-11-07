@@ -114,16 +114,16 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
     </div>
   </div>
 
-  <!-- GEMINI API AI ANALİZ PANELİ -->
+  <!-- PRO IQ ANALİZ PANELİ -->
   <div class="panel">
-    <h3 data-i18n="ai_title">🤖 Gemini Pro AI Taktik Motoru</h3>
+    <h3 data-i18n="ai_title">🤖 Pro IQ Taktik Motoru</h3>
     <div style="margin-bottom:8px;">
-      <input id="geminiKey" type="password" placeholder="Gemini API Key girin (Opsiyonel)" style="font-size:13px;padding:6px 10px;">
+      <input id="geminiKey" type="password" data-i18n-ph="ph_apikey" placeholder="Gemini API Key girin" style="font-size:13px;padding:6px 10px;">
     </div>
-    <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
-      Saha pozisyonu hazır. AI Analizi çalıştırmak için aşağıdaki butona basın.
+    <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;" data-i18n="ai_ready">
+      Saha pozisyonu hazır. Pro IQ analizi için butona basın.
     </div>
-    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Gemini ile Detaylı Analiz Yap</button>
+    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Pro IQ ile Detaylı Analiz Yap</button>
   </div>
 
   <div class="panel">
@@ -207,7 +207,9 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       no_steps: "Henüz adım yok.", no_tactics: "Kayıtlı taktik yok.",
       near_ball: "Topa En Yakın", near_net: "Kaleye En Yakın",
       blue_def: "Mavi ", orange_def: "Turuncu ",
-      ai_title: "🤖 Gemini Pro AI Taktik Motoru", ai_btn: "Gemini ile Detaylı Analiz Yap",
+      ai_title: "🤖 Pro IQ Taktik Motoru", ai_btn: "Pro IQ ile Detaylı Analiz Yap",
+      ai_ready: "Saha pozisyonu hazır. Pro IQ analizi için butona basın.",
+      ph_apikey: "Gemini API Key girin",
       p_name: "İsim", p_role: "Rol"
     },
     en: {
@@ -223,7 +225,9 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       no_steps: "No steps yet.", no_tactics: "No saved tactics.",
       near_ball: "Closest to Ball", near_net: "Closest to Net",
       blue_def: "Blue ", orange_def: "Orange ",
-      ai_title: "🤖 Gemini Pro AI Tactical Engine", ai_btn: "Run Gemini Deep Analysis",
+      ai_title: "🤖 Pro IQ Tactical Engine", ai_btn: "Run Pro IQ Deep Analysis",
+      ai_ready: "Field position ready. Click button for Pro IQ analysis.",
+      ph_apikey: "Enter Gemini API Key",
       p_name: "Name", p_role: "Role"
     }
   };
@@ -252,6 +256,14 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var $ = function(i){return document.getElementById(i)};
   var cvs = $("cvs"), ctx = cvs.getContext("2d");
   var rows = {};
+
+  // Kaydedilen API Key'i kutuya otomatik doldur
+  var savedKey = localStorage.getItem("rltactic_apikey") || "";
+  if($("geminiKey")) $("geminiKey").value = savedKey;
+
+  $("geminiKey")?.addEventListener("input", function(){
+    localStorage.setItem("rltactic_apikey", this.value.trim());
+  });
 
   function saveState(){
     try {
@@ -925,18 +937,18 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // GERÇEK GEMİNİ API ENTEGRASYONU
-  async function runGeminiAnalysis(){
+  // PRO IQ (GEMİNİ API) ENTEGRASYONU
+  async function runProIQAnalysis(){
     var report = $("aiReport");
     var apiKeyInput = $("geminiKey");
     var apiKey = apiKeyInput ? apiKeyInput.value.trim() : "";
 
     if(!apiKey){
-      report.innerHTML = curLang==="tr" ? "Lütfen üstteki alana Gemini API Key girin!" : "Please enter your Gemini API Key above!";
+      report.innerHTML = curLang==="tr" ? "Lütfen üstteki kutuya geçerli bir Gemini API Key girin." : "Please enter a valid Gemini API Key above.";
       return;
     }
 
-    report.innerHTML = curLang==="tr" ? "Gemini saha pozisyonunu analiz ediyor..." : "Gemini analyzing tactical position...";
+    report.innerHTML = curLang==="tr" ? "Pro IQ saha pozisyonunu analiz ediyor..." : "Pro IQ analyzing tactical position...";
 
     var boardState = {
       gameMode: mode + "v" + mode,
@@ -953,8 +965,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
 
     var promptText = curLang==="tr" 
-      ? "Sen Rocket League espor üst düzey koçusun. Saha boyutu 1000x640'tır. Aşağıdaki pozisyon verilerine göre bu pozisyonu analiz et, mavi takım ve turuncu takım için taktiksel avantaj/dezavantajları değerlendir ve nokta atışı 3 öneri ver. Kısa ve net Türkçe yaz:\n" + JSON.stringify(boardState)
-      : "You are an elite Rocket League esports coach. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise:\n" + JSON.stringify(boardState);
+      ? "Sen Rocket League espor üst düzey koçusun (Pro IQ). Saha boyutu 1000x640'tır. Aşağıdaki pozisyon verilerine göre bu pozisyonu analiz et, mavi takım ve turuncu takım için taktiksel avantaj/dezavantajları değerlendir ve nokta atışı 3 öneri ver. Kısa ve net Türkçe yaz:\n" + JSON.stringify(boardState)
+      : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise:\n" + JSON.stringify(boardState);
 
     try {
       var response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
@@ -973,15 +985,15 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       if(reply){
         report.innerHTML = reply.replace(/\n/g, "<br>");
       } else {
-        report.innerHTML = curLang==="tr" ? "Gemini'den yanıt alınamadı." : "No response from Gemini.";
+        report.innerHTML = curLang==="tr" ? "Pro IQ'dan yanıt alınamadı." : "No response from Pro IQ.";
       }
     } catch(err) {
-      report.innerHTML = (curLang==="tr" ? "Bağlantı Hatası: " : "Connection Error: ") + err.message;
+      report.innerHTML = (curLang==="tr" ? "Bağlantı Hatası (API Key'inizi kontrol edin): " : "Connection Error (Check your API Key): ") + err.message;
     }
   }
 
   var bRunAi = $("bRunAi");
-  if(bRunAi) bRunAi.onclick = runGeminiAnalysis;
+  if(bRunAi) bRunAi.onclick = runProIQAnalysis;
 
   function applyLanguage(){
     document.querySelectorAll("[data-i18n]").forEach(function(el){
@@ -996,14 +1008,4 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
-    curLang = curLang === "tr" ? "en" : "tr";
-    localStorage.getItem("rltactic_lang", curLang);
-    applyLanguage();
-  };
-
-  applyMode(mode); updHist(); applyLanguage(); draw();
-  renderLib();
-})();
-</script>
-</body>
-</html>
+    curLang = curLang === "tr" ? "en" : "tr
