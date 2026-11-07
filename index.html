@@ -150,7 +150,7 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
   <div class="panel">
     <h3 data-i18n="h_saved">Kayıtlı Taktikler</h3>
     <div class="save"><input id="sname" maxlength="30" data-i18n-ph="ph_name" placeholder="Taktik adı"><button id="bSave" data-i18n="btn_save">Kaydet</button></div>
-    <div class="save"><input id="tcode" maxlength="800" data-i18n-ph="ph_code" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost" data-i18n="btn_loadcode">Kodu Yükle</button></div>
+    <div class="save"><input id="tcode" maxlength="1000" data-i18n-ph="ph_code" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost" data-i18n="btn_loadcode">Kodu Yükle</button></div>
     <div id="lib"></div>
   </div>
   <div class="panel">
@@ -871,9 +871,13 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
   if($("bSave")) $("bSave").onclick = function(){
     var name = $("sname").value.trim(); if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
-    var a = lib().filter(function(s){ return s.name!==name; });
+    var a = lib();
     var tacticObj = {name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)};
+    
+    // Aynı isimde varsa üzerine yaz veya en üste ekle
+    a = a.filter(function(s){ return s.name!==name; });
     a.unshift(tacticObj);
+
     if(setLib(a)){ 
       $("sname").value=""; 
       renderLib(); 
@@ -892,13 +896,16 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       var jsonStr = decodeURIComponent(atob(codeVal));
       var s = JSON.parse(jsonStr);
       if(!s.name || !s.tokens) throw new Error();
-      var a = lib().filter(function(item){ return item.name !== s.name; });
+      
+      var a = lib();
+      // Çakışmayı önlemek için aynı isimli eski taktiği listeden temizle ve yenisini ekle
+      a = a.filter(function(item){ return item.name !== s.name; });
       a.unshift(s);
       setLib(a);
       loadTactic(s);
       $("tcode").value = "";
       renderLib();
-      alert(curLang==="tr" ? "Taktik yüklendi ve kütüphaneye eklendi!" : "Tactic imported successfully!");
+      alert(curLang==="tr" ? "Taktik kütüphaneye başarıyla eklendi ve yüklendi!" : "Tactic loaded and imported successfully!");
     } catch(err) {
       alert(curLang==="tr" ? "Geçersiz veya bozuk taktik kodu!" : "Invalid or corrupted tactic code!");
     }
