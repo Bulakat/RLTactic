@@ -800,6 +800,101 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     playRaf = requestAnimationFrame(step);
   };
 
+  function lib(){try{return JSON.parse(localStorage.getItem("rlTactics")||"[]")}catch(_){return []}}
+  function setLib(a){try{localStorage.setItem("rlTactics",JSON.stringify(a));return true}catch(_){return false}}
+
+  function loadTactic(s){
+    stopPlay(); clearHist(); strokes = {};
+    mode = FORM[s.mode] ? s.mode : 1; ko = s.ko || 0; applyMode(mode); updKo();
+    ALL.forEach(function(id){ var tPos = s.tokens && s.tokens[id]; if(tPos) tokens[id] = {x:tPos.x, y:tPos.y}; });
+    labels = clone(s.labels || {});
+    ALL.forEach(function(id){
+      if(rows[id]){ rows[id].nm.value = (labels[id]||{}).n||""; rows[id].rl.value = (labels[id]||{}).r||""; }
+    });
+    reqRot(); frames = clone(s.frames || []); fsel = -1; renderChips();
+    strokes = clone(s.strokes || {}); saveState(); draw();
+  }
+
+  function thumb(sv0){
+    var cCanvas = document.createElement("canvas"); cCanvas.width = 1000; cCanvas.height = 640;
+    var cCtx = cCanvas.getContext("2d");
+    var origCtx = ctx, origCvs = cvs, origTok = clone(tokens), origMode = mode;
+
+    mode = FORM[sv0.mode]?sv0.mode:1;
+    tokens = sv0.tokens || {};
+    cvs = cCanvas; ctx = cCtx;
+    drawField(cCtx);
+    Object.keys(sv0.strokes||{}).forEach(function(k){ drawStroke(sv0.strokes[k]); });
+    drawTokens();
+
+    tokens = origTok; mode = origMode; cvs = origCvs; ctx = origCtx;
+    return cCanvas;
+  }
+
+  function renderLib(){
+    var box = $("lib"), a = lib(); if(!box) return; box.textContent = "";
+    if(!a.length){ box.textContent = t("no_tactics"); box.className = "hint"; return; }
+    box.className = "";
+    a.forEach(function(s, i){
+      var r = document.createElement("div"); r.className = "lcard";
+      var thCanvas = thumb(s);
+      r.appendChild(thCanvas);
+      var bar = document.createElement("div"); bar.className = "lb2";
+      var n = document.createElement("span"); n.className = "ln"; n.textContent = s.name;
+      var sm = document.createElement("small"); var nf = (s.frames||[]).length, mm = FORM[s.mode]?s.mode:1;
+      sm.textContent = (nf>=2?nf+(curLang==="tr"?" adım":" steps"):(curLang==="tr"?"animasyonsuz":"no anim"))+" · "+mm+"v"+mm; n.appendChild(sm);
+      var lBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Yükle":"Load";
+      var cBtn = document.createElement("button"); cBtn.textContent = curLang==="tr"?"Kod":"Code";
+      var dBtn = document.createElement("button"); dBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
+      bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(cBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
+      twoTap(lBtn, function(){ loadTactic(s); });
+      cBtn.onclick = function(){
+        try {
+          var codeStr = btoa(unescape(encodeURIComponent(JSON.stringify(s))));
+          navigator.clipboard.writeText(codeStr);
+          cBtn.textContent = curLang==="tr"?"Kopyalandı!":"Copied!";
+          setTimeout(function(){ cBtn.textContent = curLang==="tr"?"Kod":"Code"; }, 2000);
+        } catch(_) { alert("Kod oluşturulamadı"); }
+      };
+      twoTap(dBtn, function(){ var x = lib(); x.splice(i, 1); setLib(x); renderLib(); });
+    });
+  }
+
+  if($("bSave")) $("bSave").onclick = function(){
+    var name = $("sname").value.trim(); if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
+    var a = lib().filter(function(s){ return s.name!==name; });
+    var tacticObj = {name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)};
+    a.unshift(tacticObj);
+    if(setLib(a)){ 
+      $("sname").value=""; 
+      renderLib(); 
+      try {
+        var codeStr = btoa(unescape(encodeURIComponent(JSON.stringify(tacticObj))));
+        navigator.clipboard.writeText(codeStr);
+        alert(curLang==="tr" ? "Kaydedildi ve Paylaşım Kodu panoya kopyalandı! Arkadaşına atabilirsin." : "Saved & Share code copied to clipboard!");
+      } catch(_) { alert(curLang==="tr"?"Kaydedildi":"Saved"); }
+    } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
+  };
+
+  if($("bLoadCode")) $("bLoadCode").onclick = function(){
+    var codeVal = $("tcode").value.trim();
+    if(!codeVal){ alert(curLang==="tr"?"Lütfen bir taktik kodu yapıştır":"Please paste a tactic code"); return; }
+    try {
+      var jsonStr = decodeURIComponent(escape(atob(codeVal)));
+      var s = JSON.parse(jsonStr);
+      if(!s.name || !s.tokens) throw new Error();
+      var a = lib().filter(function(item){ return item.name !== s.name; });
+      a.unshift(s);
+      setLib(a);
+      loadTactic(s);
+      $("tcode").value = "";
+      renderLib();
+      alert(curLang==="tr" ? "Taktik kütüphaneye eklendi ve yüklendi!" : "Tactic imported successfully!");
+    } catch(_) {
+      alert(curLang==="tr" ? "Geçersiz taktik kodu!" : "Invalid tactic code!");
+    }
+  };
+
   function runAiAnalysis(){
     var report = $("aiReport");
     report.innerHTML = "⚡ AI Pozisyonu analiz ediyor...";
@@ -826,7 +921,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     document.querySelectorAll("[data-i18n]").forEach(function(el){
       var k = el.getAttribute("data-i18n"); if(t(k)) el.textContent = t(k);
     });
-    updKo(); updSide(); renderChips();
+    updKo(); updSide(); renderChips(); renderLib();
   }
 
   if($("bLang")) $("bLang").onclick = function(){
@@ -836,6 +931,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   };
 
   applyMode(mode); updHist(); applyLanguage(); draw();
+  renderLib();
 })();
 </script>
 </body>
