@@ -159,6 +159,15 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 <datalist id="roles"></datalist>
 
 <script>
+// Service Worker Kaydı (PWA Yüklenebilirlik İçin)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').catch(function(err) {
+      console.log('SW hatasi:', err);
+    });
+  });
+}
+
 (function(){
   var dict = {
     tr: {
