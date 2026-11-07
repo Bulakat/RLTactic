@@ -331,7 +331,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  // --- CANVAS SAHNE ÇİZİM MOTORU ---
+  // --- GERÇEKÇİ RL SAHA ÇİZİM MOTORU ---
   function drawRoundedRect(c, x, y, w, h, r){
     c.beginPath();
     c.moveTo(x+r, y);
@@ -347,76 +347,77 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function drawField(c){
+    // Saf siyah zemin
     c.fillStyle = "#000000";
     c.fillRect(0, 0, 1000, 640);
 
-    // Dış stadyum çevre sınırı
+    // Stadyum duvar çerçevesi
     c.strokeStyle = "#162235";
-    c.lineWidth = 12;
-    c.globalAlpha = 0.6;
-    drawRoundedRect(c, 35, 10, 930, 620, 50);
+    c.lineWidth = 14;
+    c.globalAlpha = 0.5;
+    drawRoundedRect(c, 30, 8, 940, 624, 60);
     c.stroke();
     c.globalAlpha = 1.0;
 
-    // Ana Saha Çimi (Gradyan)
+    // Ana Çim Saha Zemin Gradyanı
     var grad = c.createLinearGradient(0, 20, 0, 620);
-    grad.addColorStop(0, "#0e2318");
-    grad.addColorStop(1, "#06120a");
+    grad.addColorStop(0, "#12301f");
+    grad.addColorStop(1, "#07170e");
     c.fillStyle = grad;
-    drawRoundedRect(c, 60, 20, 880, 600, 65);
+    drawRoundedRect(c, 60, 20, 880, 600, 75);
     c.fill();
-    c.strokeStyle = "#1d3326";
-    c.lineWidth = 3;
+    c.strokeStyle = "#223d2b";
+    c.lineWidth = 3.5;
     c.stroke();
 
-    // Çim Biçme Çizgileri (Mow Stripes)
-    c.fillStyle = "rgba(255, 255, 255, 0.03)";
+    // Çim Biçme Desenleri (Mow Stripes)
+    c.fillStyle = "rgba(255, 255, 255, 0.035)";
     for(var x = 110; x < 940; x += 100){
       c.fillRect(x, 20, 50, 600);
     }
 
-    // Mavi ve Turuncu Kalepotu Boyamaları
-    c.fillStyle = "rgba(47, 123, 255, 0.16)";
+    // Mavi ve Turuncu Kalepotu / Bölge Renkleri (Görseldeki gibi kavisli)
+    c.fillStyle = "rgba(47, 123, 255, 0.18)";
     c.beginPath();
     c.moveTo(60, 210);
-    c.bezierCurveTo(170, 210, 170, 430, 60, 430);
+    c.bezierCurveTo(180, 210, 180, 430, 60, 430);
     c.fill();
 
-    c.fillStyle = "rgba(255, 138, 31, 0.16)";
+    c.fillStyle = "rgba(255, 138, 31, 0.18)";
     c.beginPath();
     c.moveTo(940, 210);
-    c.bezierCurveTo(830, 210, 830, 430, 940, 430);
+    c.bezierCurveTo(820, 210, 820, 430, 940, 430);
     c.fill();
 
-    // Kaleler ve Ağlar
-    c.fillStyle = "#0a1220";
+    // Kaleler ve Ağlar (File çizgileri)
+    c.fillStyle = "#0a1324";
     c.strokeStyle = "#2f7bff";
-    c.lineWidth = 3;
-    drawRoundedRect(c, 12, 245, 48, 150, 6);
+    c.lineWidth = 3.5;
+    drawRoundedRect(c, 10, 240, 50, 160, 6);
     c.fill(); c.stroke();
 
     c.strokeStyle = "rgba(47, 123, 255, 0.6)";
     c.lineWidth = 2;
     c.setLineDash([4, 4]);
-    c.beginPath(); c.moveTo(12, 265); c.lineTo(2, 265); c.lineTo(2, 375); c.lineTo(12, 375); c.stroke();
+    c.beginPath(); c.moveTo(10, 260); c.lineTo(0, 260); c.lineTo(0, 380); c.lineTo(10, 380); c.stroke();
     c.setLineDash([]);
 
-    c.fillStyle = "#20120a";
+    c.fillStyle = "#24130a";
     c.strokeStyle = "#ff8a1f";
-    c.lineWidth = 3;
-    drawRoundedRect(c, 940, 245, 48, 150, 6);
+    c.lineWidth = 3.5;
+    drawRoundedRect(c, 940, 240, 50, 160, 6);
     c.fill(); c.stroke();
 
     c.strokeStyle = "rgba(255, 138, 31, 0.6)";
     c.lineWidth = 2;
     c.setLineDash([4, 4]);
-    c.beginPath(); c.moveTo(988, 265); c.lineTo(998, 265); c.lineTo(998, 375); c.lineTo(988, 375); c.stroke();
+    c.beginPath(); c.moveTo(990, 260); c.lineTo(1000, 260); c.lineTo(1000, 380); c.lineTo(990, 380); c.stroke();
     c.setLineDash([]);
 
-    // Beyaz Çizgiler ve Orta Yuvarlak
-    c.strokeStyle = "rgba(255, 255, 255, 0.85)";
-    c.lineWidth = 3;
-    drawRoundedRect(c, 60, 20, 880, 600, 65);
+    // Net Beyaz Saha Çizgileri ve Orta Yuvarlak
+    c.strokeStyle = "rgba(255, 255, 255, 0.9)";
+    c.lineWidth = 3.5;
+    drawRoundedRect(c, 60, 20, 880, 600, 75);
     c.stroke();
 
     c.beginPath();
@@ -424,22 +425,22 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     c.stroke();
 
     c.beginPath();
-    c.arc(500, 320, 92, 0, Math.PI * 2);
+    c.arc(500, 320, 95, 0, Math.PI * 2);
     c.stroke();
 
     c.fillStyle = "rgba(255, 255, 255, 0.95)";
     c.beginPath();
-    c.arc(500, 320, 5, 0, Math.PI * 2);
+    c.arc(500, 320, 6, 0, Math.PI * 2);
     c.fill();
 
     // Boost Pad Noktaları (Köşe ve Orta Boostlar)[span_0](start_span)[span_0](end_span)
     var boosts = [
-      {x: 115, y: 75, r: 11}, {x: 885, y: 75, r: 11},
-      {x: 115, y: 565, r: 11}, {x: 885, y: 565, r: 11},
-      {x: 340, y: 320, r: 7}, {x: 660, y: 320, r: 7}
+      {x: 120, y: 75, r: 11}, {x: 880, y: 75, r: 11},
+      {x: 120, y: 565, r: 11}, {x: 880, y: 565, r: 11},
+      {x: 350, y: 320, r: 7.5}, {x: 650, y: 320, r: 7.5}
     ];
     boosts.forEach(function(b){
-      c.fillStyle = "rgba(198, 244, 50, 0.22)";
+      c.fillStyle = "rgba(198, 244, 50, 0.25)";
       c.strokeStyle = "#C6F432";
       c.lineWidth = b.r > 8 ? 2 : 1.5;
       c.beginPath(); c.arc(b.x, b.y, b.r, 0, Math.PI*2); c.fill(); c.stroke();
@@ -448,30 +449,30 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
   function drawStroke(s){
     if(!s || !s.p || s.p.length < 2) return;
-    c.strokeStyle = s.c || "#fff";
-    c.lineWidth = s.w || 5;
-    c.lineCap = "round";
-    c.lineJoin = "round";
+    ctx.strokeStyle = s.c || "#fff";
+    ctx.lineWidth = s.w || 5;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     var p = s.p;
     if(s.k === "pen"){
-      c.beginPath(); c.moveTo(p[0], p[1]);
-      for(var i=2; i<p.length; i+=2) c.lineTo(p[i], p[i+1]);
-      c.stroke();
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]);
+      for(var i=2; i<p.length; i+=2) ctx.lineTo(p[i], p[i+1]);
+      ctx.stroke();
     } else {
       var x1 = p[0], y1 = p[1], x2 = p[2] !== undefined ? p[2] : x1, y2 = p[3] !== undefined ? p[3] : y1;
       if(s.k === "rect"){
-        c.strokeRect(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x2-x1), Math.abs(y2-y1));
+        ctx.strokeRect(Math.min(x1,x2), Math.min(y1,y2), Math.abs(x2-x1), Math.abs(y2-y1));
       } else if(s.k === "circle"){
         var r = Math.hypot(x2-x1, y2-y1);
-        c.beginPath(); c.arc(x1, y1, r, 0, Math.PI*2); c.stroke();
+        ctx.beginPath(); ctx.arc(x1, y1, r, 0, Math.PI*2); ctx.stroke();
       } else if(s.k === "arrow"){
-        c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+        ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
         var an = Math.atan2(y2-y1, x2-x1), hl = 12 + (s.w||5)*2.2;
-        c.beginPath();
-        c.moveTo(x2 - hl * Math.cos(an - 0.45), y2 - hl * Math.sin(an - 0.45));
-        c.lineTo(x2, y2);
-        c.lineTo(x2 - hl * Math.cos(an + 0.45), y2 - hl * Math.sin(an + 0.45));
-        c.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x2 - hl * Math.cos(an - 0.45), y2 - hl * Math.sin(an - 0.45));
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x2 - hl * Math.cos(an + 0.45), y2 - hl * Math.sin(an + 0.45));
+        ctx.stroke();
       }
     }
   }
@@ -480,11 +481,11 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     ALL.forEach(function(id){
       if(!active(id)) return;
       var pos = tokens[id]; if(!pos) return;
-      c.save();
-      c.translate(pos.x, pos.y);
+      ctx.save();
+      ctx.translate(pos.x, pos.y);
 
-      // Gölge / Halo
-      var grad = c.createRadialGradient(0, 0, 10, 0, 0, id==="ball"?38:46);
+      // Oyuncu ve Top Gölgeleri
+      var grad = ctx.createRadialGradient(0, 0, 10, 0, 0, id==="ball"?38:46);
       if(id==="ball"){
         grad.addColorStop(0, "rgba(255,255,255,0.5)"); grad.addColorStop(1, "rgba(255,255,255,0)");
       } else if(id.charAt(0)==="b"){
@@ -492,51 +493,51 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       } else {
         grad.addColorStop(0, "rgba(255,138,31,0.5)"); grad.addColorStop(1, "rgba(255,138,31,0)");
       }
-      c.fillStyle = grad;
-      c.beginPath(); c.arc(0, 0, id==="ball"?38:46, 0, Math.PI*2); c.fill();
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(0, 0, id==="ball"?38:46, 0, Math.PI*2); ctx.fill();
 
       if(id==="ball"){
-        c.fillStyle = "#ffffff";
-        c.strokeStyle = "#0a1226";
-        c.lineWidth = 3;
-        c.beginPath(); c.arc(0, 0, 20, 0, Math.PI*2); c.fill(); c.stroke();
+        ctx.fillStyle = "#ffffff";
+        ctx.strokeStyle = "#0a1226";
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI*2); ctx.fill(); ctx.stroke();
       } else {
-        c.fillStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
-        c.strokeStyle = "#ffffff";
-        c.lineWidth = 2.5;
-        drawRoundedRect(c, -26, -16, 52, 32, 9);
-        c.fill(); c.stroke();
+        ctx.fillStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2.5;
+        drawRoundedRect(ctx, -26, -16, 52, 32, 9);
+        ctx.fill(); ctx.stroke();
 
-        c.fillStyle = "#ffffff";
-        c.font = "bold 18px Barlow, sans-serif";
-        c.textAlign = "center";
-        c.textBaseline = "middle";
-        c.fillText(id.charAt(1), 0, 1);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 18px Barlow, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(id.charAt(1), 0, 1);
 
         // İsim ve Rol Etiketi
         var L = labels[id] || {}, n = (L.n || "").trim(), r = (L.r || "").trim();
         if(n || r){
           var w = Math.max(n.length*8.4, r.length*6.8)+18, h = (n&&r)?36:22;
-          c.fillStyle = "rgba(0,0,0,0.85)";
-          c.strokeStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
-          c.lineWidth = 1.5;
-          drawRoundedRect(c, -w/2, 24, w, h, 8);
-          c.fill(); c.stroke();
+          ctx.fillStyle = "rgba(0,0,0,0.85)";
+          ctx.strokeStyle = id.charAt(0)==="b" ? "#2f7bff" : "#ff8a1f";
+          ctx.lineWidth = 1.5;
+          drawRoundedRect(ctx, -w/2, 24, w, h, 8);
+          ctx.fill(); ctx.stroke();
 
-          c.textAlign = "center";
+          ctx.textAlign = "center";
           if(n){
-            c.fillStyle = "#ffffff";
-            c.font = "bold 14px Barlow, sans-serif";
-            c.fillText(n, 0, r ? 39 : 35);
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 14px Barlow, sans-serif";
+            ctx.fillText(n, 0, r ? 39 : 35);
           }
           if(r){
-            c.fillStyle = "#cfe0ff";
-            c.font = "11px Barlow, sans-serif";
-            c.fillText(r, 0, n ? 52 : 35);
+            ctx.fillStyle = "#cfe0ff";
+            ctx.font = "11px Barlow, sans-serif";
+            ctx.fillText(r, 0, n ? 52 : 35);
           }
         }
       }
-      c.restore();
+      ctx.restore();
     });
   }
 
@@ -571,7 +572,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   function updHist(){
-    if($("bUndo")) $("bUndo"].disabled = !undo.length;
+    if($("bUndo")) $("bUndo").disabled = !undo.length;
   }
   function pushHist(op){
     undo.push(op); if(undo.length>100) undo.shift();
@@ -608,7 +609,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     renderChips();
   }
 
-  if($("bUndo")) $("bUndo"].onclick = function(){
+  if($("bUndo")) $("bUndo").onclick = function(){
     stopPlay(); var op = undo.pop(); if(!op) return;
     doOp(op, -1); redo.push(op); updHist();
   };
@@ -725,7 +726,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   twoTap($("bReset"), function(){ setup(function(){ resetForm(mode); }); });
-  if($("bKick")) $("bKick"].onclick = function(){
+  if($("bKick")) $("bKick").onclick = function(){
     setup(function(){ ko = (ko + 1) % KO[mode].length; resetForm(mode); });
   };
 
@@ -759,18 +760,18 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  if($("bAdd")) $("bAdd"].onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
-  if($("bUpd")) $("bUpd"].onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
-  if($("bDel")) $("bDel"].onclick = function(){
+  if($("bAdd")) $("bAdd").onclick = function(){ if(playing) return; frames.push(snap()); fsel = frames.length-1; renderChips(); saveState(); };
+  if($("bUpd")) $("bUpd").onclick = function(){ if(playing || fsel<0 || !frames[fsel]) return; frames[fsel] = snap(); saveState(); };
+  if($("bDel")) $("bDel").onclick = function(){
     if(playing || fsel<0 || !frames[fsel]) return;
     frames.splice(fsel, 1); fsel = Math.min(fsel, frames.length-1); renderChips(); saveState();
   };
   twoTap($("bFclr"), function(){ stopPlay(); frames = []; fsel = -1; renderChips(); saveState(); });
 
-  if($("bPlay")) $("bPlay"].onclick = function(){
+  if($("bPlay")) $("bPlay").onclick = function(){
     if(playing){ stopPlay(); return; }
     if(frames.length<2){ alert(curLang==="tr"?"Oynatmak için en az 2 adım ekle":"Add at least 2 steps to play"); return; }
-    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay"].textContent = t("btn_stop");
+    playing = true; backup = clone(tokens); var seq = clone(frames); $("bPlay").textContent = t("btn_stop");
     var seg = 0, t0 = performance.now(), DUR = 1300, HOLD = 350;
     function step(now){
       if(!playing) return;
@@ -902,7 +903,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   }
 
   var gifBusy = false;
-  if($("bGif")) $("bGif"].onclick = function(){
+  if($("bGif")) $("bGif").onclick = function(){
     if(gifBusy) return;
     if(frames.length<2){ alert(curLang==="tr"?"GIF için en az 2 adım ekle":"Add at least 2 steps for GIF"); return; }
     stopPlay(); gifBusy = true; var btn = $("bGif"); btn.disabled = true;
@@ -962,14 +963,14 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
   }
 
-  if($("bSave")) $("bSave"].onclick = function(){
+  if($("bSave")) $("bSave").onclick = function(){
     var name = $("sname").value.trim(); if(!name){ alert(curLang==="tr"?"Taktiğe bir isim ver":"Give your tactic a name"); return; }
     var a = lib().filter(function(s){ return s.name!==name; });
     a.unshift({name:name, mode:mode, ko:ko, tokens:snap(), labels:clone(labels), strokes:clone(strokes), frames:clone(frames)});
     if(setLib(a)){ $("sname").value=""; renderLib(); alert(curLang==="tr"?"Kaydedildi":"Saved"); } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
   };
 
-  if($("bPng")) $("bPng"].onclick = function(){
+  if($("bPng")) $("bPng").onclick = function(){
     var bigCanvas = document.createElement("canvas"); bigCanvas.width = 2000; bigCanvas.height = 1280;
     var bCtx = bigCanvas.getContext("2d");
     var origCtx = ctx, origCvs = cvs;
@@ -1006,7 +1007,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     updKo(); updSide(); renderChips(); renderLib();
   }
 
-  if($("bLang")) $("bLang"].onclick = function(){
+  if($("bLang")) $("bLang").onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
     localStorage.setItem("rltactic_lang", curLang);
     applyLanguage();
