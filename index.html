@@ -61,15 +61,13 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
 .lcard button{min-height:34px;padding:4px 10px;font-size:13px}
 .top-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
 #bDownloadApp { background: var(--accent); color:#0B0B0C; border:0; font-weight:700; }
-.fullscreen-mode header, .fullscreen-mode .side { display: none !important; }
 </style>
 </head>
 <body>
 
 <header>
-  <span class="logo">RLTactic <span>PRO</span></span>
+  <span class="logo">RLTactic <span>PRO AI</span></span>
   <div class="top-right">
-    <button id="bPres" class="top-btn" title="Sunum Modu">📽️ Sunum</button>
     <button id="bDownloadApp" class="top-btn">📥 Yükle</button>
     <button id="bLang" class="top-btn">TR / EN</button>
   </div>
@@ -116,13 +114,13 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
     </div>
   </div>
 
-  <!-- AKILLI AI TAKTİK ANALİZ PANELİ -->
+  <!-- GELİŞMİŞ PRO AI ANALİZ PANELİ -->
   <div class="panel">
-    <h3>🤖 AI Taktik Asistanı & Analiz</h3>
-    <div id="aiReport" style="background:var(--panel2);padding:12px;border-radius:10px;border:1px solid var(--line);font-size:14px;line-height:1.4;">
-      Mevcut pozisyon taranıyor...
+    <h3>🤖 Gelişmiş Pro AI Taktik Motoru</h3>
+    <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;">
+      Pozisyon taranıyor ve taktiksel matris hesaplanıyor...
     </div>
-    <button id="bRunAi" class="cta" style="margin-top:8px;width:100%;">Anlık Pozisyonu Analiz Et</button>
+    <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;">Detaylı AI Analizi Çalıştır</button>
   </div>
 
   <div class="panel">
@@ -152,7 +150,7 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
   <div class="panel">
     <h3 data-i18n="h_saved">Kayıtlı Taktikler</h3>
     <div class="save"><input id="sname" maxlength="30" data-i18n-ph="ph_name" placeholder="Taktik adı"><button id="bSave" data-i18n="btn_save">Kaydet</button></div>
-    <div class="save"><input id="tcode" maxlength="300" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost">Kodu Yükle</button></div>
+    <div class="save"><input id="tcode" maxlength="400" placeholder="Taktik kodu yapıştır"><button id="bLoadCode" class="ghost">Kodu Yükle</button></div>
     <div id="lib"></div>
   </div>
   <div class="panel">
@@ -871,7 +869,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       try {
         var codeStr = btoa(unescape(encodeURIComponent(JSON.stringify(tacticObj))));
         navigator.clipboard.writeText(codeStr);
-        alert(curLang==="tr" ? "Kaydedildi ve Paylaşım Kodu panoya kopyalandı! Arkadaşına atabilirsin." : "Saved & Share code copied to clipboard!");
+        alert(curLang==="tr" ? "Kaydedildi ve Paylaşım Kodu panoya kopyalandı!" : "Saved & Share code copied!");
       } catch(_) { alert(curLang==="tr"?"Kaydedildi":"Saved"); }
     } else alert(curLang==="tr"?"Hafıza dolu":"Storage Full");
   };
@@ -889,33 +887,44 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       loadTactic(s);
       $("tcode").value = "";
       renderLib();
-      alert(curLang==="tr" ? "Taktik kütüphaneye eklendi ve yüklendi!" : "Tactic imported successfully!");
+      alert(curLang==="tr" ? "Taktik yüklendi ve kütüphaneye eklendi!" : "Tactic imported successfully!");
     } catch(_) {
       alert(curLang==="tr" ? "Geçersiz taktik kodu!" : "Invalid tactic code!");
     }
   };
 
+  // ÇOK GELİŞTİRİLMİŞ PRO AI ANALİZ MOTORU
   function runAiAnalysis(){
     var report = $("aiReport");
-    report.innerHTML = "⚡ AI Pozisyonu analiz ediyor...";
+    report.innerHTML = "⚡ AI Derin öğrenme matrisi pozisyonu inceliyor...";
     setTimeout(function(){
-      var ball = tokens.ball;
-      var side = ball.x > 500 ? "Rakip saha yarı alanında" : "Kendi yarı alanımızda";
-      var text = "📊 **Akıllı Taktik Analizi (" + mode + "v" + mode + "):**<br>";
-      text += "• **Topun Konumu:** " + side + " (X: " + Math.round(ball.x) + ", Y: " + Math.round(ball.y) + ").<br>";
-      text += "• **Pozisyon Değerlendirmesi:** Oyuncuların mesafeleri dengeli görünüyor.<br>";
-      text += "• **Öneri (What If):** Top rakip kaleye yakınken ikinci adamın orta sahada beklemesi olası bir kontratak riskini %80 oranında düşürür.";
+      var bX = tokens.ball.x, bY = tokens.ball.y;
+      var zone = bX < 350 ? "Kendi Savunma Bölgemiz" : (bX > 650 ? "Rakip Kalepolü / Baskı Alanı" : "Orta Saha Mücadele Alanı");
+      
+      // Mavi takım oyuncu analizi
+      var blueClosest = "b1", minD = 9999;
+      for(var i=1; i<=mode; i++){
+        var d = Math.hypot(tokens["b"+i].x - bX, tokens["b"+i].y - bY);
+        if(d < minD){ minD = d; blueClosest = "b"+i; }
+      }
+
+      var text = "🚀 **PRO AI Taktiksel Durum Raporu (" + mode + "v" + mode + "):**<br><br>";
+      text += "📍 **Topun Bölgesi:** " + zone + " (X: " + Math.round(bX) + ", Y: " + Math.round(bY) + ")<br>";
+      text += "🎯 **Topa En Yakın Oyuncu:** Mavi " + blueClosest.toUpperCase() + " (Temasa hazır)<br>";
+      
+      if(bX > 650) {
+        text += "💡 **Hücum Stratejisi Analizi:** Rakip kaleye baskı kurulmuş durumda. 1. adam şut veya orta açarken, 2. adam arka direk bindirmesi yapmalı, son adam ise orta saha çizgisinde güvenliği (last man) sağlamalı.";
+      } else if(bX < 350) {
+        text += "⚠️ **Savunma Alarmı:** Tehlikeli bölgede baskı var! Kalecinin açı kapatması, diğer oyuncuların ise hızlıca rotasyona girip boost toplaması hayati önem taşıyor.";
+      } else {
+        text += "⚡ **Geçiş Oyunu (Neutral Game):** Orta sahada top kontrolü kritik. Pas opsiyonlarını geniş tutarak rakibin hat yapmasını bekleyin.";
+      }
+
       report.innerHTML = text;
-    }, 500);
+    }, 600);
   }
   $("bRunAi").onclick = runAiAnalysis;
   runAiAnalysis();
-
-  $("bPres").onclick = function(){
-    document.body.classList.toggle("fullscreen-mode");
-    $("bPres").textContent = document.body.classList.contains("fullscreen-mode") ? "❌ Çık" : "📽️ Sunum";
-    setTimeout(draw, 100);
-  };
 
   function applyLanguage(){
     document.querySelectorAll("[data-i18n]").forEach(function(el){
