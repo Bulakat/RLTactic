@@ -12,6 +12,10 @@
 <style>
 :root{--ink:#e9eefc;--mute:#9aa7cf;--night:#000000;--panel:#111a33;--panel2:#18234a;--line:#26335f;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
 *{box-sizing:border-box}
+html, body {
+  background-color: #000000 !important;
+  padding-bottom: env(safe-area-inset-bottom);
+}
 body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif}
