@@ -14,11 +14,11 @@
 *{box-sizing:border-box}
 html, body {
   background-color: #000000 !important;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding-bottom: 50px;
 }
-body{margin:0 auto;max-width:1240px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
+body{margin:0 auto;max-width:1240px;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif; color:#fff; display:flex; align-items:center; gap:8px;}
 .logo span{background:var(--accent);color:#0B0B0C;font-size:12px;padding:2px 6px;border-radius:6px;font-style:normal;}
@@ -257,7 +257,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var cvs = $("cvs"), ctx = cvs.getContext("2d");
   var rows = {};
 
-  // Kaydedilen API Key'i kutuya otomatik doldur
   var savedKey = localStorage.getItem("rltactic_apikey") || "";
   if($("geminiKey")) $("geminiKey").value = savedKey;
 
@@ -937,7 +936,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // PRO IQ (GEMİNİ API) ENTEGRASYONU
+  // PRO IQ (GEMİNİ API) ENTEGRASYONU (DİL DESTEKLİ)
   async function runProIQAnalysis(){
     var report = $("aiReport");
     var apiKeyInput = $("geminiKey");
@@ -966,7 +965,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
     var promptText = curLang==="tr" 
       ? "Sen Rocket League espor üst düzey koçusun (Pro IQ). Saha boyutu 1000x640'tır. Aşağıdaki pozisyon verilerine göre bu pozisyonu analiz et, mavi takım ve turuncu takım için taktiksel avantaj/dezavantajları değerlendir ve nokta atışı 3 öneri ver. Kısa ve net Türkçe yaz:\n" + JSON.stringify(boardState)
-      : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise:\n" + JSON.stringify(boardState);
+      : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise in English:\n" + JSON.stringify(boardState);
 
     try {
       var response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
@@ -1008,4 +1007,14 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
-    curLang = curLang === "tr" ? "en" : "tr
+    curLang = curLang === "tr" ? "en" : "tr";
+    localStorage.setItem("rltactic_lang", curLang);
+    applyLanguage();
+  };
+
+  applyMode(mode); updHist(); applyLanguage(); draw();
+  renderLib();
+})();
+</script>
+</body>
+</html>
