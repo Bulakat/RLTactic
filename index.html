@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#000000">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:ital,wght@1,700&display=swap">
 <style>
-:root{--ink:#e9eefc;--mute:#9aa7cf;--night:#000000;--panel:#111a33;--panel2:#18234a;--line:#26335f;--blue:#2f7bff;--orange:#ff8a1f;--bad:#d23c3c}
+:root{--ink:#e9eefc;--mute:#9aa7cf;--night:#000000;--panel:#0B0B0C;--panel2:#141416;--line:#222226;--blue:#2f7bff;--orange:#ff8a1f;--accent:#C6F432;--bad:#d23c3c}
 *{box-sizing:border-box}
 html, body {
   background-color: #000000 !important;
@@ -20,7 +20,7 @@ html, body {
 }
 body{margin:0 auto;max-width:1180px;min-height:100vh;color:var(--ink);font:15px/1.45 "Barlow",system-ui,sans-serif;padding:10px;background:var(--night);-webkit-user-select:none;user-select:none}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif}
+.logo{font:italic 700 24px/1 "Barlow Condensed",sans-serif; color:#fff;}
 .top-right{display:flex;align-items:center;gap:8px}
 button,input{font:inherit;color:var(--ink);min-height:42px}
 button{cursor:pointer;padding:8px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);transition:transform .08s}
@@ -29,8 +29,8 @@ button:focus, input:focus{outline:none!important}
 input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);width:100%}
 .seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px;gap:2px}
 .seg button{border:0;background:transparent;border-radius:11px;min-height:38px;padding:6px 14px;font-weight:600}
-.seg button.on{background:var(--blue);color:#fff}
-.cta{border:0;color:#1c1204;font-weight:600;background:linear-gradient(100deg,#ffa43a,var(--orange));border-radius:14px;padding:8px 16px}
+.seg button.on{background:var(--accent);color:#0B0B0C}
+.cta{border:0;color:#0B0B0C;font-weight:700;background:var(--accent);border-radius:14px;padding:8px 16px}
 .ghost.on{background:var(--bad);border-color:var(--bad);color:#fff}
 .sw{width:34px;height:34px;min-height:0;padding:0;border-radius:50%;border:2px solid var(--line)}
 .sw.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--ink)}
@@ -48,7 +48,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .dot.b{background:var(--blue)}.dot.o{background:var(--orange);color:#1c1204}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .chip{min-height:38px;min-width:42px;padding:4px 10px;font-weight:700}
-.chip.on{background:var(--blue);color:#fff}
+.chip.on{background:var(--accent);color:#0B0B0C}
 .hint{color:var(--mute);font-size:14px}
 .save{display:flex;gap:6px}
 .save input{flex:1;min-width:0}
@@ -59,7 +59,7 @@ input{padding:8px 12px;border-radius:12px;border:1px solid var(--line);backgroun
 .lcard small{display:block;color:var(--mute);font-weight:400;font-size:12px}
 .lcard button{min-height:34px;padding:4px 10px;font-size:13px}
 .top-btn{min-height:34px;padding:4px 12px;font-weight:700;font-size:13px;border-radius:999px;background:var(--panel2)}
-#bDownloadApp { background: linear-gradient(100deg,#ffa43a,var(--orange)); color:#1c1204; border:0; font-weight:700; }
+#bDownloadApp { background: var(--accent); color:#0B0B0C; border:0; font-weight:700; }
 </style>
 </head>
 <body>
