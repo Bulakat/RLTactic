@@ -936,7 +936,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // PRO IQ (GEMİNİ API) ENTEGRASYONU (DİL DESTEKLİ)
+  // PRO IQ (GEMİNİ 2.0 FLASH) ENTEGRASYONU
   async function runProIQAnalysis(){
     var report = $("aiReport");
     var apiKeyInput = $("geminiKey");
@@ -968,7 +968,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise in English:\n" + JSON.stringify(boardState);
 
     try {
-      var response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey, {
+      var response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1008,7 +1008,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
-    localStorage.setItem("rltactic_lang", curLang);
+    localStorage.getItem("rltactic_lang", curLang);
     applyLanguage();
   };
 
