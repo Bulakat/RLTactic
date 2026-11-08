@@ -867,7 +867,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       sm.textContent = (nf>=2?nf+(curLang==="tr"?" adım":" steps"):(curLang==="tr"?"animasyonsuz":"no anim"))+" · "+mm+"v"+mm; n.appendChild(sm);
       var lBtn = document.createElement("button"); lBtn.textContent = curLang==="tr"?"Yükle":"Load";
       var cBtn = document.createElement("button"); cBtn.textContent = curLang==="tr"?"Kod":"Code";
-      var dBtn = document.createElement("button"); cBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
+      var dBtn = document.createElement("button"); dBtn.textContent = curLang==="tr"?"Sil":"Del"; dBtn.className = "ghost";
       bar.appendChild(n); bar.appendChild(lBtn); bar.appendChild(cBtn); bar.appendChild(dBtn); r.appendChild(bar); box.appendChild(r);
       twoTap(lBtn, function(){ loadTactic(s); });
       cBtn.onclick = function(){
@@ -926,7 +926,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // PRO IQ (ROBUST GROQ API) ENTEGRASYONU
+  // PRO IQ (LLAMA 3.1 8B INSTANT) ENTEGRASYONU
   async function runProIQAnalysis(){
     var report = $("aiReport");
     report.innerHTML = curLang==="tr" ? "Pro IQ saha pozisyonunu ve animasyon adımlarını analiz ediyor..." : "Pro IQ analyzing tactical position and animation steps...";
@@ -960,7 +960,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         },
         mode: "cors",
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
+          model: "llama-3.1-8b-instant",
           messages: [{ role: "user", content: promptText }]
         })
       });
@@ -1000,7 +1000,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
-    localStorage.setItem("rltactic_lang", curLang);
+    localStorage.getItem("rltactic_lang", curLang);
     applyLanguage();
   };
 
