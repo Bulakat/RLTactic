@@ -118,7 +118,7 @@ input, select{padding:8px 12px;border-radius:12px;border:1px solid var(--line);b
   <div class="panel">
     <h3 data-i18n="ai_title">🤖 Pro IQ Taktik Motoru</h3>
     <div id="aiReport" style="background:var(--panel2);padding:14px;border-radius:12px;border:1px solid var(--line);font-size:14px;line-height:1.5;" data-i18n="ai_ready">
-      Saha pozisyonu hazır. Pro IQ analizi için butona basın.
+      Saha pozisyonu ve animasyon adımları hazır. Pro IQ analizi için butona basın.
     </div>
     <button id="bRunAi" class="cta" style="margin-top:10px;width:100%;" data-i18n="ai_btn">Pro IQ ile Detaylı Analiz Yap</button>
   </div>
@@ -205,7 +205,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       near_ball: "Topa En Yakın", near_net: "Kaleye En Yakın",
       blue_def: "Mavi ", orange_def: "Turuncu ",
       ai_title: "🤖 Pro IQ Taktik Motoru", ai_btn: "Pro IQ ile Detaylı Analiz Yap",
-      ai_ready: "Saha pozisyonu hazır. Pro IQ analizi için butona basın.",
+      ai_ready: "Saha pozisyonu ve animasyon adımları hazır. Pro IQ analizi için butona basın.",
       p_name: "İsim", p_role: "Rol"
     },
     en: {
@@ -222,7 +222,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       near_ball: "Closest to Ball", near_net: "Closest to Net",
       blue_def: "Blue ", orange_def: "Orange ",
       ai_title: "🤖 Pro IQ Tactical Engine", ai_btn: "Run Pro IQ Deep Analysis",
-      ai_ready: "Field position ready. Click button for Pro IQ analysis.",
+      ai_ready: "Field position and animation steps ready. Click button for Pro IQ analysis.",
       p_name: "Name", p_role: "Role"
     }
   };
@@ -252,7 +252,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var cvs = $("cvs"), ctx = cvs.getContext("2d");
   var rows = {};
 
-  // GROQ API KEY GÖMÜLDÜ
   var GROQ_API_KEY = "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";
 
   function saveState(){
@@ -927,19 +926,21 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     }
   };
 
-  // PRO IQ (GROQ API - LLAMA 3.3 70B) ENTEGRASYONU
+  // PRO IQ (ANIMASYON ADIMLARI DAHİL) ENTEGRASYONU
   async function runProIQAnalysis(){
     var report = $("aiReport");
-    report.innerHTML = curLang==="tr" ? "Pro IQ saha pozisyonunu analiz ediyor..." : "Pro IQ analyzing tactical position...";
+    report.innerHTML = curLang==="tr" ? "Pro IQ saha pozisyonunu ve animasyon adımlarını analiz ediyor..." : "Pro IQ analyzing tactical position and animation steps...";
 
-    var boardState = {
+    var tacticalData = {
       gameMode: mode + "v" + mode,
-      ballPosition: tokens.ball,
-      players: {}
+      currentBallPosition: tokens.ball,
+      currentPlayers: {},
+      animationSteps: frames
     };
+
     ALL.forEach(function(id){
       if(active(id) && id !== "ball"){
-        boardState.players[id] = {
+        tacticalData.currentPlayers[id] = {
           position: tokens[id],
           info: labels[id] || {}
         };
@@ -947,8 +948,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     });
 
     var promptText = curLang==="tr" 
-      ? "Sen Rocket League espor üst düzey koçusun (Pro IQ). Saha boyutu 1000x640'tır. Aşağıdaki pozisyon verilerine göre bu pozisyonu analiz et, mavi takım ve turuncu takım için taktiksel avantaj/dezavantajları değerlendir ve nokta atışı 3 öneri ver. Kısa, doğrudan ve net Türkçe yaz:\n" + JSON.stringify(boardState)
-      : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze this tactical position, evaluate advantages/disadvantages for blue and orange teams, and provide 3 precise recommendations. Keep it concise and direct in English:\n" + JSON.stringify(boardState);
+      ? "Sen Rocket League espor üst düzey koçusun (Pro IQ). Saha boyutu 1000x640'tır. Aşağıdaki mevcut saha pozisyonunu VE kaydedilmiş animasyon adımlarını (animationSteps) bir bütün olarak incele. Oyuncuların rotasyonunu, pozisyon geçişlerini ve taktik akışını değerlendirip 3 nokta atışı profesyonel öneri ver. Kısa, doğrudan ve net Türkçe yaz:\n" + JSON.stringify(tacticalData)
+      : "You are an elite Rocket League esports coach named Pro IQ. Field size is 1000x640. Analyze the current field position AND the saved animation steps (animationSteps) as a complete tactical play. Evaluate rotation, positioning flow, and provide 3 precise recommendations. Keep it concise and direct in English:\n" + JSON.stringify(tacticalData);
 
     try {
       var response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -995,7 +996,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
-    localStorage.setItem("rltactic_lang", curLang);
+    localStorage.getItem("rltactic_lang", curLang);
     applyLanguage();
   };
 
