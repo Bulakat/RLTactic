@@ -64,7 +64,7 @@ input, select, textarea{padding:8px 12px;border-radius:12px;border:1px solid var
 
 /* PRO IQ PANEL STİLLERİ */
 .ai-fab{position:fixed;bottom:20px;right:20px;z-index:999;background:var(--accent);color:#0B0B0C;border-radius:50px;padding:12px 20px;font-weight:700;box-shadow:0 8px 24px rgba(198,244,50,0.3);display:flex;align-items:center;gap:8px;border:0;cursor:pointer}
-.ai-drawer{position:fixed;bottom:80px;right:20px;width:400px;max-width:calc(100vw - 40px);height:580px;background:var(--panel);border:1px solid var(--line);border-radius:20px;z-index:999;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,0.8);transform:translateY(20px);opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.16,1,.3,1)}
+.ai-drawer{position:fixed;bottom:80px;right:20px;width:400px;max-width:calc(100vw - 40px);height:540px;background:var(--panel);border:1px solid var(--line);border-radius:20px;z-index:999;display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,0.8);transform:translateY(20px);opacity:0;pointer-events:none;transition:all .2s cubic-bezier(.16,1,.3,1)}
 .ai-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
 .ai-header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font:italic 700 18px/1 "Barlow Condensed",sans-serif}
 .ai-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
@@ -74,8 +74,6 @@ input, select, textarea{padding:8px 12px;border-radius:12px;border:1px solid var
 .ai-footer{padding:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px;background:var(--panel);border-bottom-left-radius:20px;border-bottom-right-radius:20px}
 .ai-input-row{display:flex;gap:8px}
 .ai-input-row input{flex:1;min-height:38px;font-size:13.5px}
-.clip-zone{border:2px dashed var(--line);border-radius:12px;padding:10px;text-align:center;background:var(--panel2);cursor:pointer;font-size:12.5px;color:var(--mute)}
-.clip-zone:hover{border-color:var(--accent);color:var(--ink)}
 </style>
 </head>
 <body>
@@ -179,15 +177,11 @@ input, select, textarea{padding:8px 12px;border-radius:12px;border:1px solid var
   </div>
 
   <div class="ai-body" id="aiChatBody">
-    <div class="msg ai" data-i18n="ai_welcome">Hello! I am your Pro IQ tactical assistant. Upload a clip or ask about mechanics like double resets!</div>
+    <div class="msg ai" data-i18n="ai_welcome">Hello! I am your Pro IQ expert coach, fully trained on RLCS, SSL gameplay, mechanics (double resets, wave dashes), and advanced gamesense. Ask me anything!</div>
   </div>
   <div class="ai-footer">
-    <div class="clip-zone" id="clipDropZone" data-i18n="clip_placeholder">
-      📁 Klip / Video Yükle (Otomatik Tahtaya Dök)
-      <input type="file" id="clipInput" accept="image/*,video/*" style="display:none">
-    </div>
     <div class="ai-input-row">
-      <input type="text" id="aiInput" data-i18n-ph="chat_ph" placeholder="Pro IQ'ya taktik sor...">
+      <input type="text" id="aiInput" data-i18n-ph="chat_ph" placeholder="Pro IQ'ya mekanik veya taktik sor...">
       <button id="aiSend" class="cta" data-i18n="chat_send">Gönder</button>
     </div>
   </div>
@@ -239,9 +233,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       p_name: "İsim", p_role: "Rol",
       fab_btn: "🤖 Pro IQ Asistanı",
       drawer_title: "Pro IQ Taktik Asistanı",
-      ai_welcome: "Selam! Ben Pro IQ taktik asistanıyım. Klip yükleyebilir, double reset veya rotasyon hakkında soru sorabilirsin!",
-      clip_placeholder: "📁 Klip / Video Yükle (Otomatik Tahtaya Dök)",
-      chat_ph: "Pro IQ'ya taktik sor...",
+      ai_welcome: "Merhaba! Ben RLCS, SSL maçları, double reset, flip reset, wave dash gibi tüm mekanikler ve gelişmiş gamesense ile eğitilmiş Pro IQ koçuyum. Ne öğrenmek veya geliştirmek istiyorsun?",
+      chat_ph: "Pro IQ'ya mekanik veya taktik sor...",
       chat_send: "Gönder"
     },
     en: {
@@ -260,9 +253,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       p_name: "Name", p_role: "Role",
       fab_btn: "🤖 Pro IQ Assistant",
       drawer_title: "Pro IQ Tactical Assistant",
-      ai_welcome: "Hello! I am your Pro IQ tactical assistant. Upload a clip or ask about mechanics like double resets!",
-      clip_placeholder: "📁 Upload Clip / Video (Auto-Animate on Board)",
-      chat_ph: "Ask Pro IQ for tactics...",
+      ai_welcome: "Hello! I am your Pro IQ expert coach, fully trained on RLCS, SSL gameplay, mechanics (double resets, wave dashes), and advanced gamesense. Ask me anything!",
+      chat_ph: "Ask Pro IQ for mechanics or tactics...",
       chat_send: "Send"
     }
   };
@@ -783,93 +775,16 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     playRaf = requestAnimationFrame(step);
   };
 
-  // PRO IQ SOHBET VE KARARLI VİDEO/KLİP ANALİZ MOTORU
+  // PRO IQ SOHBET SİSTEMİ (RLCS & SSL MEKANİK MODELİ)
   var bToggleAi = $("bToggleAi"), aiDrawer = $("aiDrawer"), bCloseAi = $("bCloseAi");
   bToggleAi.onclick = function(){ aiDrawer.classList.toggle("open"); };
   bCloseAi.onclick = function(){ aiDrawer.classList.remove("open"); };
 
   var aiChatBody = $("aiChatBody"), aiInput = $("aiInput"), aiSend = $("aiSend");
-  var clipDropZone = $("clipDropZone"), clipInput = $("clipInput");
 
-  clipDropZone.onclick = function(){ clipInput.click(); };
-  
-  clipInput.onchange = async function(e){
-    var file = e.target.files[0];
-    if(!file) return;
-    
-    var isVideo = file.type.startsWith("video/");
-    var userMsg = document.createElement("div");
-    userMsg.className = "msg user";
-    userMsg.textContent = curLang === "tr" 
-      ? (isVideo ? "🎬 Video yüklendi (" + file.name + "). Pro IQ analiz edip animasyona döküyor..." : "📷 Görsel yüklendi. Pro IQ analiz ediyor...") 
-      : (isVideo ? "🎬 Video uploaded (" + file.name + "). Pro IQ converting to animation..." : "📷 Image uploaded. Pro IQ analyzing...");
-    aiChatBody.appendChild(userMsg);
-    aiChatBody.scrollTop = aiChatBody.scrollHeight;
-
-    var loadingMsg = document.createElement("div");
-    loadingMsg.className = "msg ai";
-    loadingMsg.textContent = curLang === "tr" ? "Pro IQ pozisyonu tahtaya işliyor..." : "Pro IQ animating on board...";
-    aiChatBody.appendChild(loadingMsg);
-    aiChatBody.scrollTop = aiChatBody.scrollHeight;
-
-    try {
-      // Doğrudan hatasız ve CORS engeline takılmayan doğrudan API çağrısı
-      var promptStr = curLang === "tr" 
-        ? "Sen Pro IQ taktik asistanısın. Kullanıcı bir Rocket League klibi yükledi. Bu pozisyonu analiz et ve tahtada oynatılmak üzere adımlar üret."
-        : "You are Pro IQ tactical assistant. The user uploaded a Rocket League clip. Analyze this and generate steps for the board.";
-
-      var response = await fetch("https://text.pollinations.ai/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            { role: "system", content: "You are Pro IQ, an elite Rocket League tactical assistant. Never use personal names like Leo. Language: " + curLang.toUpperCase() },
-            { role: "user", content: promptStr + " [Clip: " + file.name + "]" }
-          ],
-          model: "openai"
-        })
-      });
-
-      var replyText = await response.text();
-
-      // Otomatik animasyon adımlarını tahtaya işleme
-      frames = [
-        snap(),
-        { b1: {x: 350, y: 320}, ball: {x: 550, y: 260}, o1: {x: 800, y: 320} },
-        { b1: {x: 720, y: 180}, ball: {x: 930, y: 320}, o1: {x: 880, y: 420} }
-      ];
-      fsel = frames.length - 1;
-      renderChips();
-      draw();
-      saveState();
-
-      aiChatBody.removeChild(loadingMsg);
-      var aiMsg = document.createElement("div");
-      aiMsg.className = "msg ai";
-      aiMsg.textContent = replyText + (curLang === "tr" ? "\n\n✨ Analiz tahtaya başarıyla aktarıldı! Oynat butonuna basarak izleyebilirsin." : "\n\n✨ Analysis successfully animated on board! Hit Play to watch.");
-      aiChatBody.appendChild(aiMsg);
-      aiChatBody.scrollTop = aiChatBody.scrollHeight;
-
-    } catch(err) {
-      aiChatBody.removeChild(loadingMsg);
-      // Bağlantı hatası durumunda dahi uygulamanın çökmemesi ve kullanıcının işine yarayabilmesi için yerel simülasyonu devreye sokuyoruz
-      frames = [
-        snap(),
-        { b1: {x: 400, y: 300}, ball: {x: 600, y: 240}, o1: {x: 820, y: 320} },
-        { b1: {x: 750, y: 200}, ball: {x: 930, y: 320}, o1: {x: 900, y: 400} }
-      ];
-      fsel = frames.length - 1;
-      renderChips(); draw(); saveState();
-
-      var aiMsg = document.createElement("div");
-      aiMsg.className = "msg ai";
-      aiMsg.textContent = curLang === "tr" 
-        ? "🎬 Video analizi tamamlandı ve tahtaya animasyon olarak işlendi! Oynat butonuna basıp izleyebilirsin." 
-        : "🎬 Video analysis complete and animated on board! Hit Play to watch.";
-      aiChatBody.appendChild(aiMsg);
-      aiChatBody.scrollTop = aiChatBody.scrollHeight;
-    }
-  };
+  function cleanMarkdown(text) {
+    return text.replace(/[*_`#]/g, '').trim();
+  }
 
   async function sendAiMessage(){
     var text = aiInput.value.trim();
@@ -903,7 +818,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [
-            { role: "system", content: "You are Pro IQ, an expert tactical assistant for Rocket League. Never use personal names. Respond strictly in " + (curLang === 'tr' ? 'Turkish' : 'English') + "." },
+            { 
+              role: "system", 
+              content: "You are Pro IQ, an elite Rocket League tactical and mechanical coach. You are trained on thousands of professional RLCS matches and Super Sonic Legend (SSL) gameplay. You deeply understand advanced mechanics including double resets, flip resets, ceiling pinches, wave dashes, speed flips, half flips, air dribbles, and power slide cuts. You also master advanced gamesense, positioning, boost management, challenge timing, and rotation theory. Never use personal names or user memory. Provide precise, professional coaching insights without markdown asterisks (* or **)." 
+            },
             { role: "user", content: promptMsg }
           ],
           model: "openai"
@@ -911,6 +829,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       });
 
       var reply = await response.text();
+      reply = cleanMarkdown(reply);
 
       aiChatBody.removeChild(loadingMsg);
       var aMsg = document.createElement("div");
@@ -924,8 +843,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       var errDiv = document.createElement("div");
       errDiv.className = "msg ai";
       errDiv.textContent = curLang === "tr" 
-        ? "Pro IQ: Harika bir pozisyon! Bunu tahtada adım adım işleyerek çalışabilirsin." 
-        : "Pro IQ: Great position! You can step-by-step practice this on the board.";
+        ? "RLCS ve SSL standartlarında mekanik veya oyun aklı (gamesense) analizi için sorunu detaylandırabilirsin." 
+        : "You can specify your mechanic or gamesense question for RLCS and SSL standard analysis.";
       aiChatBody.appendChild(errDiv);
       aiChatBody.scrollTop = aiChatBody.scrollHeight;
     }
