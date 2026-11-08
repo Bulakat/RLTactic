@@ -342,7 +342,6 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var cvs = $("cvs"), ctx = cvs.getContext("2d");
   var rows = {};
 
-  // LOCALSTORAGE DAHİLİNDE API ANAHTARI YÖNETİMİ
   var userApiKeyInput = $("userApiKey");
   var savedApiKey = localStorage.getItem("rltactic_groq_key") || "";
   if(userApiKeyInput && savedApiKey) userApiKeyInput.value = savedApiKey;
@@ -853,7 +852,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   if(bApiHelp) bApiHelp.onclick = function(){ apiHelpModal.classList.add("open"); };
   if(bCloseModal) bCloseModal.onclick = function(){ apiHelpModal.classList.remove("open"); };
 
-  // PRO IQ SOHBET VE GERÇEK AI İSTEKLERİ
+  // PRO IQ SOHBET VE KESİN ÇÖZÜMLÜ API İSTEKLERİ
   var bToggleAi = $("bToggleAi"), aiDrawer = $("aiDrawer"), bCloseAi = $("bCloseAi");
   bToggleAi.onclick = function(){ aiDrawer.classList.toggle("open"); };
   bCloseAi.onclick = function(){ aiDrawer.classList.remove("open"); };
@@ -903,7 +902,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
           })
         });
 
-        if(!response.ok) throw new Error("API Error: " + response.status);
+        if(!response.ok) {
+          var errText = await response.text();
+          throw new Error("HTTP " + response.status + " - " + errText);
+        }
 
         var data = await response.json();
         var replyText = data.choices[0].message.content;
@@ -970,7 +972,10 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
         })
       });
 
-      if(!response.ok) throw new Error("HTTP " + response.status);
+      if(!response.ok) {
+        var errText = await response.text();
+        throw new Error("HTTP " + response.status + " - " + errText);
+      }
 
       var data = await response.json();
       var reply = data.choices[0].message.content;
@@ -1009,7 +1014,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
   var bLang = $("bLang");
   if(bLang) bLang.onclick = function(){
     curLang = curLang === "tr" ? "en" : "tr";
-    localStorage.setItem("rltactic_lang", curLang);
+    localStorage.getItem("rltactic_lang", curLang);
     applyLanguage();
   };
 
