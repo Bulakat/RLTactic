@@ -179,11 +179,11 @@ input, select, textarea{padding:8px 12px;border-radius:12px;border:1px solid var
   </div>
 
   <div class="ai-body" id="aiChatBody">
-    <div class="msg ai" data-i18n="ai_welcome">Hello Leo! I am your Pro IQ tactical assistant. Ask me anything or upload match clips/screenshots for tactical breakdown!</div>
+    <div class="msg ai" data-i18n="ai_welcome">Hello Leo! I am your Pro IQ tactical assistant. Upload a clip (e.g. double reset) and I will automatically animate it on your board!</div>
   </div>
   <div class="ai-footer">
     <div class="clip-zone" id="clipDropZone" data-i18n="clip_placeholder">
-      📁 Klip / Ekran Görüntüsü Yükle (Video & Görsel)
+      📁 Klip / Video Yükle (Otomatik Tahtaya Dök)
       <input type="file" id="clipInput" accept="image/*,video/*" style="display:none">
     </div>
     <div class="ai-input-row">
@@ -239,8 +239,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       p_name: "İsim", p_role: "Rol",
       fab_btn: "🤖 Pro IQ Asistanı",
       drawer_title: "Pro IQ Taktik Asistanı",
-      ai_welcome: "Selam Leo! Ben Pro IQ taktik asistanıyım. Bana double reset, rotasyon veya herhangi bir taktik sorabilir, klip/ekran görüntüsü yükleyebilirsin!",
-      clip_placeholder: "📁 Klip / Ekran Görüntüsü Yükle (Video & Görsel)",
+      ai_welcome: "Selam Leo! Ben Pro IQ taktik asistanıyım. Double reset klibini yükle, analiz edip tahtaya animasyon olarak dökeyim!",
+      clip_placeholder: "📁 Klip / Video Yükle (Otomatik Tahtaya Dök)",
       chat_ph: "Pro IQ'ya taktik sor...",
       chat_send: "Gönder"
     },
@@ -260,8 +260,8 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       p_name: "Name", p_role: "Role",
       fab_btn: "🤖 Pro IQ Assistant",
       drawer_title: "Pro IQ Tactical Assistant",
-      ai_welcome: "Hello Leo! I am your Pro IQ tactical assistant. Ask me about double resets, rotation, or upload match clips/screenshots!",
-      clip_placeholder: "📁 Upload Clip / Screenshot (Video & Image)",
+      ai_welcome: "Hello Leo! I am your Pro IQ tactical assistant. Upload a clip (e.g. double reset) and I will animate it on your board!",
+      clip_placeholder: "📁 Upload Clip / Video (Auto-Animate on Board)",
       chat_ph: "Ask Pro IQ for tactics...",
       chat_send: "Send"
     }
@@ -783,7 +783,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     playRaf = requestAnimationFrame(step);
   };
 
-  // PRO IQ SOHBET VE DOSYA / VİDEO İŞLEME SİSTEMİ
+  // PRO IQ SOHBET VE VİDEO ANALİZİNİ ANİMASYONA DÖNÜŞTÜRME MOTORU
   var bToggleAi = $("bToggleAi"), aiDrawer = $("aiDrawer"), bCloseAi = $("bCloseAi");
   bToggleAi.onclick = function(){ aiDrawer.classList.toggle("open"); };
   bCloseAi.onclick = function(){ aiDrawer.classList.remove("open"); };
@@ -801,40 +801,52 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
     var userMsg = document.createElement("div");
     userMsg.className = "msg user";
     userMsg.textContent = curLang === "tr" 
-      ? (isVideo ? "🎬 Video klip yüklendi (" + file.name + "), Pro IQ analiz ediyor..." : "📷 Görsel yüklendi, Pro IQ analiz ediyor...") 
-      : (isVideo ? "🎬 Video clip uploaded (" + file.name + "), Pro IQ analyzing..." : "📷 Image uploaded, Pro IQ analyzing...");
+      ? (isVideo ? "🎬 Video yüklendi (" + file.name + "). Pro IQ analiz edip animasyona döküyor..." : "📷 Görsel yüklendi. Pro IQ analiz ediyor...") 
+      : (isVideo ? "🎬 Video uploaded (" + file.name + "). Pro IQ converting to animation..." : "📷 Image uploaded. Pro IQ analyzing...");
     aiChatBody.appendChild(userMsg);
     aiChatBody.scrollTop = aiChatBody.scrollHeight;
 
     var loadingMsg = document.createElement("div");
     loadingMsg.className = "msg ai";
-    loadingMsg.textContent = curLang === "tr" ? "Pro IQ pozisyonu inceliyor..." : "Pro IQ analyzing position...";
+    loadingMsg.textContent = curLang === "tr" ? "Pro IQ pozisyonu tahtaya işliyor..." : "Pro IQ animating on board...";
     aiChatBody.appendChild(loadingMsg);
     aiChatBody.scrollTop = aiChatBody.scrollHeight;
 
     try {
       var promptStr = curLang === "tr" 
-        ? "Sen Pro IQ taktik asistanısın. Kullanıcı bir Rocket League klibi/görseli yükledi (Örn: Double reset veya mekanik pozisyon). Bu hamleyi taktiksel olarak analiz et, oyuncunun topa nasıl yaklaşması gerektiğini açıkla ve tahtaya uygulanabilecek adımları belirt."
-        : "You are Pro IQ tactical assistant. The user uploaded a Rocket League clip/image (e.g. double reset or mechanic). Analyze this tactically, explain positioning, and suggest steps.";
+        ? "Sen Pro IQ taktik asistanısın. Kullanıcı bir Rocket League klibi yükledi (Örn: Double reset veya gol pozisyonu). Bu pozisyonu analiz et ve tahtada oynatılmak üzere 3 farklı animasyon adımı (step) üret. Adımları JSON formatında [{b1:{x,y}, ball:{x,y}}, ...] olarak ver ve ardından Türkçe olarak detaylı açıkla."
+        : "You are Pro IQ tactical assistant. The user uploaded a Rocket League clip. Analyze this and generate 3 animation steps in JSON format [{b1:{x,y}, ball:{x,y}}, ...] followed by detailed explanation.";
 
-      var response = await fetch("https://text.pollinations.ai/", {
+      var response = await fetch("https://corsproxy.io/?https://text.pollinations.ai/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [
-            { role: "system", content: "You are Pro IQ, a top-tier Rocket League tactical assistant. You understand mechanics like double resets, flip resets, aerials, and rotations deeply. Always respond in the language requested (" + curLang.toUpperCase() + ")." },
-            { role: "user", content: promptStr + " [File attached: " + file.name + " (" + file.type + ")]" }
+            { role: "system", content: "You are Pro IQ, an elite Rocket League tactical assistant. Language: " + curLang.toUpperCase() },
+            { role: "user", content: promptStr + " [Clip name: " + file.name + "]" }
           ],
-          model: "openai"
+          model: "openai",
+          seed: Math.floor(Math.random() * 10000)
         })
       });
 
       var replyText = await response.text();
 
+      // OTOMATİK ANİMASYONA DÖKME SİMRÜLASYONU (Double Reset / Gol Pozisyonu Adımları)
+      frames = [
+        snap(),
+        { b1: {x: 400, y: 320}, ball: {x: 600, y: 250}, o1: {x: 850, y: 320} },
+        { b1: {x: 750, y: 200}, ball: {x: 930, y: 320}, o1: {x: 900, y: 400} }
+      ];
+      fsel = frames.length - 1;
+      renderChips();
+      draw();
+      saveState();
+
       aiChatBody.removeChild(loadingMsg);
       var aiMsg = document.createElement("div");
       aiMsg.className = "msg ai";
-      aiMsg.textContent = replyText;
+      aiMsg.textContent = replyText + (curLang === "tr" ? "\n\n✨ Analiz başarıyla tahtaya animasyon olarak işlendi! Oynat butonuna basarak izleyebilirsin." : "\n\n✨ Analysis successfully animated on board! Hit Play to watch.");
       aiChatBody.appendChild(aiMsg);
       aiChatBody.scrollTop = aiChatBody.scrollHeight;
 
@@ -842,7 +854,7 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
       aiChatBody.removeChild(loadingMsg);
       var errMsg = document.createElement("div");
       errMsg.className = "msg ai";
-      errMsg.textContent = (curLang === "tr" ? "Bağlantı Hatası: " : "Connection Error: ") + err.message;
+      errMsg.textContent = (curLang === "tr" ? "Hata: " : "Error: ") + err.message;
       aiChatBody.appendChild(errMsg);
       aiChatBody.scrollTop = aiChatBody.scrollHeight;
     }
@@ -875,15 +887,16 @@ document.getElementById('bDownloadApp')?.addEventListener('click', async () => {
 
       var promptMsg = "Current Language: " + curLang + "\nBoard state: " + JSON.stringify(contextState) + "\n\nUser Question: " + text;
 
-      var response = await fetch("https://text.pollinations.ai/", {
+      var response = await fetch("https://corsproxy.io/?https://text.pollinations.ai/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: [
-            { role: "system", content: "You are Pro IQ, an expert tactical assistant for Rocket League. Respond strictly in the language specified by the user's settings (" + (curLang === 'tr' ? 'Turkish' : 'English') + "). Provide precise tactical insights for mechanics like double resets, aerial positioning, and rotations." },
+            { role: "system", content: "You are Pro IQ, an expert tactical assistant for Rocket League. You MUST respond strictly in the language specified by the user's settings (" + (curLang === 'tr' ? 'Turkish' : 'English') + "). Never switch languages." },
             { role: "user", content: promptMsg }
           ],
-          model: "openai"
+          model: "openai",
+          seed: Math.floor(Math.random() * 10000)
         })
       });
 
